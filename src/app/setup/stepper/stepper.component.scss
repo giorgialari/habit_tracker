@@ -1,0 +1,108 @@
+@import '../../../theme/variables.scss';
+
+.stepper-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 95vh;
+}
+
+.footer {
+  width: 90%;
+}
+
+.stepper {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  background-color: $gray;
+  margin: 0 auto;
+  border-radius: 24px;
+}
+
+.step {
+  flex-grow: 1;
+  height: 8px;
+  background-color: $lightGray;
+  transition: background-color 0.3s;
+  margin-left: 2px;
+
+  &:first-child {
+    margin-left: 0;
+    border-top-left-radius: 24px;
+    border-bottom-left-radius: 24px;
+  }
+
+  &:last-child {
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
+  }
+
+  &.active {
+    background-color: $orange-inactive;
+  }
+}
+
+
+.ng-invalid.ng-touched {
+  border-color: $orange;
+}
+
+::ng-deep .p-float-label .ng-invalid.ng-touched {
+  border-color: $orange;
+  /* Cambia il colore del bordo dell'input */
+}
+
+::ng-deep .p-float-label .ng-invalid.ng-touched+label {
+  color: $orange;
+  /* Cambia il colore del testo della label */
+}
+
+.required {
+  color: white;
+  font-size: 0.7rem;
+  text-align: right;
+  display: block;
+}
+
+
+.icon-block {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 5px;
+  text-align: center;
+  cursor: pointer;
+  width: 6rem;
+  height: 6rem;
+  background-color: #121824;
+  border-radius: 24px;
+}
+
+.icon-block.selected {
+  border-color: $orange;
+  color: $orange;
+}
+
+
+.icon-block-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  /* Assicura che gli elementi siano distribuiti equamente */
+  overflow-y: auto;
+  /* Aggiunge una scrollbar verticale se il contenuto supera l'altezza del contenitore */
+  max-height: 90vh;
+
+  -webkit-overflow-scrolling: touch;
+  /* Permette uno scrolling fluido su iOS */
+
+  /* Nasconde le scrollbar su WebKit (Safari, browser Android nativo) */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Alternativa per nascondere la scrollbar su altri browser, se necessario */
+  scrollbar-width: none;
+  /* per Firefox */
+}

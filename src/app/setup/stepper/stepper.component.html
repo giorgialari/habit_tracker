@@ -1,0 +1,59 @@
+<div class="stepper-container my-2 mx-2">
+  <div class="stepper">
+    <div
+      *ngFor="let step of steps; let i = index"
+      class="step"
+      [class.active]="step.active"
+      (click)="setActiveAndUpdateActiveContents(i)"
+    ></div>
+  </div>
+
+  <div *ngFor="let stepForm of stepForms; let i = index" [hidden]="i !== activeIndex">
+    <form [formGroup]="stepForm">
+      <div class="content">
+        <!-- Contenitore per altri tipi di domande -->
+        <div *ngFor="let question of contents.steps[i]">
+          <div *ngIf="question.type === 'text'" class="my-5">
+            <p-floatLabel>
+              <input pInputText [formControlName]="'item-' + question.id" />
+              <label>{{ question.content }}{{ question.required ? "*" : "" }}</label>
+            </p-floatLabel>
+          </div>
+        </div>
+
+        <!-- Contenitore specifico per icon-block -->
+        <div class="icon-block-container overflow-y-scroll">
+          <ng-container *ngFor="let question of contents.steps[i]">
+            <div *ngIf="question.type === 'icon-block'" class="my-5 icon-block"
+                 [class.selected]="isSelected(question.id)"
+                 (click)="toggleSelection(question.id, i)">
+              <span class="material-symbols-outlined text-6xl">{{ question.icon }}</span>
+              <div class="text-xs">{{ question.title }}</div>
+            </div>
+          </ng-container>
+        </div>
+
+      </div>
+    </form>
+  </div>
+
+
+  <div class="footer flex justify-content-between">
+    <p-button
+      label="Back"
+      size="small"
+      (click)="prevStep()"
+      [disabled]="activeIndex === 0"
+      [rounded]="true"
+      [outlined]="true"
+      severity="secondary"
+    ></p-button>
+    <p-button
+      label="Next"
+      size="small"
+      (click)="nextStepAndSubmit()"
+      [rounded]="true"
+      severity="danger"
+    ></p-button>
+  </div>
+</div>
