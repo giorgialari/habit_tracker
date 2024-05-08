@@ -106,3 +106,18 @@
   scrollbar-width: none;
   /* per Firefox */
 }
+
+
+.circle-icon {
+  background-color: gray;
+  border-radius: 50%;
+  width: 5rem;
+  /* Dimensione del cerchio */
+  height: 5rem;
+  /* Stessa dimensione della larghezza per rendere la forma un cerchio */
+  display: flex;
+  align-items: center;
+  /* Allinea l'icona verticalmente al centro */
+  justify-content: center;
+  /* Allinea l'icona orizzontalmente al centro */
+}
