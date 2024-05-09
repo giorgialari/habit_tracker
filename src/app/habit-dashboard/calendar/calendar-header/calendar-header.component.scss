@@ -2,7 +2,31 @@
   //La prima lettera maiuscola
   text-transform: capitalize;
 }
+
 .grid-with-gradient-border {
   //un bordo in basso leggermente sfumato di arancion
   border-bottom: 1px solid #f0f0f0;
+  font-size: 1.7rem;
+}
+
+
+/* Stile per il Bottone Custom */
+.user-menu-button {
+  background: linear-gradient(45deg, #6a11cb, #2575fc); /* Gradient background */
+  border: none; /* Nessun bordo */
+  border-radius: 50%; /* Forma rotonda */
+  color: white; /* Icona bianca */
+  cursor: pointer; /* Cursor pointer per indicare che è cliccabile */
+  display: flex; /* Display flex per centrale l'icona */
+  align-items: center; /* Allinea al centro verticalmente */
+  justify-content: center; /* Allinea al centro orizzontalmente */
+  padding: 10px; /* Padding per dare spazio intorno all'icona */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombra leggera per un effetto sollevato */
+  width: 40px; /* Larghezza fissa */
+  height: 40px; /* Altezza fissa */
+  transition: background 0.3s ease; /* Transizione per l'effetto hover */
+}
+
+.user-menu-button:hover {
+  background: linear-gradient(45deg, #2575fc, #6a11cb); /* Cambia il gradiente al passaggio del mouse */
 }

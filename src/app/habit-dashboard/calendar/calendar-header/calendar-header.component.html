@@ -1,13 +1,16 @@
-<div class="grid grid-nogutter  grid-with-gradient-border">
-  <div
-    class="col-3 flex align-items-center justify-content-start text-4xl my-3 mx-1"
-  >
-    <span class="capitalize">{{ dayOfWeek }}</span>
-    <span class="ml-2">{{ numberOfDay }},</span>
+<div class="flex align-items-center justify-content-between p-3 grid-with-gradient-border">
+  <div class="flex align-items-center justify-content-center">
+    <span class="capitalize mr-2">{{ dayOfWeek }}</span>
+    <span>{{ numberOfDay }},</span>
   </div>
-  <div
-    class="col-8 flex align-items-center justify-content-center text-4xl capitalize my-3"
-  >
+
+  <div class="flex align-items-center justify-content-center flex-grow-1 ms-3 capitalize">
     {{ currentMonth }}
+  </div>
+
+  <div class="flex justify-content-end">
+    <button class="user-menu-button">
+      <span class="material-icons">person</span>
+    </button>
   </div>
 </div>
