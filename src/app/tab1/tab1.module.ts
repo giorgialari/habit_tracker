@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Tab1Page } from './tab1.page';
 
 import { Tab1PageRoutingModule } from './tab1-routing.module';
-import { SetupComponentModule } from '../setup/setup.module';
+import { HabitDashboardModule } from '../habit-dashboard/habit-dashboard.module';
 
 
 @NgModule({
@@ -13,7 +13,7 @@ import { SetupComponentModule } from '../setup/setup.module';
     IonicModule,
     CommonModule,
     FormsModule,
-    SetupComponentModule,
+    HabitDashboardModule,
     Tab1PageRoutingModule,
   ],
   declarations: [Tab1Page]

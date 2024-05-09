@@ -1,0 +1,16 @@
+<ng-container *ngIf="weekDays.length > 0; else noWeekDays">
+  <p>Current Month: {{ currentMonth }}</p>
+  <div class="swiper-container-wrapper">
+    <div class="swiper-calendar">
+      <swiper-container class="mySwiper" slides-per-view="7" space-between="30">
+        <swiper-slide *ngFor="let day of weekDays">
+          <div class="day">
+            <div class="day-name">{{ day.name[0] }}</div>
+            <div class="day-number">{{ day.date }}</div>
+          </div>
+        </swiper-slide>
+      </swiper-container>
+    </div>
+  </div>
+</ng-container>
+<ng-template #noWeekDays></ng-template>
