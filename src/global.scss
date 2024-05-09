@@ -48,3 +48,14 @@
 @import "primeicons/primeicons.css";
 @import 'material-icons/iconfont/material-icons.css';
 @import 'material-symbols';
+
+
+/* Nasconde la scrollbar su Firefox */
+* {
+  scrollbar-width: none; /* Nasconde la scrollbar */
+}
+
+/* Nasconde la scrollbar per tutti gli elementi scrollabili */
+::-webkit-scrollbar {
+  display: none; /* Rimuove la scrollbar */
+}

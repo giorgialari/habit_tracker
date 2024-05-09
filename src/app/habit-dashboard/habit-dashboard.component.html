@@ -1,16 +1,36 @@
-<ng-container *ngIf="weekDays.length > 0; else noWeekDays">
-  <p>Current Month: {{ currentMonth }}</p>
-  <div class="swiper-container-wrapper">
-    <div class="swiper-calendar">
-      <swiper-container class="mySwiper" slides-per-view="7" space-between="30">
-        <swiper-slide *ngFor="let day of weekDays">
-          <div class="day">
-            <div class="day-name">{{ day.name[0] }}</div>
-            <div class="day-number">{{ day.date }}</div>
-          </div>
-        </swiper-slide>
-      </swiper-container>
+<p>{{ currentMonth }}</p>
+<div class="week-container mx-1">
+  <button
+    (mousedown)="startAction('previous')"
+    (mouseup)="stopAction()"
+    (mouseleave)="stopAction()"
+    (touchstart)="startAction('previous')"
+    (touchend)="stopAction()"
+    (click)="previousWeek()"
+    class="prevBtn"
+  >
+    <span class="material-icons">chevron_left</span>
+  </button>
+  <div class="days-container flex flex-row">
+    <div
+      class="day mx-1"
+      *ngFor="let day of weekDays"
+      [ngClass]="{ today: isToday(day) }"
+    >
+      <div class="day-name">{{ day | date : "EEE" }}</div>
+      <div class="day-number">{{ day | date : "d" }}</div>
     </div>
   </div>
-</ng-container>
-<ng-template #noWeekDays></ng-template>
+  <button
+    (mousedown)="startAction('next')"
+    (mouseup)="stopAction()"
+    (mouseleave)="stopAction()"
+    (touchstart)="startAction('next')"
+    (touchend)="stopAction()"
+    (click)="nextWeek()"
+    class="nextBtn"
+    *ngIf="!isThisWeek()"
+  >
+    <span class="material-icons">chevron_right</span>
+  </button>
+</div>
