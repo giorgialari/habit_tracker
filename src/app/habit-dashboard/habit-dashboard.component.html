@@ -12,13 +12,12 @@
     <span class="material-icons">chevron_left</span>
   </button>
   <div class="days-container flex flex-row">
-    <div
-      class="day mx-1"
-      *ngFor="let day of weekDays"
-      [ngClass]="{ today: isToday(day) }"
-    >
-      <div class="day-name">{{ day | date : "EEE" }}</div>
-      <div class="day-number">{{ day | date : "d" }}</div>
+    <div class="day mx-1" *ngFor="let day of weekDays">
+      <!-- Mostra solo la prima lettera del nome del giorno -->
+      <div class="day-name" [ngClass]="{ dayNameToday: isToday(day) }">{{ day | date : "EEE" | slice : 0 : 1 }}</div>
+      <div class="day-circle" [ngClass]="{ today: isToday(day) }">
+        <div class="day-number" [ngClass]="{ dayNumberToday: isToday(day) }">{{ day | date : "d" }}</div>
+      </div>
     </div>
   </div>
   <button

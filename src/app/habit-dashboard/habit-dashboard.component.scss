@@ -1,52 +1,74 @@
-/* styles.css o weekly-calendar.component.css */
+// Import variables
+@import '../../theme/variables.scss';
+
+// Container for the week
 .week-container {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: space-around; /* Assicura che gli elementi siano distribuiti equamente */
-  // width: 100%;
+  align-items: self-end;
+  justify-content: space-around;
 }
 
+// Individual day container
 .day {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: gray;
+  margin: 1rem;
 }
 
+// Day name
 .day-name {
   font-size: 0.8rem;
   color: white;
+  margin-bottom: 0.5rem;
 }
 
+// Circle representing the day
+.day-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: $lightGray;
+  border: 1px solid white;
+}
+
+// Day number
 .day-number {
   font-size: 0.8rem;
   color: white;
 }
 
+// Previous and next buttons
 .prevBtn,
 .nextBtn {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
   background-color: transparent;
   color: white;
   border: 1px solid white;
+  margin: 1rem 0;
 }
 
+// Styling for today's date
 .today {
-  background-color: red; /* Sostituisci con il colore desiderato */
-  color: white; /* Per garantire che il testo sia leggibile su sfondo scuro */
+  border: 1px solid $orange-inactive;
+  // background-color: $gray;
+}
+.dayNameToday,
+.dayNumberToday {
+  color: $orange-inactive;
 }
 
 :host {
   display: block;
-  // margin: 0 16px;  /* Aggiunge margini di 16px a destra e sinistra */
+  // Adds 1rem margins to the left and right
+  // margin: 0 1rem;
 }
