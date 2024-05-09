@@ -3,13 +3,16 @@ import { CommonModule } from '@angular/common';
 
 // Custom components
 import { HabitDashboardComponent } from './habit-dashboard.component';
+import { CalendarComponent } from './calendar/calendar.component';
+import { CalendarHeaderComponent } from './calendar/calendar-header/calendar-header.component';
 
 // Routing module
 import { HabitDashboardRoutingModule } from './habit-dashboard-routing.module';
-import { CalendarComponent } from './calendar/calendar.component';
+import { ButtonModule } from 'primeng/button';
 
 const angularModules = [
   CommonModule,
+  ButtonModule
 ];
 
 const customModules = [
@@ -17,8 +20,8 @@ const customModules = [
 ];
 
 @NgModule({
-  declarations: [HabitDashboardComponent, CalendarComponent],
-  exports: [HabitDashboardComponent, CalendarComponent],
+  declarations: [HabitDashboardComponent, CalendarComponent, CalendarHeaderComponent],
+  exports: [HabitDashboardComponent, CalendarComponent, CalendarHeaderComponent],
   imports: [
     ...angularModules,
     ...customModules

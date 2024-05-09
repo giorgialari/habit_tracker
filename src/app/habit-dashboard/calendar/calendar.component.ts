@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GestureController } from '@ionic/angular';
 import { Subscription, interval, takeWhile } from 'rxjs';
+import { CalendarService } from './_models/calendar.service';
 
 @Component({
   selector: 'app-calendar',
@@ -11,25 +12,67 @@ export class CalendarComponent implements OnInit, OnDestroy {
   weekDays: Date[] = [];
   daysToDisplay: number = 6;
   today = new Date();
-  currentMonth: string = '';
+  _isToday: boolean = false;
+  selectedDay: Date | null = null;
   private intervalSubscription: Subscription = new Subscription();
   private continue = false;
-  constructor(public gestureCtrl: GestureController
-  ) {
+  constructor(public gestureCtrl: GestureController, private calendarService: CalendarService) {
     this.loadWeekDays(this.today);
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.updateDateDisplay(new Date());
+
+  }
 
   ngOnDestroy() {
     this.stopAction();
   }
 
+
+  updateDateDisplay(date: Date) {
+    this.selectedDay = date;
+
+    const today = new Date();
+    date.setHours(0, 0, 0, 0);  // Rimuove ore, minuti, secondi, millisecondi
+    today.setHours(0, 0, 0, 0);  // Rimuove ore, minuti, secondi, millisecondi
+    const isCurrentDay = date.getTime() === today.getTime();
+
+    const numberOfDay = date.getDate();
+    const dayOfWeek = date.toLocaleDateString('it-IT', { weekday: 'short' }).slice(0,3); // Ottiene il giorno della settimana abbreviato
+    const monthWithYear = date.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
+
+    const currentMonth = {
+      number: 0,
+      dayOfWeek:'',
+      month: ''
+    }
+
+    if (isCurrentDay) {
+      currentMonth.number = 0;
+      currentMonth.dayOfWeek = '';
+      currentMonth.month = monthWithYear;
+
+    } else {
+      currentMonth.number = numberOfDay;
+      currentMonth.dayOfWeek = dayOfWeek;
+      currentMonth.month = monthWithYear;
+    }
+
+    this.calendarService.changeDate(currentMonth);
+
+    this._isToday = isCurrentDay;
+  }
+
+  isSelected(day: Date): boolean {
+    return this.selectedDay?.getTime() === day.getTime();
+  }
+
   // Carica i giorni della settimana data una data qualsiasi in quella settimana
   loadWeekDays(date: Date) {
     const startOfWeek = this.getStartOfWeek(new Date(date));
-    this.currentMonth = startOfWeek.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
     const isCurrentWeek = this.getStartOfWeek(new Date()).getTime() === startOfWeek.getTime();
+
     this.daysToDisplay = isCurrentWeek ? 6 : 5;
 
     this.weekDays = Array.from({ length: this.daysToDisplay }).map((_, i) => {
@@ -55,7 +98,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
   nextWeek() {
     const nextWeekDate = new Date(this.weekDays[0]);
     nextWeekDate.setDate(nextWeekDate.getDate() + 5);
-    console.log(nextWeekDate);
     this.loadWeekDays(nextWeekDate);
   }
 
@@ -63,7 +105,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
   previousWeek() {
     const previousWeekDate = new Date(this.weekDays[0]);
     previousWeekDate.setDate(previousWeekDate.getDate() - 5);
-    console.log(previousWeekDate);
     this.loadWeekDays(previousWeekDate);
   }
 

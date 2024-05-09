@@ -17,10 +17,10 @@
       >
       <!-- Mostra solo la prima lettera del nome del giorno -->
       <div class="day-name" [ngClass]="{ dayNameToday: isToday(day) }">
-        {{ day | date : "EEE" | slice : 0 : 1 }}
+        {{ day | date : "EEE" | slice : 0 : 1 | uppercase}}
       </div>
-      <div class="day-circle" [ngClass]="{ today: isToday(day) }">
-        <div class="day-number" [ngClass]="{ dayNumberToday: isToday(day) }">
+      <div class="day-circle" [ngClass]="{ 'today': isToday(day),  'selected-day': isSelected(day) && !isToday(day) }" (click)="updateDateDisplay(day)">
+        <div class="day-number" [ngClass]="{ 'dayNumberToday': isToday(day), 'selected-day-number': isSelected(day) && !isToday(day) }">
           {{ day | date : "d" }}
         </div>
       </div>

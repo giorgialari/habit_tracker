@@ -60,17 +60,30 @@
 
 // Styling for today's date
 .today {
-  border: 1px solid $orange-inactive;
-  // background-color: $gray;
+  border: 2px solid white;
+  background-color: $orange;
 }
 
 .dayNameToday,
 .dayNumberToday {
-  color: $orange-inactive;
+  color: white;
 }
 
 :host {
   display: block;
-  // Adds 1rem margins to the left and right
-  // margin: 0 1rem;
+
+}
+
+.selected-day {
+  background-color: $orange-inactive;
+  /* Sfondo blu navy */
+  border: 2px solid white;
+  /* Bordo bianco */
+  color: white;
+  /* Testo bianco per migliorare la leggibilità */
+}
+
+.selected-day-number {
+  color: white;
+  /* Testo bianco per migliorare la leggibilità */
 }

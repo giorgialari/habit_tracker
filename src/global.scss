@@ -52,10 +52,16 @@
 
 /* Nasconde la scrollbar su Firefox */
 * {
-  scrollbar-width: none; /* Nasconde la scrollbar */
+  scrollbar-width: none;
+  /* Nasconde la scrollbar */
 }
 
 /* Nasconde la scrollbar per tutti gli elementi scrollabili */
 ::-webkit-scrollbar {
-  display: none; /* Rimuove la scrollbar */
+  display: none;
+  /* Rimuove la scrollbar */
+}
+
+*:not(.material-icons) {
+  font-family: 'Poppins', sans-serif !important;
 }

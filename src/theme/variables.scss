@@ -1,10 +1,28 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
+//Scala di arancioni
+$orange-1: #FF3B30;
+$orange-2: #FF453A;
+$orange-3: #FF5E3A;
+$orange-4: #FF6C3A;
+$orange-5: #FF7B3A;
+$orange-6: #FF8C3A;
+$orange-7: #FF9D3A;
+$orange-8: #FFAE3A;
+$orange-9: #FFBF3A;
+$orange-10: #FFD03A;
 
 //Base Colors
 $orange: #FF3B30;
-$orange-inactive: #DB5447;
+$orange-inactive: $orange-4;
+
+
 
 $lightGray: #3a3f4b;
 $gray: #1e232e;
 $darkGray: #13161d;
+
+
+:root {
+  --ion-font-family: 'Poppins', sans-serif;
+}
