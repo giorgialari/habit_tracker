@@ -1,0 +1,74 @@
+// Import variables
+@import '../../../theme/variables.scss';
+
+// Container for the week
+.week-container {
+  display: flex;
+  flex-direction: row;
+  align-items: self-end;
+  justify-content: space-around;
+}
+
+// Individual day container
+.day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem;
+}
+
+// Day name
+.day-name {
+  font-size: 0.8rem;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+// Circle representing the day
+.day-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: $lightGray;
+  border: 1px solid white;
+}
+
+// Day number
+.day-number {
+  font-size: 0.8rem;
+  color: white;
+}
+
+// Previous and next buttons
+.prevBtn,
+.nextBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  margin: 1rem 0;
+}
+
+// Styling for today's date
+.today {
+  border: 1px solid $orange-inactive;
+  // background-color: $gray;
+}
+.dayNameToday,
+.dayNumberToday {
+  color: $orange-inactive;
+}
+
+:host {
+  display: block;
+  // Adds 1rem margins to the left and right
+  // margin: 0 1rem;
+}

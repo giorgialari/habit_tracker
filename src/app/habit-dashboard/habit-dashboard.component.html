@@ -1,35 +1,3 @@
-<p>{{ currentMonth }}</p>
-<div class="week-container mx-1">
-  <button
-    (mousedown)="startAction('previous')"
-    (mouseup)="stopAction()"
-    (mouseleave)="stopAction()"
-    (touchstart)="startAction('previous')"
-    (touchend)="stopAction()"
-    (click)="previousWeek()"
-    class="prevBtn"
-  >
-    <span class="material-icons">chevron_left</span>
-  </button>
-  <div class="days-container flex flex-row">
-    <div class="day mx-1" *ngFor="let day of weekDays">
-      <!-- Mostra solo la prima lettera del nome del giorno -->
-      <div class="day-name" [ngClass]="{ dayNameToday: isToday(day) }">{{ day | date : "EEE" | slice : 0 : 1 }}</div>
-      <div class="day-circle" [ngClass]="{ today: isToday(day) }">
-        <div class="day-number" [ngClass]="{ dayNumberToday: isToday(day) }">{{ day | date : "d" }}</div>
-      </div>
-    </div>
-  </div>
-  <button
-    (mousedown)="startAction('next')"
-    (mouseup)="stopAction()"
-    (mouseleave)="stopAction()"
-    (touchstart)="startAction('next')"
-    (touchend)="stopAction()"
-    (click)="nextWeek()"
-    class="nextBtn"
-    *ngIf="!isThisWeek()"
-  >
-    <span class="material-icons">chevron_right</span>
-  </button>
-</div>
+<!-- <p>{{ currentMonth }}</p> -->
+
+<app-calendar></app-calendar>

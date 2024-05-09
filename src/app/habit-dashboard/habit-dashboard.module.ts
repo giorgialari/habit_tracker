@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 
 // Custom components
 import { HabitDashboardComponent } from './habit-dashboard.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
 // Routing module
 import { HabitDashboardRoutingModule } from './habit-dashboard-routing.module';
 
 const angularModules = [
-  CommonModule
+  CommonModule,
 ];
 
 const customModules = [
@@ -16,8 +17,8 @@ const customModules = [
 ];
 
 @NgModule({
-  declarations: [HabitDashboardComponent],
-  exports: [HabitDashboardComponent],
+  declarations: [HabitDashboardComponent, CalendarComponent],
+  exports: [HabitDashboardComponent, CalendarComponent],
   imports: [
     ...angularModules,
     ...customModules
