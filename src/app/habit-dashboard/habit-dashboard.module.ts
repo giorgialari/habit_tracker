@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 
 // Custom components
 import { HabitDashboardComponent } from './habit-dashboard.component';
-import { CalendarComponent } from './calendar/calendar.component';
 
 // Routing module
 import { HabitDashboardRoutingModule } from './habit-dashboard-routing.module';
+import { CalendarComponent } from './calendar/calendar.component';
 
 const angularModules = [
   CommonModule,

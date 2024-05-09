@@ -34,6 +34,7 @@
   border-radius: 50%;
   background-color: $lightGray;
   border: 1px solid white;
+  margin: 0 0.1rem;
 }
 
 // Day number
@@ -62,6 +63,7 @@
   border: 1px solid $orange-inactive;
   // background-color: $gray;
 }
+
 .dayNameToday,
 .dayNumberToday {
   color: $orange-inactive;

@@ -14,7 +14,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
   currentMonth: string = '';
   private intervalSubscription: Subscription = new Subscription();
   private continue = false;
-
   constructor(public gestureCtrl: GestureController
   ) {
     this.loadWeekDays(this.today);
@@ -30,16 +29,14 @@ export class CalendarComponent implements OnInit, OnDestroy {
   loadWeekDays(date: Date) {
     const startOfWeek = this.getStartOfWeek(new Date(date));
     this.currentMonth = startOfWeek.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
-
     const isCurrentWeek = this.getStartOfWeek(new Date()).getTime() === startOfWeek.getTime();
-    this.daysToDisplay = isCurrentWeek ? 7 : 7;
+    this.daysToDisplay = isCurrentWeek ? 6 : 5;
 
     this.weekDays = Array.from({ length: this.daysToDisplay }).map((_, i) => {
-      const day = new Date(startOfWeek.getTime());
+      const day = new Date(date.getTime());
       day.setDate(day.getDate() + i);
       return day;
     });
-
     this.isThisWeek();
   }
 
@@ -57,14 +54,16 @@ export class CalendarComponent implements OnInit, OnDestroy {
   // Vai alla settimana successiva
   nextWeek() {
     const nextWeekDate = new Date(this.weekDays[0]);
-    nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+    nextWeekDate.setDate(nextWeekDate.getDate() + 5);
+    console.log(nextWeekDate);
     this.loadWeekDays(nextWeekDate);
   }
 
   // Torna alla settimana precedente
   previousWeek() {
     const previousWeekDate = new Date(this.weekDays[0]);
-    previousWeekDate.setDate(previousWeekDate.getDate() - 7);
+    previousWeekDate.setDate(previousWeekDate.getDate() - 5);
+    console.log(previousWeekDate);
     this.loadWeekDays(previousWeekDate);
   }
 
