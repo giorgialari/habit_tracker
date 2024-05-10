@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { Habit } from '../_models/habits.interface';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HabitService {
   private _storage: Storage | null = null;
+  private storageReady = new BehaviorSubject<boolean>(false);
 
   constructor(private storage: Storage) {
     this.init();
@@ -14,11 +16,14 @@ export class HabitService {
 
   async init() {
     this._storage = await this.storage.create();
-    console.log('Storage initialized:', this._storage);
+    this.storageReady.next(true);
   }
-
+  public getStorageReady() {
+    return this.storageReady.asObservable();
+  }
   public setHabit(habit: Habit) {
     this._storage?.set(habit.id.toString(), habit);
+    this.getAllHabits();
   }
 
   public async getHabit(id: number): Promise<Habit | null> {
@@ -37,11 +42,8 @@ export class HabitService {
   public async getAllHabits(): Promise<Habit[]> {
     const habits: Habit[] = [];
     if (this._storage) {  // Assicurati che _storage non sia null
-      console.log('getAllHabits', this.storage);
       await this._storage.forEach((value, key, iterationNumber) => {
-        console.log('Value:', value);
         habits.push(value);
-        console.log(value);
       });
     }
     return habits;

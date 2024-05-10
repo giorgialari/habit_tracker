@@ -63,6 +63,7 @@ export class AddNewHabitComponent implements OnInit {
       frequency: this.newHabitForm.value.frequency,
       remind: this.newHabitForm.value.remind
     });
+    this.newHabitForm.reset();
     this.router.navigate(['/tabs/dashboard']);
 
   }
