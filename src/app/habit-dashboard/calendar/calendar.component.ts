@@ -20,10 +20,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.loadWeekDays(this.today);
   }
 
-  ngOnInit() {
-    this.updateDateDisplay(new Date());
-
-  }
+  ngOnInit() { }
 
   ngOnDestroy() {
     this.stopAction();
@@ -39,12 +36,12 @@ export class CalendarComponent implements OnInit, OnDestroy {
     const isCurrentDay = date.getTime() === today.getTime();
 
     const numberOfDay = date.getDate();
-    const dayOfWeek = date.toLocaleDateString('it-IT', { weekday: 'short' }).slice(0,3); // Ottiene il giorno della settimana abbreviato
+    const dayOfWeek = date.toLocaleDateString('it-IT', { weekday: 'short' }).slice(0, 3); // Ottiene il giorno della settimana abbreviato
     const monthWithYear = date.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
 
     const currentMonth = {
       number: 0,
-      dayOfWeek:'',
+      dayOfWeek: '',
       month: ''
     }
 
@@ -81,6 +78,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       return day;
     });
     this.isThisWeek();
+    this.updateDateDisplay(this.today);
   }
 
 

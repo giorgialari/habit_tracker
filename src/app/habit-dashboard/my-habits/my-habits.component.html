@@ -1,0 +1,30 @@
+<div class="mx-3">
+  <h5 class="font-bold">My habits</h5>
+
+  <div *ngFor="let habit of _myHabits">
+    <div class="my-3">
+      <p-card>
+        <div class="flex align-items-center justify-content-between">
+          <div>
+            <div>{{ habit.title }}</div>
+            <div
+              class="text-xs"
+              *ngIf="habit.completed; else notCompleted"
+            >
+              Completed at {{ habit.completedAt }}
+            </div>
+            <ng-template #notCompleted>
+              <div class="text-xs">Not completed</div>
+            </ng-template>
+          </div>
+          <p-checkbox
+            binary="true"
+            [(ngModel)]="habit.completed"
+            (onChange)="toggleCompletion(habit)"
+          ></p-checkbox>
+        </div>
+        <p-divider type="solid" />
+      </p-card>
+    </div>
+  </div>
+</div>

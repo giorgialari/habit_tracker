@@ -22,3 +22,20 @@ button:focus {
   background-color: whitesmoke;
 }
 
+
+
+//P-CHECKBOX
+.p-checkbox .p-checkbox-box {
+  width: 1.5rem;
+  /* Larghezza della checkbox */
+  height: 1.4rem;
+  /* Altezza della checkbox */
+  border-radius: 50%;
+  /* Rende la checkbox rotonda */
+}
+
+
+.p-checkbox .p-checkbox-box.p-highlight {
+  background-color: $orange;
+  border-color: $orange;
+}

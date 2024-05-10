@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { CalendarService } from '../_models/calendar.service';
 import { Subscription } from 'rxjs';
 
@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
   selector: 'app-calendar-header',
   templateUrl: './calendar-header.component.html',
   styleUrls: ['./calendar-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CalendarHeaderComponent implements OnInit, OnDestroy {
   numberOfDay: any = 0;
@@ -13,18 +14,20 @@ export class CalendarHeaderComponent implements OnInit, OnDestroy {
   currentMonth = '';
   private calendarServiceSubscription: Subscription = new Subscription();
 
-  constructor(private calendarService: CalendarService) {
+  constructor(private calendarService: CalendarService, private cdr: ChangeDetectorRef) { }
+
+  ngOnInit() {
     this.calendarServiceSubscription = this.calendarService.selectedDate.subscribe(date => {
       this.numberOfDay = date.number === 0 ? 'Oggi' : date.number;
       this.dayOfWeek = date.dayOfWeek;
       this.currentMonth = date.month;
+      this.cdr.detectChanges();
     });
   }
 
-  ngOnInit() { }
-
   ngOnDestroy() {
-    this.calendarServiceSubscription.unsubscribe();
+    if (this.calendarServiceSubscription) {
+      this.calendarServiceSubscription.unsubscribe();
+    }
   }
-
 }
