@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Custom components
 import { HabitDashboardComponent } from './habit-dashboard.component';
@@ -18,17 +18,22 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DividerModule } from 'primeng/divider';
 import { ButtonModule } from 'primeng/button';
 import { BadgeModule } from 'primeng/badge';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { InputTextModule } from 'primeng/inputtext';
 
 const angularModules = [
   CommonModule,
   FormsModule,
+  ReactiveFormsModule
 ];
 
 const primeNgModules = [
   CheckboxModule,
   ButtonModule,
   DividerModule,
-  BadgeModule
+  BadgeModule,
+  InputTextModule,
+  FloatLabelModule,
 ];
 
 const customModules = [
@@ -40,8 +45,8 @@ const customModules = [
     HabitDashboardComponent,
     CalendarComponent,
     CalendarHeaderComponent,
+    AddNewHabitComponent,
     MyHabitsComponent,
-    AddNewHabitComponent
   ],
   exports: [
     HabitDashboardComponent,

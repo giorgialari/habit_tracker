@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { myHabitsMock } from './_models/mock';
-import { Habit } from './_models/habits.interface';
+import { AfterContentChecked, AfterContentInit, Component, OnInit } from '@angular/core';
+import { myHabitsMock } from '../_models/mock';
+import { Habit } from '../_models/habits.interface';
 import { HabitService } from '../_services/habit.service';
 import { Router } from '@angular/router';
 
@@ -9,12 +9,15 @@ import { Router } from '@angular/router';
   templateUrl: './my-habits.component.html',
   styleUrls: ['./my-habits.component.scss'],
 })
-export class MyHabitsComponent implements OnInit {
+export class MyHabitsComponent implements OnInit, AfterContentInit {
   _myHabits: Habit[] = [];
 
   constructor(private habitService: HabitService, private router: Router) { }
 
   ngOnInit() {
+  }
+
+  ngAfterContentInit(): void {
     this.loadHabits();
   }
   async loadHabits() {

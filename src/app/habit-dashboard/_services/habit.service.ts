@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
-import { Habit } from '../my-habits/_models/habits.interface';
+import { Habit } from '../_models/habits.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +13,8 @@ export class HabitService {
   }
 
   async init() {
-    const storage = await this.storage.create();
-    this._storage = storage;
+    this._storage = await this.storage.create();
+    console.log('Storage initialized:', this._storage);
   }
 
   public setHabit(habit: Habit) {
@@ -35,18 +35,16 @@ export class HabitService {
   }
 
   public async getAllHabits(): Promise<Habit[]> {
-    try {
-      const habits: Habit[] = [];
-      if (this._storage) {  // Assicurati che _storage non sia null
-        await this._storage.forEach((value, key, iterationNumber) => {
-          habits.push(value);
-        });
-      }
-      return habits;
-    } catch (error) {
-      console.error('Error fetching habits', error);
-      return [];
+    const habits: Habit[] = [];
+    if (this._storage) {  // Assicurati che _storage non sia null
+      console.log('getAllHabits', this.storage);
+      await this._storage.forEach((value, key, iterationNumber) => {
+        console.log('Value:', value);
+        habits.push(value);
+        console.log(value);
+      });
     }
+    return habits;
   }
 
 }

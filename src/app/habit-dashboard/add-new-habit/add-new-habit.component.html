@@ -1,3 +1,65 @@
-<p>
-  add-new-habit works!
-</p>
+<div class="mx-1">
+  <div class="component-container">
+    <div>
+      <div
+        class="header flex flex-row align-items-center justify-content-center"
+      >
+        <span
+          class="material-icons ml-3 mt-2"
+          routerLink="/tabs/dashboard"
+          style="position: absolute; left: 0; cursor: pointer"
+          >arrow_back</span
+        >
+        <h3>Add New Habit</h3>
+      </div>
+      <form [formGroup]="newHabitForm">
+        <div class="new-habit-container mt-5">
+          <div class="mt-5 w-screen px-3 mx-auto pb-2">
+            <p-floatLabel>
+              <input pInputText formControlName="title" />
+              <label>Habit name</label>
+            </p-floatLabel>
+          </div>
+
+          <div class="periodicity-container w-screen mx-auto px-3 my-5">
+            <h4>Set periodicity</h4>
+            <div class="days">
+              <button
+                *ngFor="let day of days; let i = index"
+                [ngClass]="{ selected: selectedDays.includes(day.id) }"
+                (click)="toggleDay(day.id)"
+              >
+                {{ day.label }}
+              </button>
+            </div>
+          </div>
+
+          <div class="reminder w-screen mx-auto px-3">
+            <h4>Set reminder</h4>
+            <div class="grid mt-2">
+              <div
+                *ngFor="let time of times; let i = index"
+                class="col-4 reminder-time flex flex-wrap gap-3 justify-content-center pt-1"
+                [class]="{ 'col-12': time.icon }"
+              >
+                <button
+                  [ngClass]="{ selected: selectedTime === time.label }"
+                  (click)="selectTime(time.label)"
+                >
+                  <span *ngIf="time.icon; else textLabel">
+                    <i class="material-icons">{{ time.icon }}</i>
+                  </span>
+                  <ng-template #textLabel>{{ time.label }}</ng-template>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div>
+      <p-button label="Add new habit" severity="warning" (onClick)="submit()" [disabled]="!newHabitForm.valid" />
+    </div>
+  </div>
+</div>

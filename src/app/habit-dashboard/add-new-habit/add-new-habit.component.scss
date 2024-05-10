@@ -1,0 +1,57 @@
+@import '../../../theme/variables.scss';
+
+.component-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 90vh;
+
+}
+
+.days button {
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  border-radius: 50%;
+  margin: 0.3rem;
+  background-color: $lightGray;
+  /* Grigio scuro per i cerchi non selezionati */
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.days button.selected {
+  background-color: $orange;
+  /* Cambia colore quando selezionato */
+}
+
+.reminder-time button {
+  background-color: $gray;
+  /* Grigio scuro per bottoni non selezionati */
+  color: white;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  /* Bottoni con bordi arrotondati */
+  padding: 0.5rem 1rem;
+  font-size: 1.3rem;
+  margin: 0 0.5rem;
+  /* Distanza tra i bottoni */
+  cursor: pointer;
+  flex: 0 0 auto;
+  /* Evita stretching o shrinking */
+  outline: none;
+  transition: all 0.3s;
+}
+
+.reminder-time button.selected {
+  border-color: $orange;
+  /* Rosso per evidenziare la selezione */
+}
+
+
+p-floatlabel input {
+  width: 100%;
+}
