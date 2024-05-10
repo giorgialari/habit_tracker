@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { CalendarService } from '../_models/calendar.service';
+import { CalendarService } from '../../_services/calendar.service';
 import { Subscription } from 'rxjs';
 
 @Component({

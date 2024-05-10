@@ -2,10 +2,10 @@ import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Tab1Page } from './tab1.page';
 
-import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { HabitDashboardModule } from '../habit-dashboard/habit-dashboard.module';
+import { DashboardPageRoutingModule } from './tab-dashboard.routing.module';
+import { DashboardPage } from './tab-dashboard.page';
 
 
 @NgModule({
@@ -13,9 +13,9 @@ import { HabitDashboardModule } from '../habit-dashboard/habit-dashboard.module'
     IonicModule,
     CommonModule,
     FormsModule,
+    DashboardPageRoutingModule,
     HabitDashboardModule,
-    Tab1PageRoutingModule,
   ],
-  declarations: [Tab1Page]
+  declarations: [DashboardPage]
 })
-export class Tab1PageModule { }
+export class DashboardPageModule { }

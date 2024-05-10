@@ -10,6 +10,7 @@ import { MyHabitsComponent } from './my-habits/my-habits.component';
 
 // Routing module
 import { HabitDashboardRoutingModule } from './habit-dashboard-routing.module';
+import { AddNewHabitComponent } from './add-new-habit/add-new-habit.component';
 
 
 //PrimeNG
@@ -20,7 +21,7 @@ import { BadgeModule } from 'primeng/badge';
 
 const angularModules = [
   CommonModule,
-  FormsModule
+  FormsModule,
 ];
 
 const primeNgModules = [
@@ -35,8 +36,20 @@ const customModules = [
 ];
 
 @NgModule({
-  declarations: [HabitDashboardComponent, CalendarComponent, CalendarHeaderComponent, MyHabitsComponent],
-  exports: [HabitDashboardComponent, CalendarComponent, CalendarHeaderComponent, MyHabitsComponent],
+  declarations: [
+    HabitDashboardComponent,
+    CalendarComponent,
+    CalendarHeaderComponent,
+    MyHabitsComponent,
+    AddNewHabitComponent
+  ],
+  exports: [
+    HabitDashboardComponent,
+    CalendarComponent,
+    CalendarHeaderComponent,
+    MyHabitsComponent,
+    AddNewHabitComponent
+  ],
   imports: [
     ...angularModules,
     ...primeNgModules,

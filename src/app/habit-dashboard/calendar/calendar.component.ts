@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GestureController } from '@ionic/angular';
 import { Subscription, interval, takeWhile } from 'rxjs';
-import { CalendarService } from './_models/calendar.service';
+import { CalendarService } from '../_services/calendar.service';
 
 @Component({
   selector: 'app-calendar',

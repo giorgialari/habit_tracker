@@ -135,7 +135,7 @@ export class StepperComponent implements OnInit, OnChanges {
 
   // Navigate to home after subscription
   goToHomeAfterSubscription(): void {
-    this.router.navigate(['/tabs/tab1']);
+    this.router.navigate(['/tabs/dashboard']);
   }
 
   //#endregion

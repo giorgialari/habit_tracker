@@ -7,10 +7,7 @@
         <div class="flex align-items-center justify-content-between">
           <div>
             <div>{{ habit.title }}</div>
-            <div
-              class="text-xs"
-              *ngIf="habit.completed; else notCompleted"
-            >
+            <div class="text-xs" *ngIf="habit.completed; else notCompleted">
               Completed at {{ habit.completedAt }}
             </div>
             <ng-template #notCompleted>
@@ -28,3 +25,10 @@
     </div>
   </div>
 </div>
+
+<div class="flex justify-content-center">
+  <p-button (click)="navigateToAddNewHabit()" size="small" [rounded]="true" severity="danger">
+    +
+  </p-button>
+</div>
+
