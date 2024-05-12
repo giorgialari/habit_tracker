@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HabitDashboardComponent } from './habit-dashboard.component';
+import { TabAddNewPage } from './tab-add-new.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: HabitDashboardComponent
+    component: TabAddNewPage,
   }
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class HabitDashboardRoutingModule { }
+export class TabAddNewPageRoutingModule {}

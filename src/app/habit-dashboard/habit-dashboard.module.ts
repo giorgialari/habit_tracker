@@ -10,7 +10,6 @@ import { MyHabitsComponent } from './my-habits/my-habits.component';
 
 // Routing module
 import { HabitDashboardRoutingModule } from './habit-dashboard-routing.module';
-import { AddNewHabitComponent } from './add-new-habit/add-new-habit.component';
 
 
 //PrimeNG
@@ -45,7 +44,6 @@ const customModules = [
     HabitDashboardComponent,
     CalendarComponent,
     CalendarHeaderComponent,
-    AddNewHabitComponent,
     MyHabitsComponent,
   ],
   exports: [
@@ -53,7 +51,6 @@ const customModules = [
     CalendarComponent,
     CalendarHeaderComponent,
     MyHabitsComponent,
-    AddNewHabitComponent
   ],
   imports: [
     ...angularModules,

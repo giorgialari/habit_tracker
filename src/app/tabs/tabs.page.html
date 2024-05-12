@@ -1,20 +1,59 @@
-<ion-tabs>
-
+<!-- <ion-tabs>
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="dashboard" href="/tabs/dashboard">
-      <ion-icon aria-hidden="true" name="triangle"></ion-icon>
+      <ion-icon name="triangle"></ion-icon>
       <ion-label>Tab 1</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="tab2" href="/tabs/tab2">
-      <ion-icon aria-hidden="true" name="ellipse"></ion-icon>
+      <ion-icon name="ellipse"></ion-icon>
       <ion-label>Tab 2</ion-label>
     </ion-tab-button>
 
+    <ion-tab-button class="central-button" href="/tabs/dashboard/add-new-habit">
+      <ion-icon name="add-circle"></ion-icon>
+      <ion-label>Add</ion-label>
+    </ion-tab-button>
+
     <ion-tab-button tab="tab3" href="/tabs/tab3">
-      <ion-icon aria-hidden="true" name="square"></ion-icon>
+      <ion-icon name="square"></ion-icon>
       <ion-label>Tab 3</ion-label>
     </ion-tab-button>
-  </ion-tab-bar>
 
+    <ion-tab-button tab="tab4" href="/tabs/tab4">
+      <ion-icon name="square"></ion-icon>
+      <ion-label>Tab 4</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs> -->
+
+<ion-tabs>
+  <ion-tab-bar slot="bottom" class="bottom-tab-bar">
+    <ion-tab-button tab="dashboard" href="/tabs/dashboard">
+      <ion-icon mode="md" name="triangle"></ion-icon>
+      <ion-label>Tab 1</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="tab2" href="/tabs/tab2" class="inner-left-btn">
+      <ion-icon name="ellipse"></ion-icon>
+      <ion-label>Tab 2</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button class="button-center" tab="add-new" href="/tabs/add-new">
+      <ion-icon
+        name="add-circle"
+        class="icon-button inner-center-btn"
+      ></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="tab3" href="/tabs/tab3" class="inner-right-btn">
+      <ion-icon name="square"></ion-icon>
+      <ion-label>Tab 3</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="tab4" href="/tabs/tab4">
+      <ion-icon name="square"></ion-icon>
+      <ion-label>Tab 4</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
 </ion-tabs>

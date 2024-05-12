@@ -1,1 +1,39 @@
+@import '../../theme/variables.scss';
+.bottom-tab-bar {
+  --background: transparent;
+  --border: 0;
+}
+
+ion-tab-button {
+  --background: #3a3f4b ; //non accetta la variabile $lightGray
+}
+
+.button-center {
+  --background: transparent!important;
+
+}
+.button-center ion-icon {
+    height: 50px;
+    width: 50px;
+    font-size: 75px;
+  }
+
+ion-tab-bar {
+  &:before {
+    box-shadow: 0 387px 0 300px $lightGray;
+    position: absolute;
+    margin-top: -48px;
+    padding: 56px;
+    border-radius: 65%;
+    content: '';
+  }
+}
+
+.inner-left-btn {
+  border-radius: 0 39% 0 0; // create the curved style on the left side of the center
+}
+
+.inner-right-btn {
+  border-radius: 39% 0 0 0; // create the curved style on the right side of the center
+}
 

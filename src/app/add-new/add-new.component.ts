@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { HabitService } from '../_services/habit.service';
+import { HabitService } from '../habit-dashboard/_services/habit.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-add-new-habit',
-  templateUrl: './add-new-habit.component.html',
-  styleUrls: ['./add-new-habit.component.scss'],
+  selector: 'app-add-new',
+  templateUrl: './add-new.component.html',
+  styleUrls: ['./add-new.component.scss'],
 })
-export class AddNewHabitComponent implements OnInit {
+export class AddNewComponent {
   newHabitForm: FormGroup;
   days = [
     { id: 'mon', label: 'M' },

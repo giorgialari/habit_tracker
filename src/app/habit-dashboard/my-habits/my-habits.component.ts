@@ -1,9 +1,9 @@
-import { AfterContentChecked, AfterContentInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { myHabitsMock } from '../_models/mock';
+import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Habit } from '../_models/habits.interface';
 import { HabitService } from '../_services/habit.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription, filter } from 'rxjs';
+import { IonItemSliding, IonList } from '@ionic/angular';
 
 @Component({
   selector: 'app-my-habits',
@@ -16,7 +16,7 @@ export class MyHabitsComponent implements OnInit, OnDestroy {
 
   _myHabits: Habit[] = [];
 
-  constructor(private habitService: HabitService, private router: Router) {
+  constructor(private habitService: HabitService, private router: Router, private cdr: ChangeDetectorRef) {
     this.initSub = this.habitService.getStorageReady().subscribe(ready => {
       if (ready) {
         this.loadHabits();
@@ -32,10 +32,10 @@ export class MyHabitsComponent implements OnInit, OnDestroy {
     });
   }
 
-
   async loadHabits() {
     this._myHabits = await this.habitService.getAllHabits();
   }
+
   toggleCompletion(habit: Habit): void {
     const findHabit = this._myHabits.find(h => h.id === habit.id);
     if (findHabit) {
@@ -45,9 +45,14 @@ export class MyHabitsComponent implements OnInit, OnDestroy {
 
   }
 
-  navigateToAddNewHabit() {
-    this.router.navigate(['/tabs/dashboard/add-new-habit']);
+  deleteHabit(habit: Habit) {
+    // Chiamata al servizio per eliminare l'abitudine
+    this.habitService.removeHabit(habit.id).then(() => {
+      // Aggiorna l'elenco delle abitudini dopo l'eliminazione
+      this.loadHabits();
+    });
   }
+
   ngOnDestroy() {
     if (this.initSub) {
       this.initSub.unsubscribe();
