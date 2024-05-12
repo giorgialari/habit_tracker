@@ -54,8 +54,8 @@ export class AddNewHabitComponent implements OnInit {
     this.newHabitForm?.get('frequency')?.setValue(this.selectedDays);
   }
 
-  submit() {
-    this.habitService.setHabit({
+  async submit() {
+    await this.habitService.setHabit({
       id: Date.now(),
       title: this.newHabitForm.value.title,
       completed: false,

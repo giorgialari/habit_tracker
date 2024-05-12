@@ -2,8 +2,8 @@ import { AfterContentChecked, AfterContentInit, Component, OnDestroy, OnInit } f
 import { myHabitsMock } from '../_models/mock';
 import { Habit } from '../_models/habits.interface';
 import { HabitService } from '../_services/habit.service';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subscription, filter } from 'rxjs';
 
 @Component({
   selector: 'app-my-habits',
@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 })
 export class MyHabitsComponent implements OnInit, OnDestroy {
   private initSub: Subscription;
+  private routerSubscription: Subscription = new Subscription();
 
   _myHabits: Habit[] = [];
 
@@ -21,9 +22,14 @@ export class MyHabitsComponent implements OnInit, OnDestroy {
         this.loadHabits();
       }
     });
-   }
+  }
 
   ngOnInit() {
+    this.routerSubscription = this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.loadHabits(); // Ricarica i dati ogni volta che si verifica una navigazione
+    });
   }
 
 
@@ -45,6 +51,9 @@ export class MyHabitsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.initSub) {
       this.initSub.unsubscribe();
+    }
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
     }
   }
 

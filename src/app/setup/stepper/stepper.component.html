@@ -46,7 +46,7 @@
             class="my-5 flex flex-column align-items-center"
           >
             <div class="circle-icon">
-              <span class="material-symbols-outlined text-6xl">{{
+              <span class="material-icons text-5xl">{{
                 question.icon
               }}</span>
             </div>
@@ -60,13 +60,13 @@
           <ng-container *ngFor="let question of contents.steps[i]">
             <div
               *ngIf="question.type === typeContentStepEnum.ICON_BLOCK"
-              class="my-5 icon-block"
+              class="my-5 icon-block flex flex-column align-items-center justify-content-center"
               [class.selected]="
                 isSelected(question.id, typeContentStepEnum.ICON_BLOCK)
               "
               (click)="toggleSelection(question.id, i)"
             >
-              <span class="material-symbols-outlined text-6xl">{{
+              <span class="material-icons text-5xl">{{
                 question.icon
               }}</span>
               <div class="text-xs">{{ question.title }}</div>
@@ -74,13 +74,13 @@
 
             <div
               *ngIf="question.type === typeContentStepEnum.TEXT_BLOCK"
-              class="my-5 icon-block"
+              class="my-5 icon-block flex flex-column align-items-center justify-content-center"
               [class.selected]="
                 isSelected(question.id, typeContentStepEnum.TEXT_BLOCK)
               "
               (click)="toggleSelection(question.id, i)"
             >
-              <span class="text-2xl">{{ question.title }}</span>
+              <span class="text-1xl">{{ question.title }}</span>
               <div class="text-sm">{{ question.content }}</div>
             </div>
           </ng-container>
