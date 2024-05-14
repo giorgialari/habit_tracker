@@ -37,6 +37,10 @@ button:focus {
   /* Rende la checkbox rotonda */
 }
 
+.p-checkbox-box {
+  outline: none;
+  box-shadow: none;
+}
 
 .p-checkbox .p-checkbox-box.p-highlight {
   background-color: $orange;

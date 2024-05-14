@@ -1,34 +1,35 @@
 <div class="mx-3">
   <h5 class="font-bold">My habits</h5>
 
-    <ion-list>
-      <ion-item-sliding *ngFor="let habit of _myHabits; let i = index" >
-        <ion-item>
-          <p-card>
-            <div class="flex align-items-center justify-content-between">
-              <div>
-                <div>{{ habit.title }}</div>
-                <div class="text-xs" *ngIf="habit.completed; else notCompleted">
-                  Completed at {{ habit.completedAt }}
-                </div>
-                <ng-template #notCompleted>
-                  <div class="text-xs">Not completed</div>
-                </ng-template>
+  <ion-list>
+    <ion-item-sliding *ngFor="let habit of _myHabits; let i = index">
+      <ion-item class="mx-auto">
+        <p-card>
+          <div class="flex align-items-center justify-content-between">
+            <div class="flex-grow-1">
+              <div>{{ habit.title }}</div>
+              <div class="text-xs" *ngIf="habit.completed; else notCompleted">
+                Completed at {{ habit.completedAt }}
               </div>
-              <p-checkbox
-                binary="true"
-                [(ngModel)]="habit.completed"
-                (onChange)="toggleCompletion(habit)"
-              ></p-checkbox>
+              <ng-template #notCompleted>
+                <div class="text-xs">Not completed</div>
+              </ng-template>
             </div>
-            <p-divider type="solid" />
-          </p-card>
-        </ion-item>
-        <ion-item-options side="start">
-          <ion-item-option color="danger" (click)="deleteHabit(habit); $event.stopPropagation()">
-            Delete
-          </ion-item-option>
-        </ion-item-options>
-      </ion-item-sliding>
-    </ion-list>
+            <p-checkbox
+              binary="true"
+              [(ngModel)]="habit.completed"
+              (onChange)="toggleCompletion(habit)"
+              styleClass="no-blur"
+            ></p-checkbox>
+          </div>
+          <p-divider type="solid"></p-divider>
+        </p-card>
+      </ion-item>
+      <ion-item-options side="start">
+        <ion-item-option color="danger" (click)="deleteHabit(habit); $event.stopPropagation()">
+          Delete
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 </div>

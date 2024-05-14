@@ -1,12 +1,29 @@
-
 ion-item {
   --inner-padding-start: 0;
   --inner-padding-end: 0;
   width: 100%;
   display: block;
+  background-color: transparent;
 }
 
 p-card {
   width: 100%;
   box-sizing: border-box;
+}
+
+
+ion-item::part(native) {
+  padding-left: unset;
+}
+
+
+/* Rimuove il focus visibile specificamente dai p-checkbox */
+.no-blur:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.no-blur input:focus {
+  outline: none;
+  box-shadow: none;
 }
