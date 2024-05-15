@@ -1,39 +1,40 @@
 @import '../../theme/variables.scss';
+
 .bottom-tab-bar {
-  --background: transparent;
-  --border: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #2a2e37;
 }
 
 ion-tab-button {
-  --background: #3a3f4b ; //non accetta la variabile $lightGray
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  --background: transparent;
+
+  transition: transform 0.3s, color 0.3s;
+
 }
+
 
 .button-center {
-  --background: transparent!important;
-
+  --background: transparent !important;
+  position: relative;
+  border-radius: 50%;
+  width: clamp(3rem, 3vw + 1rem, 5rem);
+  height: clamp(3rem, 3vw + 1rem, 5rem);
 }
-.button-center ion-icon {
-    height: 50px;
-    width: 50px;
-    font-size: 75px;
+
+@media (max-width: 768px) {
+
+  ion-tab-button ion-icon {
+    font-size: 24px;
   }
 
-ion-tab-bar {
-  &:before {
-    box-shadow: 0 387px 0 300px $lightGray;
-    position: absolute;
-    margin-top: -48px;
-    padding: 56px;
-    border-radius: 65%;
-    content: '';
+  .button-center ion-icon {
+    font-size: 50px;
   }
 }
-
-.inner-left-btn {
-  border-radius: 0 39% 0 0; // create the curved style on the left side of the center
-}
-
-.inner-right-btn {
-  border-radius: 39% 0 0 0; // create the curved style on the right side of the center
-}
-

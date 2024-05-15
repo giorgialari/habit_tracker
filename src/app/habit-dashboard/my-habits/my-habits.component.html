@@ -26,10 +26,18 @@
         </p-card>
       </ion-item>
       <ion-item-options side="start">
-        <ion-item-option color="danger" (click)="deleteHabit(habit); $event.stopPropagation()">
+        <ion-item-option
+          color="danger"
+          (click)="deleteHabit(habit); $event.stopPropagation()"
+        >
           Delete
         </ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
+
+  <!-- Se non ci sono elementi mostro un div con un messaggio "Nessun elemento presente" -->
+  <div *ngIf="!_myHabits.length" class="text-center mt-3">
+    <p>No elements present</p>
+  </div>
 </div>
