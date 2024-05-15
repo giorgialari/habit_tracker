@@ -4,7 +4,8 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: #2a2e37;
+  background: linear-gradient(to top, black, rgba(50, 50, 50, 0.9));
+  /* Grigio scuro semi-trasparente sopra al nero */
 }
 
 ion-tab-button {
@@ -14,11 +15,12 @@ ion-tab-button {
   align-items: center;
   color: #ffffff;
   --background: transparent;
-
   transition: transform 0.3s, color 0.3s;
-
 }
 
+ion-tab-button.tab-selected {
+  color: $orange-active; /* Colore arancione per il bottone attivo */
+}
 
 .button-center {
   --background: transparent !important;
@@ -29,7 +31,6 @@ ion-tab-button {
 }
 
 @media (max-width: 768px) {
-
   ion-tab-button ion-icon {
     font-size: 24px;
   }

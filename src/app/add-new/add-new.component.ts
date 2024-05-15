@@ -1,7 +1,8 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HabitService } from '../habit-dashboard/_services/habit.service';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-add-new',
@@ -29,7 +30,7 @@ export class AddNewComponent {
   selectedTime: string = '';
 
 
-  constructor(private habitService: HabitService, private router: Router) {
+  constructor(private habitService: HabitService, private router: Router, private location: Location) {
     this.newHabitForm = new FormGroup({
       title: new FormControl('', Validators.required),
       frequency: new FormControl('', Validators.required),
@@ -52,6 +53,10 @@ export class AddNewComponent {
       this.selectedDays.push(dayId);
     }
     this.newHabitForm?.get('frequency')?.setValue(this.selectedDays);
+  }
+
+  goBack() {
+    this.location.back();
   }
 
   async submit() {

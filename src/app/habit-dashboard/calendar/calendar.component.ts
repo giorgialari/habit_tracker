@@ -97,6 +97,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     const nextWeekDate = new Date(this.weekDays[0]);
     nextWeekDate.setDate(nextWeekDate.getDate() + 5);
     this.loadWeekDays(nextWeekDate);
+    //Aggiorno il mese corrente in base a quello visualizzato
+    this.updateDateDisplay(this.weekDays[0]);
   }
 
   // Torna alla settimana precedente
@@ -104,6 +106,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     const previousWeekDate = new Date(this.weekDays[0]);
     previousWeekDate.setDate(previousWeekDate.getDate() - 5);
     this.loadWeekDays(previousWeekDate);
+    //Aggiorno il mese corrente in base a quello visualizzato
+    this.updateDateDisplay(this.weekDays[0]);
   }
 
   // Determina se un giorno è il giorno corrente

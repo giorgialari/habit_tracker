@@ -6,21 +6,31 @@
     (touchstart)="startAction('previous')"
     (touchend)="stopAction()"
     (click)="previousWeek()"
-    class="prevBtn"
+    class="prevBtn m-0 mb-2"
   >
     <span class="material-icons">chevron_left</span>
   </button>
   <div class="days-container flex flex-row">
-    <div
-      class="day mx-1"
-      *ngFor="let day of weekDays"
-      >
+    <div class="day mx-1" *ngFor="let day of weekDays">
       <!-- Mostra solo la prima lettera del nome del giorno -->
       <div class="day-name" [ngClass]="{ dayNameToday: isToday(day) }">
-        {{ day | date : "EEE" | slice : 0 : 1 | uppercase}}
+        {{ day | date : "EEE" | slice : 0 : 1 | uppercase }}
       </div>
-      <div class="day-circle" [ngClass]="{ 'today': isToday(day),  'selected-day': isSelected(day) && !isToday(day) }" (click)="updateDateDisplay(day)">
-        <div class="day-number" [ngClass]="{ 'dayNumberToday': isToday(day), 'selected-day-number': isSelected(day) && !isToday(day) }">
+      <div
+        class="day-circle"
+        [ngClass]="{
+          today: isToday(day),
+          'selected-day': isSelected(day) && !isToday(day)
+        }"
+        (click)="updateDateDisplay(day)"
+      >
+        <div
+          class="day-number"
+          [ngClass]="{
+            dayNumberToday: isToday(day),
+            'selected-day-number': isSelected(day) && !isToday(day)
+          }"
+        >
           {{ day | date : "d" }}
         </div>
       </div>
@@ -33,7 +43,7 @@
     (touchstart)="startAction('next')"
     (touchend)="stopAction()"
     (click)="nextWeek()"
-    class="nextBtn"
+    class="nextBtn m-0 mb-2"
     *ngIf="!isThisWeek()"
   >
     <span class="material-icons">chevron_right</span>

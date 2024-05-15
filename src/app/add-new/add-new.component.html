@@ -6,7 +6,7 @@
       >
         <span
           class="material-icons ml-3 mt-2"
-          routerLink="/tabs/dashboard"
+          (click)="goBack()"
           style="position: absolute; left: 0; cursor: pointer"
           >arrow_back</span
         >
@@ -23,7 +23,7 @@
 
           <div class="periodicity-container w-screen mx-auto px-3 my-5">
             <h4>Set periodicity</h4>
-            <div class="days">
+            <div class="days flex justify-content-center">
               <button
                 *ngFor="let day of days; let i = index"
                 [ngClass]="{ selected: selectedDays.includes(day.id) }"
@@ -58,8 +58,14 @@
       </form>
     </div>
 
-    <div>
-      <p-button label="Add new habit" size="small" severity="warning" (onClick)="submit()" [disabled]="!newHabitForm.valid" />
+    <div class="mt-5">
+      <p-button
+        label="Add new habit"
+        size="small"
+        severity="warning"
+        (onClick)="submit()"
+        [disabled]="!newHabitForm.valid"
+      />
     </div>
   </div>
 </div>

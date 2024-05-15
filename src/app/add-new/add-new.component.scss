@@ -6,52 +6,133 @@
   justify-content: space-between;
   align-items: center;
   height: 90vh;
+}
 
+.header h3 {
+  font-size: 1.7rem;
 }
 
 .days button {
-  width: 2rem;
-  height: 2rem;
-  line-height: 2rem;
+  width: 2.2rem; // Aumentato del 10%
+  height: 2.2rem; // Aumentato del 10%
+  line-height: 2.2rem; // Aumentato del 10%
   border-radius: 50%;
   margin: 0.5rem;
-  background-color: $lightGray;
-  /* Grigio scuro per i cerchi non selezionati */
+  background-color: $lightGray; // Grigio scuro per i cerchi non selezionati
   color: white;
   border: none;
-  font-size: 1rem;
+  font-size: 1.1rem; // Aumentato del 10%
   cursor: pointer;
 }
 
 .days button.selected {
-  background-color: $orange;
-  /* Cambia colore quando selezionato */
+  background-color: $orange; // Cambia colore quando selezionato
 }
 
 .reminder-time button {
-  background-color: $gray;
-  /* Grigio scuro per bottoni non selezionati */
+  background-color: $gray; // Grigio scuro per bottoni non selezionati
   color: white;
   border: 2px solid transparent;
-  border-radius: 20px;
-  /* Bottoni con bordi arrotondati */
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  margin: 0 0.5rem;
-  /* Distanza tra i bottoni */
+  border-radius: 20px; // Bottoni con bordi arrotondati
+  padding: 0.6rem 1.2rem; // Aumentato del 10%
+  font-size: 1.1rem; // Aumentato del 10%
+  margin: 0 0.5rem; // Distanza tra i bottoni
   cursor: pointer;
-  flex: 0 0 auto;
-  /* Evita stretching o shrinking */
+  flex: 0 0 auto; // Evita stretching o shrinking
   outline: none;
   transition: all 0.3s;
 }
 
 .reminder-time button.selected {
-  border-color: $orange;
-  /* Rosso per evidenziare la selezione */
+  border-color: $orange; // Rosso per evidenziare la selezione
 }
-
 
 p-floatlabel input {
   width: 100%;
 }
+
+@media (max-width: 768px) {
+  .header h3 {
+    font-size: 1.5rem;
+  }
+
+  .days button {
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    font-size: 1rem;
+  }
+
+  .reminder-time button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+
+  .component-container {
+    height: auto; // Adatta l'altezza per schermi più piccoli
+  }
+}
+
+@media (max-width: 480px) {
+  .header h3 {
+    font-size: 1.3rem;
+  }
+
+  .days button {
+    width: 1.8rem;
+    height: 1.8rem;
+    line-height: 1.8rem;
+    font-size: 0.9rem;
+  }
+
+  .reminder-time button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .component-container {
+    height: auto; // Adatta l'altezza per schermi più piccoli
+  }
+}
+
+@media (max-width: 320px) {
+  .header h3 {
+    font-size: 1.2rem;
+  }
+
+  .days button {
+    width: 1.5rem; // Riduce le dimensioni dei days per schermi molto piccoli
+    height: 1.5rem;
+    line-height: 1.5rem;
+    font-size: 0.8rem;
+  }
+
+  .reminder-time button {
+    padding: 0.3rem 0.6rem; // Riduce ulteriormente il padding
+    font-size: 0.8rem;
+  }
+
+  .component-container {
+    height: auto; // Adatta l'altezza per schermi molto piccoli
+  }
+
+  p-button {
+    font-size: 0.8rem; // Riduce la dimensione del testo nel bottone
+    padding: 0.5rem 1rem; // Riduce il padding del bottone
+  }
+}
+
+@media (min-width: 390px) {
+  .days button {
+    width: 2.1rem;
+    height: 2.1rem;
+    line-height: 2.1rem;
+    font-size: 1.2rem;
+  }
+
+  .reminder-time button {
+    padding: 0.6rem 1.2rem;
+    font-size: 1.2rem;
+  }
+}
+

@@ -1,16 +1,16 @@
 .capitalize {
-  //La prima lettera maiuscola
+  // La prima lettera maiuscola
   text-transform: capitalize;
 }
 
 .grid-with-gradient-border {
-  //un bordo in basso leggermente sfumato di arancion
-  // border-bottom: 1px solid #f0f0f0;
-  font-size: 1.7rem;
+  // Un bordo in basso leggermente sfumato di arancione
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 1.58rem; // Aumentato del 5% rispetto a 1.5rem
+  padding: 1rem 0.5rem; // Aggiungi padding per layout coerente
 }
 
-
-/* Stile per il Bottone Custom */
+// Stile per il Bottone Custom
 .user-menu-button {
   background: linear-gradient(45deg, #6a11cb, #2575fc); /* Gradient background */
   border: none; /* Nessun bordo */
@@ -29,4 +29,56 @@
 
 .user-menu-button:hover {
   background: linear-gradient(45deg, #2575fc, #6a11cb); /* Cambia il gradiente al passaggio del mouse */
+}
+
+@media (max-width: 768px) {
+  .grid-with-gradient-border {
+    font-size: 1.26rem; // Aumentato del 5% rispetto a 1.2rem
+    padding: 0.8rem 0.4rem; // Adatta il padding su schermi più piccoli
+  }
+
+  .user-menu-button {
+    width: 35px; // Riduci la dimensione del bottone su schermi più piccoli
+    height: 35px; // Riduci la dimensione del bottone su schermi più piccoli
+    padding: 8px; // Adatta il padding su schermi più piccoli
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-with-gradient-border {
+    font-size: 1.05rem; // Aumentato del 5% rispetto a 1rem
+    padding: 0.6rem 0.3rem; // Adatta il padding su schermi molto piccoli
+  }
+
+  .user-menu-button {
+    width: 30px; // Riduci ulteriormente la dimensione del bottone su schermi molto piccoli
+    height: 30px; // Riduci ulteriormente la dimensione del bottone su schermi molto piccoli
+    padding: 6px; // Adatta il padding su schermi molto piccoli
+  }
+}
+
+@media (max-width: 390px) {
+  .day {
+    margin: 0.6rem; // Reduce margin for 390px width screens
+  }
+
+  .day-name {
+    font-size: 0.79rem; // Adjust font size for 390px width screens (5% larger)
+  }
+
+  .day-circle {
+    width: 2.52rem; // Adjust size for 390px width screens (5% larger)
+    height: 2.52rem; // Adjust size for 390px width screens (5% larger)
+  }
+
+  .day-number {
+    font-size: 0.79rem; // Adjust font size for 390px width screens (5% larger)
+  }
+
+  .prevBtn,
+  .nextBtn {
+    width: 2.52rem; // Adjust size for 390px width screens (5% larger)
+    height: 2.52rem; // Adjust size for 390px width screens (5% larger)
+    padding-top: 0.73rem; // Adjust padding for 390px width screens
+  }
 }
