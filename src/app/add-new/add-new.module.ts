@@ -11,6 +11,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DividerModule } from 'primeng/divider';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
+import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
 
 const primeNgModules = [
   CheckboxModule,
@@ -19,6 +21,8 @@ const primeNgModules = [
   BadgeModule,
   InputTextModule,
   FloatLabelModule,
+  CalendarModule,
+  DropdownModule
 ];
 
 @NgModule({

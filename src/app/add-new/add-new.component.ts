@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HabitService } from '../habit-dashboard/_services/habit.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
@@ -9,8 +9,10 @@ import { Location } from '@angular/common';
   templateUrl: './add-new.component.html',
   styleUrls: ['./add-new.component.scss'],
 })
-export class AddNewComponent {
+export class AddNewComponent implements OnInit, AfterContentInit {
   newHabitForm: FormGroup;
+  @Input() isHabitToEdit: boolean = false;
+
   days = [
     { id: 'mon', label: 'M' },
     { id: 'tue', label: 'T' },
@@ -27,18 +29,47 @@ export class AddNewComponent {
     { label: 'Evening', icon: '' },
     { label: 'None', icon: 'notifications_off' }
   ];
+
+  categories = [
+    { id: 1, label: 'Health', icon: 'fitness_center' },
+    { id: 2, label: 'Work', icon: 'work' },
+    { id: 3, label: 'Study', icon: 'school' },
+    { id: 4, label: 'Personal', icon: 'person' },
+    { id: 5, label: 'Other', icon: 'more_horiz' }
+  ];
+
+  selectedCategory = null;
   selectedTime: string = '';
 
 
-  constructor(private habitService: HabitService, private router: Router, private location: Location) {
+  constructor(private habitService: HabitService, private router: Router, private location: Location, private route: ActivatedRoute) {
     this.newHabitForm = new FormGroup({
       title: new FormControl('', Validators.required),
+      startDate: new FormControl('', Validators.required),
       frequency: new FormControl('', Validators.required),
       remind: new FormControl('', Validators.required),
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+
+  }
+
+  ngAfterContentInit(): void {
+    this.route.params.subscribe(params => {
+      if (params['id']) {
+        this.isHabitToEdit = true;
+        this.habitService.getHabit(params['id']).then(habit => {
+          console.log(habit);
+          if (habit) {
+            this.newHabitForm.patchValue(habit);
+            this.selectedDays = habit.frequency;
+            this.selectedTime = habit.remind;
+          }
+        });
+      }
+    });
+  }
 
   selectTime(time: string) {
     this.selectedTime = time;
@@ -60,11 +91,25 @@ export class AddNewComponent {
   }
 
   async submit() {
+    if (this.isHabitToEdit) {
+      await this.habitService.setHabit({
+        id: this.route.snapshot.params['id'],
+        title: this.newHabitForm.value.title,
+        completed: false,
+        completedAt: '',
+        startDate: this.newHabitForm.value.startDate,
+        frequency: this.newHabitForm.value.frequency,
+        remind: this.newHabitForm.value.remind
+      });
+      this.router.navigate(['/tabs/dashboard']);
+      return;
+    }
     await this.habitService.setHabit({
       id: Date.now(),
       title: this.newHabitForm.value.title,
       completed: false,
       completedAt: '',
+      startDate: this.newHabitForm.value.startDate,
       frequency: this.newHabitForm.value.frequency,
       remind: this.newHabitForm.value.remind
     });

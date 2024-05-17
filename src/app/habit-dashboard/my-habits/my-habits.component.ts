@@ -1,9 +1,9 @@
-import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Habit } from '../_models/habits.interface';
 import { HabitService } from '../_services/habit.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription, filter } from 'rxjs';
-import { IonItemSliding, IonList } from '@ionic/angular';
+import { CalendarService } from '../_services/calendar.service';
 
 @Component({
   selector: 'app-my-habits',
@@ -13,14 +13,21 @@ import { IonItemSliding, IonList } from '@ionic/angular';
 export class MyHabitsComponent implements OnInit, OnDestroy {
   private initSub: Subscription;
   private routerSubscription: Subscription = new Subscription();
+  private calendarServiceSubscription: Subscription = new Subscription();
 
   _myHabits: Habit[] = [];
+  startDate: Date = new Date();
 
-  constructor(private habitService: HabitService, private router: Router, private cdr: ChangeDetectorRef) {
+  constructor(private habitService: HabitService, private router: Router, private cdr: ChangeDetectorRef, private calendarService: CalendarService) {
     this.initSub = this.habitService.getStorageReady().subscribe(ready => {
       if (ready) {
         this.loadHabits();
       }
+    });
+
+    this.calendarServiceSubscription = this.calendarService.selectedDate.subscribe(date => {
+      this.startDate = date.completeDate;
+      this.loadHabits();
     });
   }
 
@@ -34,6 +41,9 @@ export class MyHabitsComponent implements OnInit, OnDestroy {
 
   async loadHabits() {
     this._myHabits = await this.habitService.getAllHabits();
+    //Filtro le abitudini che hanno la startDate uguale a quella selezionata
+    this._myHabits = this._myHabits.filter(habit => new Date(habit.startDate).getTime() === this.startDate.getTime());
+
   }
 
   toggleCompletion(habit: Habit): void {
@@ -43,6 +53,10 @@ export class MyHabitsComponent implements OnInit, OnDestroy {
       this.habitService.setHabit(findHabit);
     }
 
+  }
+
+  editHabit(habit: Habit) {
+    this.router.navigate(['/tabs/edit-habit', habit.id]);
   }
 
   deleteHabit(habit: Habit) {

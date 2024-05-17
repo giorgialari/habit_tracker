@@ -10,7 +10,7 @@
           style="position: absolute; left: 0; cursor: pointer"
           >arrow_back</span
         >
-        <h3>Add New Habit</h3>
+        <h3>{{isHabitToEdit ? 'Edit Habit' : 'Add New Habit'}}</h3>
       </div>
       <form [formGroup]="newHabitForm">
         <div class="new-habit-container mt-5">
@@ -18,6 +18,21 @@
             <p-floatLabel>
               <input pInputText formControlName="title" />
               <label>Habit name</label>
+            </p-floatLabel>
+          </div>
+
+          <!-- <h4>Set start date</h4> -->
+          <div class="mt-5 w-screen px-3 mx-auto pb-2">
+            <p-floatLabel>
+              <p-calendar
+                [showButtonBar]="true"
+                [touchUI]="true"
+                formControlName="startDate"
+                appendTo="body"
+                dateFormat="dd/mm/yy"
+                styleClass="w-screen"
+              ></p-calendar>
+              <label>Start date</label>
             </p-floatLabel>
           </div>
 
@@ -35,24 +50,25 @@
           </div>
 
           <div class="reminder w-screen mx-auto px-3">
-            <h4>Set reminder</h4>
-            <div class="grid mt-2">
-              <div
-                *ngFor="let time of times; let i = index"
-                class="col-4 reminder-time flex flex-wrap gap-3 justify-content-center pt-1"
-                [class]="{ 'col-12': time.icon }"
-              >
-                <button
-                  [ngClass]="{ selected: selectedTime === time.label }"
-                  (click)="selectTime(time.label)"
-                >
-                  <span *ngIf="time.icon; else textLabel">
-                    <i class="material-icons">{{ time.icon }}</i>
-                  </span>
-                  <ng-template #textLabel>{{ time.label }}</ng-template>
-                </button>
-              </div>
-            </div>
+            <p-floatLabel>
+              <p-calendar
+                [showTime]="true"
+                hourFormat="12"
+                [timeOnly]="true"
+                formControlName="remind"
+                [touchUI]="true"
+                appendTo="body"
+                styleClass="w-screen"
+              ></p-calendar>
+
+              <label>
+                {{
+                  newHabitForm.get("remind")?.value
+                    ? "Reminder time"
+                    : "No reminder time selected"
+                }}
+              </label>
+            </p-floatLabel>
           </div>
         </div>
       </form>
@@ -60,10 +76,11 @@
 
     <div class="mt-5">
       <p-button
-        label="Add new habit"
+        [label]="isHabitToEdit? 'Edit habit' :'Add new habit'"
         size="small"
         severity="warning"
         (onClick)="submit()"
+        [rounded]="true"
         [disabled]="!newHabitForm.valid"
       />
     </div>

@@ -68,9 +68,9 @@ p-floatlabel input {
     font-size: 1rem;
   }
 
-  .component-container {
-    height: auto; // Adatta l'altezza per schermi più piccoli
-  }
+  // .component-container {
+  //   height: auto; // Adatta l'altezza per schermi più piccoli
+  // }
 }
 
 @media (max-width: 480px) {
@@ -90,9 +90,9 @@ p-floatlabel input {
     font-size: 0.9rem;
   }
 
-  .component-container {
-    height: auto; // Adatta l'altezza per schermi più piccoli
-  }
+  // .component-container {
+  //   height: auto; // Adatta l'altezza per schermi più piccoli
+  // }
 }
 
 @media (max-width: 320px) {
@@ -112,9 +112,9 @@ p-floatlabel input {
     font-size: 0.8rem;
   }
 
-  .component-container {
-    height: auto; // Adatta l'altezza per schermi molto piccoli
-  }
+  // .component-container {
+  //   height: auto; // Adatta l'altezza per schermi molto piccoli
+  // }
 
   p-button {
     font-size: 0.8rem; // Riduce la dimensione del testo nel bottone

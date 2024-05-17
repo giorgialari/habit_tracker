@@ -6,7 +6,8 @@ export const myHabitsMock: Habit[] = [{
   completed: true,
   completedAt: '10:00 AM',
   frequency: ['mon', 'wed', 'fri'],
-  remind: 'Morning'
+  startDate: '2021-09-01',
+  remind: '09:00 AM'
 },
 {
   id: 2,
@@ -14,7 +15,8 @@ export const myHabitsMock: Habit[] = [{
   completed: false,
   completedAt: '',
   frequency: ['tue', 'thu', 'sat'],
-  remind: 'Evening'
+  startDate: '2021-09-01',
+  remind: '09:00 AM'
 },
 {
   id: 3,
@@ -22,6 +24,7 @@ export const myHabitsMock: Habit[] = [{
   completed: true,
   completedAt: '10:00 AM',
   frequency: ['mon', 'wed', 'fri'],
-  remind: 'Morning'
+  startDate: '2021-09-01',
+  remind: '09:00 AM'
 }
 ];

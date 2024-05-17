@@ -16,6 +16,10 @@ const routes: Routes = [
         loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule)
       },
       {
+        path: 'edit-habit/:id',
+        loadChildren: () => import('../tab-add-new/tab-add-new.module').then(m => m.TabAddNewPageModule)
+      },
+      {
         path: 'add-new',
         loadChildren: () => import('../tab-add-new/tab-add-new.module').then(m => m.TabAddNewPageModule)
       },

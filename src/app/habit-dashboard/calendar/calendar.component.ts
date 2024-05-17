@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GestureController } from '@ionic/angular';
 import { Subscription, interval, takeWhile } from 'rxjs';
 import { CalendarService } from '../_services/calendar.service';
+import { CurrentMonth } from '../_models/habits.interface';
 
 @Component({
   selector: 'app-calendar',
@@ -39,23 +40,25 @@ export class CalendarComponent implements OnInit, OnDestroy {
     const dayOfWeek = date.toLocaleDateString('it-IT', { weekday: 'short' }).slice(0, 3); // Ottiene il giorno della settimana abbreviato
     const monthWithYear = date.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
 
-    const currentMonth = {
+    const currentMonth: CurrentMonth = {
       number: 0,
       dayOfWeek: '',
-      month: ''
+      month: '',
+      completeDate: date
     }
 
     if (isCurrentDay) {
       currentMonth.number = 0;
       currentMonth.dayOfWeek = '';
       currentMonth.month = monthWithYear;
+      currentMonth.completeDate = date;
 
     } else {
       currentMonth.number = numberOfDay;
       currentMonth.dayOfWeek = dayOfWeek;
       currentMonth.month = monthWithYear;
+      currentMonth.completeDate = date;
     }
-
     this.calendarService.changeDate(currentMonth);
 
     this._isToday = isCurrentDay;
@@ -67,10 +70,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   // Carica i giorni della settimana data una data qualsiasi in quella settimana
   loadWeekDays(date: Date) {
-    const startOfWeek = this.getStartOfWeek(new Date(date));
-    const isCurrentWeek = this.getStartOfWeek(new Date()).getTime() === startOfWeek.getTime();
+    // const startOfWeek = this.getStartOfWeek(new Date(date));
+    // const isCurrentWeek = this.getStartOfWeek(new Date()).getTime() === startOfWeek.getTime();
 
-    this.daysToDisplay = isCurrentWeek ? 6 : 5;
+    // this.daysToDisplay = isCurrentWeek ? 5 : 5;
+    this.daysToDisplay = 5;
 
     this.weekDays = Array.from({ length: this.daysToDisplay }).map((_, i) => {
       const day = new Date(date.getTime());
