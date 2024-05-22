@@ -56,6 +56,7 @@ export class MyHabitsComponent implements OnInit, OnDestroy {
   }
 
   editHabit(habit: Habit) {
+    console.log(habit);
     this.router.navigate(['/tabs/edit-habit', habit.id]);
   }
 

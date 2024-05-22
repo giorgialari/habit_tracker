@@ -1,8 +1,10 @@
-import { AfterContentInit, AfterViewInit, Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { HabitService } from '../_shared/services/habit.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, AfterContentInit, Input, ChangeDetectorRef } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { HabitService } from '../_shared/services/habit.service';
+import { Habit } from '../habit-dashboard/_models/habits.interface';
+
 
 @Component({
   selector: 'app-add-new',
@@ -41,19 +43,22 @@ export class AddNewComponent implements OnInit, AfterContentInit {
   selectedCategory = null;
   selectedTime: string = '';
 
-
-  constructor(private habitService: HabitService, private router: Router, private location: Location, private route: ActivatedRoute) {
+  constructor(
+    private habitService: HabitService,
+    private router: Router,
+    private location: Location,
+    private route: ActivatedRoute,
+    private cdRef: ChangeDetectorRef
+  ) {
     this.newHabitForm = new FormGroup({
       title: new FormControl('', Validators.required),
       startDate: new FormControl('', Validators.required),
-      frequency: new FormControl('', Validators.required),
-      remind: new FormControl('', Validators.required),
+      frequency: new FormControl('', Validators.required), //frequenza di notifica e frequenza di esecuzione
+      remind: new FormControl(''), //orario di notifica
     });
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   ngAfterContentInit(): void {
     this.route.params.subscribe(params => {
@@ -90,31 +95,24 @@ export class AddNewComponent implements OnInit, AfterContentInit {
     this.location.back();
   }
 
+   // Gestisci l'evento di cancellazione del valore del calendario
+   onReminderClear() {
+    this.newHabitForm.get('remind')?.setValue(null);
+    this.cdRef.detectChanges(); // Aggiorna la vista
+  }
   async submit() {
-    if (this.isHabitToEdit) {
-      await this.habitService.setHabit({
-        id: this.route.snapshot.params['id'],
-        title: this.newHabitForm.value.title,
-        completed: false,
-        completedAt: '',
-        startDate: this.newHabitForm.value.startDate,
-        frequency: this.newHabitForm.value.frequency,
-        remind: this.newHabitForm.value.remind
-      });
-      this.router.navigate(['/tabs/dashboard']);
-      return;
-    }
-    await this.habitService.setHabit({
-      id: Date.now(),
+    const newHabit: Habit = {
+      id: this.isHabitToEdit ? this.route.snapshot.params['id'] : Date.now(),
       title: this.newHabitForm.value.title,
       completed: false,
       completedAt: '',
       startDate: this.newHabitForm.value.startDate,
       frequency: this.newHabitForm.value.frequency,
       remind: this.newHabitForm.value.remind
-    });
+    };
+
+    await this.habitService.setHabit(newHabit);
     this.newHabitForm.reset();
     this.router.navigate(['/tabs/dashboard']);
-
   }
 }

@@ -10,7 +10,7 @@
           style="position: absolute; left: 0; cursor: pointer"
           >arrow_back</span
         >
-        <h3>{{isHabitToEdit ? 'Edit Habit' : 'Add New Habit'}}</h3>
+        <h3>{{ isHabitToEdit ? "Edit Habit" : "Add New Habit" }}</h3>
       </div>
       <form [formGroup]="newHabitForm">
         <div class="new-habit-container mt-5">
@@ -59,6 +59,8 @@
                 [touchUI]="true"
                 appendTo="body"
                 styleClass="w-screen"
+                [showClear]="true"
+                (onClear)="onReminderClear()"
               ></p-calendar>
 
               <label>
@@ -76,7 +78,7 @@
 
     <div class="mt-5">
       <p-button
-        [label]="isHabitToEdit? 'Edit habit' :'Add new habit'"
+        [label]="isHabitToEdit ? 'Edit habit' : 'Add new habit'"
         size="small"
         severity="warning"
         (onClick)="submit()"

@@ -10,8 +10,6 @@ export class HabitService {
   private _storage: Storage | null = null;
   private storageReady = new BehaviorSubject<boolean>(false);
 
-
-
   constructor(private storage: Storage) {
     this.init();
   }
@@ -20,35 +18,34 @@ export class HabitService {
     this._storage = await this.storage.create();
     this.storageReady.next(true);
   }
+
   public getStorageReady() {
     return this.storageReady.asObservable();
   }
-  public setHabit(habit: Habit) {
-    this._storage?.set(habit.id.toString(), habit);
-    this.getAllHabits();
+
+  public async setHabit(habit: Habit): Promise<void> {
+    const habits: Habit[] = await this.getAllHabits();
+    const index = habits.findIndex(h => h.id === habit.id);
+    if (index > -1) {
+      habits[index] = habit; // Update existing habit
+    } else {
+      habits.push(habit); // Add new habit
+    }
+    await this._storage?.set('user_habits', habits);
   }
 
   public async getHabit(id: number): Promise<Habit | null> {
-    try {
-      return await this._storage?.get(id.toString());
-    } catch (error) {
-      console.error('Error fetching habit', error);
-      return null;
-    }
+    const habits: Habit[] = await this.getAllHabits();
+    return habits.find(h => h.id === id) || null;
   }
 
-  public async removeHabit(id: number) {
-    await this._storage?.remove(id.toString());
+  public async removeHabit(id: number): Promise<void> {
+    let habits: Habit[] = await this.getAllHabits();
+    habits = habits.filter(h => h.id !== id);
+    await this._storage?.set('user_habits', habits);
   }
 
   public async getAllHabits(): Promise<Habit[]> {
-    const habits: Habit[] = [];
-    if (this._storage) {  // Assicurati che _storage non sia null
-      await this._storage.forEach((value, key, iterationNumber) => {
-        habits.push(value);
-      });
-    }
-    return habits;
+    return await this._storage?.get('user_habits') || [];
   }
-
 }
