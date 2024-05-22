@@ -77,7 +77,6 @@ export class StepperComponent implements OnInit, OnChanges {
       });
 
       this.addFormControlForIconBlocks(formControls, iconBlockIds, 'step_2_selectedHabits');
-      this.addFormControlForIconBlocks(formControls, iconBlockTextIds, 'step_3_selectedHoursNotifications');
       this.stepForms.push(this.fb.group(formControls));
     });
   }
@@ -89,21 +88,30 @@ export class StepperComponent implements OnInit, OnChanges {
       this.user_setup_data = storedValues;
       this.stepForms.forEach((form, index) => {
         if (storedValues[index]) {
-          form.patchValue(storedValues[index]);
+          const formData = { ...storedValues[index] };
+          if (formData.remind) {
+            const [hours, minutes, seconds] = formData.remind.split(':').map(Number);
+            const remindDate = new Date();
+            remindDate.setHours(hours, minutes, seconds, 0);
+            formData.remind = remindDate;
+          }
+          form.patchValue(formData);
           // Popola i bottoni cliccabili
           if (storedValues[index].step_2_selectedHabits) {
             this.selectedHabits = storedValues[index].step_2_selectedHabits;
             form.get('step_2_selectedHabits')?.setValue(this.selectedHabits);
-          }
-          if (storedValues[index].step_3_selectedHoursNotifications) {
-            this.selectedHoursNotifications = storedValues[index].step_3_selectedHoursNotifications;
-            form.get('step_3_selectedHoursNotifications')?.setValue(this.selectedHoursNotifications);
           }
         }
       });
     }
   }
 
+   // Gestisci l'evento di cancellazione del valore del calendario
+   onReminderClear() {
+    const currentStepForm = this.stepForms[this.activeIndex];
+    currentStepForm.get('remind')?.setValue(null);
+    this.cdRef.detectChanges(); // Aggiorna la vista
+  }
 
   // Add form control for icon blocks
   addFormControlForIconBlocks(formControls: { [key: string]: any }, iconBlockIds: any[], controlName: string): void {
@@ -156,8 +164,20 @@ export class StepperComponent implements OnInit, OnChanges {
     currentStepForm.markAllAsTouched();
     currentStepForm.updateValueAndValidity();
     if (currentStepForm.valid) {
+      // Ottieni i valori del form
+      const formValues = currentStepForm.value;
+
+      // Se esiste un campo remind, estrai solo l'ora
+      if (formValues.remind) {
+        const remindDate = new Date(formValues.remind);
+        const hours = remindDate.getHours();
+        const minutes = remindDate.getMinutes();
+        const seconds = remindDate.getSeconds();
+        formValues.remind = `${hours}:${minutes}:${seconds}`;
+      }
+
       // Salva i valori dell'array user_setup_data
-      this.user_setup_data[this.activeIndex] = currentStepForm.value;
+      this.user_setup_data[this.activeIndex] = formValues;
       await this.storage.set('user_setup_data', this.user_setup_data);
 
       if (this.activeIndex < this.contents.steps.length - 1) {
@@ -166,6 +186,7 @@ export class StepperComponent implements OnInit, OnChanges {
       }
     }
   }
+
 
   // Go to the previous step
   prevStep(): void {

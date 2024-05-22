@@ -1,5 +1,6 @@
 export enum TypeContentStepEnum {
   TEXT = 'text',
+  CALENDAR = 'calendar',
   NUMBER = 'number',
   ICON_BLOCK = 'icon-block', //Icona con testo sotto
   TEXT_BLOCK = 'text-block', //Solo testo

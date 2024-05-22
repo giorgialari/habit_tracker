@@ -17,6 +17,7 @@ import { StepperComponent } from './stepper/stepper.component';
 
 // Routing module
 import { SetupRoutingModule } from './setup-routing.module';
+import { CalendarModule } from 'primeng/calendar';
 
 const angularModules = [
   CommonModule,
@@ -30,7 +31,8 @@ const primeNGModules = [
   InputTextModule,
   InputNumberModule,
   FloatLabelModule,
-  MessagesModule
+  MessagesModule,
+  CalendarModule
 ];
 
 const customModules = [

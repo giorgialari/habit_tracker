@@ -110,31 +110,38 @@ export const contents: IContent = {
     [
       {
         id: 20,
-        type: 'text-block',
-        name: '',
-        title: '6:00 AM',
-        icon: '',
-        content: "Morning",
+        type: 'calendar',
+        name: 'remind',
+        content: "",
         required: false
-      },
-      {
-        id: 21,
-        type: 'text-block',
-        name: '',
-        title: '12:00 AM',
-        icon: '',
-        content: "Noon",
-        required: false
-      },
-      {
-        id: 22,
-        type: 'text-block',
-        name: '',
-        title: '6:00 PM',
-        icon: '',
-        content: "Evening",
-        required: false
-      },
+      }
+      // {
+      //   id: 20,
+      //   type: 'text-block',
+      //   name: '',
+      //   title: '6:00 AM',
+      //   icon: '',
+      //   content: "Morning",
+      //   required: false
+      // },
+      // {
+      //   id: 21,
+      //   type: 'text-block',
+      //   name: '',
+      //   title: '12:00 AM',
+      //   icon: '',
+      //   content: "Noon",
+      //   required: false
+      // },
+      // {
+      //   id: 22,
+      //   type: 'text-block',
+      //   name: '',
+      //   title: '6:00 PM',
+      //   icon: '',
+      //   content: "Evening",
+      //   required: false
+      // },
     ],
     [
       {

@@ -46,9 +46,7 @@
             class="my-5 flex flex-column align-items-center"
           >
             <div class="circle-icon">
-              <span class="material-icons text-5xl">{{
-                question.icon
-              }}</span>
+              <span class="material-icons text-5xl">{{ question.icon }}</span>
             </div>
 
             <p class="font-bold text-lg">{{ question.content }}</p>
@@ -66,10 +64,35 @@
               "
               (click)="toggleSelection(question.id, i)"
             >
-              <span class="material-icons text-5xl">{{
-                question.icon
-              }}</span>
+              <span class="material-icons text-5xl">{{ question.icon }}</span>
               <div class="text-xs">{{ question.title }}</div>
+            </div>
+
+            <div
+              class="reminder w-screen mx-auto px-3"
+              *ngIf="question.type === typeContentStepEnum.CALENDAR"
+            >
+              <p-floatLabel>
+                <p-calendar
+                  [showTime]="true"
+                  hourFormat="24"
+                  [timeOnly]="true"
+                  formControlName="remind"
+                  [touchUI]="true"
+                  appendTo="body"
+                  styleClass="w-screen"
+                  [showClear]="true"
+                  (onClear)="onReminderClear()"
+                ></p-calendar>
+
+                <label>
+                  {{
+                    stepForm.get("remind")?.value
+                      ? "Reminder time"
+                      : "No reminder time selected"
+                  }}
+                </label>
+              </p-floatLabel>
             </div>
 
             <div
