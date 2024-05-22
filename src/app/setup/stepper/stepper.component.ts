@@ -32,7 +32,7 @@ export class StepperComponent implements OnInit, OnChanges {
   activeContents: IContentItem[] = [];
   activeIndex = 0;
 
-  stepValues: any[] = []; // Nuovo array per memorizzare i valori degli step
+  user_setup_data: any[] = []; // Nuovo array per memorizzare i valori degli step
 
 
   constructor(private fb: FormBuilder, private router: Router, private cdRef: ChangeDetectorRef, private storage: Storage) {
@@ -84,9 +84,9 @@ export class StepperComponent implements OnInit, OnChanges {
 
   // Popola i form con i dati dallo storage
   async populateFormsFromStorage(): Promise<void> {
-    const storedValues = await this.storage.get('stepValues');
+    const storedValues = await this.storage.get('user_setup_data');
     if (storedValues) {
-      this.stepValues = storedValues;
+      this.user_setup_data = storedValues;
       this.stepForms.forEach((form, index) => {
         if (storedValues[index]) {
           form.patchValue(storedValues[index]);
@@ -128,8 +128,8 @@ export class StepperComponent implements OnInit, OnChanges {
 
   // Determina l'indice dell'ultimo step completato
   getLastCompletedStepIndex(): number {
-    for (let i = this.stepValues.length - 1; i >= 0; i--) {
-      if (this.stepValues[i] && Object.keys(this.stepValues[i]).length > 0) {
+    for (let i = this.user_setup_data.length - 1; i >= 0; i--) {
+      if (this.user_setup_data[i] && Object.keys(this.user_setup_data[i]).length > 0) {
         return i + 1;
       }
     }
@@ -156,9 +156,9 @@ export class StepperComponent implements OnInit, OnChanges {
     currentStepForm.markAllAsTouched();
     currentStepForm.updateValueAndValidity();
     if (currentStepForm.valid) {
-      // Salva i valori dell'array stepValues
-      this.stepValues[this.activeIndex] = currentStepForm.value;
-      await this.storage.set('stepValues', this.stepValues);
+      // Salva i valori dell'array user_setup_data
+      this.user_setup_data[this.activeIndex] = currentStepForm.value;
+      await this.storage.set('user_setup_data', this.user_setup_data);
 
       if (this.activeIndex < this.contents.steps.length - 1) {
         this.setActiveAndUpdateActiveContents(this.activeIndex + 1);
@@ -180,11 +180,11 @@ export class StepperComponent implements OnInit, OnChanges {
 
   async goToHomeAfterSubscription(): Promise<void> {
     // Carica i valori dal storage (se necessario)
-    const storedValues = await this.storage.get('stepValues');
+    const storedValues = await this.storage.get('user_setup_data');
 
     // Aggiungi il boolean setupCompleted
     const updatedValues = { ...storedValues, setupCompleted: true };
-    await this.storage.set('stepValues', updatedValues);
+    await this.storage.set('user_setup_data', updatedValues);
 
     this.router.navigate(['/tabs/dashboard']);
   }

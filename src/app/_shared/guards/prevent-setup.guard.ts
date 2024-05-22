@@ -23,7 +23,7 @@ export class PreventSetupGuard implements CanActivate {
     if (!this._storage) {
       await this.init();
     }
-    const storedValues = await this._storage?.get('stepValues');
+    const storedValues = await this._storage?.get('user_setup_data');
     console.log('storedValues', storedValues);
     if (storedValues?.setupCompleted) {
       this.router.navigate(['/tabs/dashboard']); // Naviga a /tabs/dashboard

@@ -5,13 +5,8 @@ import { PreventSetupGuard } from './_shared/guards/prevent-setup.guard'; // Imp
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
+    loadChildren: () =>  import('./setup/setup.module').then(m => m.SetupComponentModule),
     canActivate: [PreventSetupGuard]
-  },
-  {
-    path: 'setup',
-    loadChildren: () => import('./setup/setup.module').then(m => m.SetupComponentModule),
-    canActivate: [PreventSetupGuard] // Applica la nuova guardia alla rotta di setup
   },
   {
     path: 'tabs',
