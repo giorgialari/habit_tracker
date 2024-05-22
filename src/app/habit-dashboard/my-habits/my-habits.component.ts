@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Habit } from '../_models/habits.interface';
-import { HabitService } from '../_services/habit.service';
+import { HabitService } from '../../_shared/services/habit.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription, filter } from 'rxjs';
-import { CalendarService } from '../_services/calendar.service';
+import { CalendarService } from '../../_shared/services/calendar.service';
 
 @Component({
   selector: 'app-my-habits',

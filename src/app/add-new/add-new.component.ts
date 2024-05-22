@@ -1,6 +1,6 @@
 import { AfterContentInit, AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { HabitService } from '../habit-dashboard/_services/habit.service';
+import { HabitService } from '../_shared/services/habit.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 

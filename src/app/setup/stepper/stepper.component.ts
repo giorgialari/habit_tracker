@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TypeContentStepEnum } from './models/type-content-step.enum';
 import { IContent, IContentItem, IStep } from './models/stepper.interface';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-stepper',
@@ -31,12 +32,18 @@ export class StepperComponent implements OnInit, OnChanges {
   activeContents: IContentItem[] = [];
   activeIndex = 0;
 
-  constructor(private fb: FormBuilder, private router: Router, private cdRef: ChangeDetectorRef) {
+  stepValues: any[] = []; // Nuovo array per memorizzare i valori degli step
+
+
+  constructor(private fb: FormBuilder, private router: Router, private cdRef: ChangeDetectorRef, private storage: Storage) {
+    this.storage.create();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.initForms();
-    this.setActiveAndUpdateActiveContents(0);
+    await this.populateFormsFromStorage(); // Popola i form con i dati dallo storage
+    this.setActiveAndUpdateActiveContents(this.getLastCompletedStepIndex());
+
     this.updateActiveContents();
   }
 
@@ -66,7 +73,7 @@ export class StepperComponent implements OnInit, OnChanges {
             break;
           default:
             formControls[`${question.name}`] = question.required ? [null, Validators.required] : [null];
-          }
+        }
       });
 
       this.addFormControlForIconBlocks(formControls, iconBlockIds, 'step_2_selectedHabits');
@@ -74,6 +81,29 @@ export class StepperComponent implements OnInit, OnChanges {
       this.stepForms.push(this.fb.group(formControls));
     });
   }
+
+  // Popola i form con i dati dallo storage
+  async populateFormsFromStorage(): Promise<void> {
+    const storedValues = await this.storage.get('stepValues');
+    if (storedValues) {
+      this.stepValues = storedValues;
+      this.stepForms.forEach((form, index) => {
+        if (storedValues[index]) {
+          form.patchValue(storedValues[index]);
+          // Popola i bottoni cliccabili
+          if (storedValues[index].step_2_selectedHabits) {
+            this.selectedHabits = storedValues[index].step_2_selectedHabits;
+            form.get('step_2_selectedHabits')?.setValue(this.selectedHabits);
+          }
+          if (storedValues[index].step_3_selectedHoursNotifications) {
+            this.selectedHoursNotifications = storedValues[index].step_3_selectedHoursNotifications;
+            form.get('step_3_selectedHoursNotifications')?.setValue(this.selectedHoursNotifications);
+          }
+        }
+      });
+    }
+  }
+
 
   // Add form control for icon blocks
   addFormControlForIconBlocks(formControls: { [key: string]: any }, iconBlockIds: any[], controlName: string): void {
@@ -96,6 +126,17 @@ export class StepperComponent implements OnInit, OnChanges {
     this.updateActiveContents();
   }
 
+  // Determina l'indice dell'ultimo step completato
+  getLastCompletedStepIndex(): number {
+    for (let i = this.stepValues.length - 1; i >= 0; i--) {
+      if (this.stepValues[i] && Object.keys(this.stepValues[i]).length > 0) {
+        return i + 1;
+      }
+    }
+    return 0; // Default al primo step se nessuno step è completato
+  }
+
+
   // Update active contents based on active step
   updateActiveContents() {
     this.activeIndex = -1;
@@ -106,20 +147,22 @@ export class StepperComponent implements OnInit, OnChanges {
       }
     }
     this.activeContents = this.contents?.steps[this.activeIndex] || [];
+    this.showConfirmButtonCloseSetup = this.activeIndex === this.contents.steps.length - 1;
   }
 
   // Go to the next step and submit the form
-  nextStepAndSubmit(): void {
+  async nextStepAndSubmit(): Promise<void> {
     const currentStepForm = this.stepForms[this.activeIndex];
     currentStepForm.markAllAsTouched();
     currentStepForm.updateValueAndValidity();
     if (currentStepForm.valid) {
+      // Salva i valori dell'array stepValues
+      this.stepValues[this.activeIndex] = currentStepForm.value;
+      await this.storage.set('stepValues', this.stepValues);
+
       if (this.activeIndex < this.contents.steps.length - 1) {
         this.setActiveAndUpdateActiveContents(this.activeIndex + 1);
         this.showConfirmButtonCloseSetup = this.activeIndex === this.contents.steps.length - 1;
-
-        //Invio i dati al server
-        console.log(currentStepForm.value);
       }
     }
   }
@@ -134,7 +177,15 @@ export class StepperComponent implements OnInit, OnChanges {
   }
 
   // Navigate to home after subscription
-  goToHomeAfterSubscription(): void {
+
+  async goToHomeAfterSubscription(): Promise<void> {
+    // Carica i valori dal storage (se necessario)
+    const storedValues = await this.storage.get('stepValues');
+
+    // Aggiungi il boolean setupCompleted
+    const updatedValues = { ...storedValues, setupCompleted: true };
+    await this.storage.set('stepValues', updatedValues);
+
     this.router.navigate(['/tabs/dashboard']);
   }
 

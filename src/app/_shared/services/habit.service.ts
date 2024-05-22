@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
-import { Habit } from '../_models/habits.interface';
+import { Habit } from '../../habit-dashboard/_models/habits.interface';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
