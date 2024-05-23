@@ -16,8 +16,11 @@ $orange-10: #FFD03A;
 $orange: #FF3B30;
 $orange-active: $orange-1;
 $orange-inactive: $orange-4;
+$orange-dark: $orange-6;
 
-
+$orange-light: darken($orange, 30%);
+$orange-dark: darken($orange, 20%);
+$orange-muted: desaturate($orange, 10%);
 
 $lightGray: #3a3f4b;
 $gray: #1e232e;

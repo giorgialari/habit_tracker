@@ -19,7 +19,7 @@
   border-radius: 50%;
   margin: 0.5rem;
   background-color: $lightGray; // Grigio scuro per i cerchi non selezionati
-  color: white;
+  // color: white;
   border: none;
   font-size: 1.1rem; // Aumentato del 10%
   cursor: pointer;
@@ -31,7 +31,7 @@
 
 .reminder-time button {
   background-color: $gray; // Grigio scuro per bottoni non selezionati
-  color: white;
+  // color: white;
   border: 2px solid transparent;
   border-radius: 20px; // Bottoni con bordi arrotondati
   padding: 0.6rem 1.2rem; // Aumentato del 10%

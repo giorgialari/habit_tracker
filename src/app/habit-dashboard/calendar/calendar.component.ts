@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GestureController } from '@ionic/angular';
 import { Subscription, interval, takeWhile } from 'rxjs';
 import { CalendarService } from '../../_shared/services/calendar.service';
-import { CurrentMonth } from '../_models/habits.interface';
+import { CurrentMonth, Habit } from '../_models/habits.interface';
+import { HabitService } from 'src/app/_shared/services/habit.service';
 
 @Component({
   selector: 'app-calendar',
@@ -17,14 +18,30 @@ export class CalendarComponent implements OnInit, OnDestroy {
   selectedDay: Date | null = null;
   private intervalSubscription: Subscription = new Subscription();
   private continue = false;
-  constructor(public gestureCtrl: GestureController, private calendarService: CalendarService) {
+  habits: Habit[] = [];
+
+  constructor(public gestureCtrl: GestureController, private calendarService: CalendarService, private habitService: HabitService) {
     this.loadWeekDays(this.today);
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.loadHabits();
+  }
 
   ngOnDestroy() {
     this.stopAction();
+  }
+
+  async loadHabits() {
+    this.habits = await this.habitService.getAllHabits();
+  }
+
+  hasData(day: Date): boolean {
+    return this.habits.some(habit => {
+      const habitDate = new Date(habit.startDate);
+      return habitDate.toDateString() === day.toDateString();
+    });
+
   }
 
 

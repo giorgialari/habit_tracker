@@ -21,9 +21,10 @@
 // Day name
 .day-name {
   font-size: 0.8rem;
-  color: white;
   margin-bottom: 0.5rem; // Original margin
 }
+
+
 
 // Circle representing the day
 .day-circle {
@@ -34,7 +35,7 @@
   height: 2.5rem; // Original size
   border-radius: 50%;
   background-color: $lightGray;
-  border: 1px solid white;
+  border: 1px solid;
   margin: 0 0.1rem;
 }
 
@@ -54,29 +55,45 @@
   height: 2.5rem; // Original size
   border-radius: 50%;
   background-color: transparent;
-  color: white;
-  border: 1px solid white;
   margin: 1rem 0; // Original margin
+  border: 1px solid;
 }
 
 // Styling for today's date
+// .today {
+//   border: 3px solid;
+//   background-color: $orange;
+//   font-weight: bold;
+// }
+
+// .selected-day {
+//   background-color: $orange-inactive;
+//   border: 2px solid;
+//   color: white;
+// }
+
 .today {
-  border: 3px solid white;
+  border: 3px solid $orange;
   background-color: $orange;
   font-weight: bold;
-}
-
-.dayNameToday,
-.dayNumberToday {
   color: white;
 }
 
 .selected-day {
-  background-color: $orange-inactive;
-  border: 2px solid white;
+  background-color: $orange-light; // Sfumatura più chiara per i giorni selezionati
+  border: 2px solid $orange-muted; // Bordo leggermente desaturato
   color: white;
 }
 
+.day-with-data {
+  // background-color: $orange-dark; // Sfumatura più scura per i giorni con dati
+  border: 2px solid $orange-dark; // Bordo arancione standard
+  color: white;
+}
+
+.day-number-with-data {
+  font-weight: bold;
+}
 .selected-day-number {
   color: white;
 }

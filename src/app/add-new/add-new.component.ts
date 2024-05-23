@@ -53,6 +53,7 @@ export class AddNewComponent implements OnInit, AfterContentInit {
     this.newHabitForm = new FormGroup({
       title: new FormControl('', Validators.required),
       startDate: new FormControl('', Validators.required),
+      endDate: new FormControl(''),
       frequency: new FormControl('', Validators.required), //frequenza di notifica e frequenza di esecuzione
       remind: new FormControl(''), //orario di notifica
     });
@@ -64,10 +65,8 @@ export class AddNewComponent implements OnInit, AfterContentInit {
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.isHabitToEdit = true;
-        console.log('  this.isHabitToEdit ', params['id']);
 
         this.habitService.getHabit(params['id']).then(habit => {
-          console.log('habit', habit);
           if (habit) {
             this.newHabitForm.patchValue(habit);
             this.selectedDays = habit.frequency;
@@ -104,17 +103,27 @@ export class AddNewComponent implements OnInit, AfterContentInit {
   }
   async submit() {
     const newHabit: Habit = {
-      id: this.isHabitToEdit ? this.route.snapshot.params['id'] : Date.now(),
+      id: this.isHabitToEdit ? this.route.snapshot.params['id'] : Date.now(),  // Questo id sarà sostituito in setHabits
       title: this.newHabitForm.value.title,
       completed: false,
       completedAt: '',
       startDate: this.newHabitForm.value.startDate,
+      endDate: this.newHabitForm.value.endDate,
       frequency: this.newHabitForm.value.frequency,
       remind: this.newHabitForm.value.remind
     };
 
-    await this.habitService.setHabit(newHabit);
+    const repetitionDates = this.habitService.generateRepetitionDates(
+      new Date(newHabit.startDate),
+      newHabit.frequency,
+      newHabit.endDate ? new Date(newHabit.endDate) : undefined
+    );
+
+    await this.habitService.setHabits(newHabit, repetitionDates);
     this.newHabitForm.reset();
+    this.selectedDays = [];
     this.router.navigate(['/tabs/dashboard']);
   }
+
+
 }

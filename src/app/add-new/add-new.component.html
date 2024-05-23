@@ -36,6 +36,20 @@
             </p-floatLabel>
           </div>
 
+          <div class="mt-5 w-screen px-3 mx-auto pb-2">
+            <p-floatLabel>
+              <p-calendar
+                [showButtonBar]="true"
+                [touchUI]="true"
+                formControlName="endDate"
+                appendTo="body"
+                dateFormat="dd/mm/yy"
+                styleClass="w-screen"
+              ></p-calendar>
+              <label>End date</label>
+            </p-floatLabel>
+          </div>
+
           <div class="periodicity-container w-screen mx-auto px-3 my-5">
             <h4>Set periodicity</h4>
             <div class="days flex justify-content-center">

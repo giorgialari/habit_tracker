@@ -4,6 +4,7 @@ import { HabitService } from '../../_shared/services/habit.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription, filter } from 'rxjs';
 import { CalendarService } from '../../_shared/services/calendar.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-my-habits',
@@ -41,10 +42,15 @@ export class MyHabitsComponent implements OnInit, OnDestroy {
 
   async loadHabits() {
     this._myHabits = await this.habitService.getAllHabits();
-    //Filtro le abitudini che hanno la startDate uguale a quella selezionata
-    this._myHabits = this._myHabits.filter(habit => new Date(habit.startDate).getTime() === this.startDate.getTime());
-
+    // Filtro le abitudini che hanno la startDate uguale a quella selezionata
+    this._myHabits = this._myHabits.filter(habit => {
+      const habitStartDate = moment(habit.startDate).startOf('day');
+      const selectedStartDate = moment(this.startDate).startOf('day');
+      return habitStartDate.isSame(selectedStartDate);
+    });
+    this.cdr.detectChanges();
   }
+
 
   toggleCompletion(habit: Habit): void {
     const findHabit = this._myHabits.find(h => h.id === habit.id);
@@ -56,7 +62,6 @@ export class MyHabitsComponent implements OnInit, OnDestroy {
   }
 
   editHabit(habit: Habit) {
-    console.log(habit);
     this.router.navigate(['/tabs/edit-habit', habit.id]);
   }
 
@@ -74,6 +79,9 @@ export class MyHabitsComponent implements OnInit, OnDestroy {
     }
     if (this.routerSubscription) {
       this.routerSubscription.unsubscribe();
+    }
+    if (this.calendarServiceSubscription) {
+      this.calendarServiceSubscription.unsubscribe();
     }
   }
 

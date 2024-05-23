@@ -24,7 +24,6 @@ export class PreventSetupGuard implements CanActivate {
       await this.init();
     }
     const storedValues = await this._storage?.get('user_setup_data');
-    console.log('storedValues', storedValues);
     if (storedValues && storedValues.setupCompleted) {
       this.router.navigate(['/tabs/dashboard']); // Naviga a /tabs/dashboard
       return false; // Non consente l'attivazione della rotta corrente

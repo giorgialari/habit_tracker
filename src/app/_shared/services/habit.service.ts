@@ -3,6 +3,7 @@ import { Storage } from '@ionic/storage-angular';
 import { Habit } from '../../habit-dashboard/_models/habits.interface';
 import { BehaviorSubject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,23 @@ export class HabitService {
     await this._storage?.set('user_habits', habits);
   }
 
+  public async setHabits(newHabit: Habit, dates: Date[]): Promise<void> {
+    await this.waitForStorageReady();
+    const habits: Habit[] = await this.getAllHabits();
+
+    for (const date of dates) {
+      const habitDate = moment(date).startOf('day').format('YYYY-MM-DD'); // Formatta la data come stringa YYYY-MM-DD
+      const habitToSave = { ...newHabit, startDate: habitDate, id: this.generateUniqueId() }; // Genera id univoco
+
+      habits.push(habitToSave); // Aggiungi la nuova abitudine configurata alla lista delle abitudini
+    }
+    await this._storage?.set('user_habits', habits); // Salva l'array aggiornato nello storage
+  }
+
+  private generateUniqueId(): number {
+    return Date.now() + Math.floor(Math.random() * 1000); // Genera un id univoco
+  }
+
   public async getHabit(id: number): Promise<Habit | null> {
     await this.waitForStorageReady();
     const habits: Habit[] = await this.getAllHabits();
@@ -60,4 +78,31 @@ export class HabitService {
     await this.waitForStorageReady();
     return await this._storage?.get('user_habits') || [];
   }
+
+  public generateRepetitionDates(startDate: Date, frequency: string[], endDate?: Date): Date[] {
+    const dates: Date[] = [];
+    const dayMap: any = {
+      'mon': 1,
+      'tue': 2,
+      'wed': 3,
+      'thu': 4,
+      'fri': 5,
+      'sat': 6,
+      'sun': 0
+    };
+
+    let currentDate = new Date(startDate);
+    const end = endDate ? new Date(endDate) : null;
+
+    while (!end || currentDate <= end) {
+      if (frequency.includes(Object.keys(dayMap).find(key => dayMap[key] === currentDate.getDay())!)) {
+        dates.push(new Date(currentDate));
+      }
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return dates;
+  }
+
+
 }

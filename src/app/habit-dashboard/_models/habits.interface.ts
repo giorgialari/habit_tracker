@@ -6,6 +6,7 @@ export interface Habit {
   completedAt: string;
   frequency: string[];
   startDate: string;
+  endDate: string;
   remind: string;
   isHabitToEdit?: boolean;
 }

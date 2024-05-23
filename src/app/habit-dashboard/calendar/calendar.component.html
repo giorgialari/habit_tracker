@@ -13,14 +13,15 @@
   <div class="days-container flex flex-row">
     <div class="day mx-1" *ngFor="let day of weekDays">
       <!-- Mostra solo la prima lettera del nome del giorno -->
-      <div class="day-name" [ngClass]="{ dayNameToday: isToday(day) }">
+      <div class="day-name">
         {{ day | date : "EEE" | slice : 0 : 1 | uppercase }}
       </div>
       <div
         class="day-circle"
         [ngClass]="{
           today: isToday(day),
-          'selected-day': isSelected(day) && !isToday(day)
+          'selected-day': isSelected(day) && !isToday(day),
+          'day-with-data': hasData(day) && !isToday(day)
         }"
         (click)="updateDateDisplay(day)"
       >
@@ -28,7 +29,8 @@
           class="day-number"
           [ngClass]="{
             dayNumberToday: isToday(day),
-            'selected-day-number': isSelected(day) && !isToday(day)
+            'selected-day-number': isSelected(day) && !isToday(day),
+            'day-number-with-data': hasData(day)
           }"
         >
           {{ day | date : "d" }}
@@ -44,8 +46,7 @@
     (touchend)="stopAction()"
     (click)="nextWeek()"
     class="nextBtn m-0 mb-2"
-    >
-    <!-- *ngIf="!isThisWeek()" -->
+  >
     <span class="material-icons">chevron_right</span>
   </button>
 </div>
