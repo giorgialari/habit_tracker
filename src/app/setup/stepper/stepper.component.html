@@ -8,108 +8,123 @@
     ></div>
   </div>
 
-  <div
-    *ngFor="let stepForm of stepForms; let i = index"
-    [hidden]="i !== activeIndex"
-  >
-    <form [formGroup]="stepForm">
-      <div class="content">
-        <!-- Contenitore per altri tipi di domande (separato per non interferire con il css) -->
-        <div *ngFor="let question of contents.steps[i]">
-          <div *ngIf="question.type === typeContentStepEnum.TEXT" class="my-5">
-            <p-floatLabel>
-              <input pInputText [formControlName]="question.name" />
-              <label
-                >{{ question.content }}{{ question.required ? "*" : "" }}</label
-              >
-            </p-floatLabel>
-          </div>
-
-          <div
-            *ngIf="question.type === typeContentStepEnum.NUMBER"
-            class="my-5"
-          >
-            <p-floatLabel>
-              <p-inputNumber
-                inputallowEmptyId="integeronly"
-                [formControlName]="question.name"
-              />
-
-              <label
-                >{{ question.content }}{{ question.required ? "*" : "" }}</label
-              >
-            </p-floatLabel>
-          </div>
-
-          <div
-            *ngIf="question.type === typeContentStepEnum.TEXT_WITH_ICON_NO_FORM"
-            class="my-5 flex flex-column align-items-center"
-          >
-            <div class="circle-icon">
-              <span class="material-icons text-5xl">{{ question.icon }}</span>
-            </div>
-
-            <p class="font-bold text-lg">{{ question.content }}</p>
-          </div>
-        </div>
-
-        <!-- Contenitore specifico per i blocchi -->
-        <div class="icon-block-container overflow-y-scroll">
-          <ng-container *ngFor="let question of contents.steps[i]">
+  <div class="flex flex-column justify-content-center">
+    <div class="step-title mx-2 text-center mb-3">
+      <div *ngFor="let step of steps; let i = index" [hidden]="!step.active">
+        <h1>{{ step.title }}</h1>
+        <p [hidden]="step.description === ''">{{ step.description }}</p>
+      </div>
+    </div>
+    <div
+      *ngFor="let stepForm of stepForms; let i = index"
+      [hidden]="i !== activeIndex"
+    >
+      <form [formGroup]="stepForm">
+        <div class="content">
+          <!-- Contenitore per altri tipi di domande (separato per non interferire con il css) -->
+          <div *ngFor="let question of contents.steps[i]">
             <div
-              *ngIf="question.type === typeContentStepEnum.ICON_BLOCK"
-              class="my-5 icon-block flex flex-column align-items-center justify-content-center"
-              [class.selected]="
-                isSelected(question.id, typeContentStepEnum.ICON_BLOCK)
-              "
-              (click)="toggleSelection(question.id, i)"
-            >
-              <span class="material-icons text-5xl">{{ question.icon }}</span>
-              <div class="text-xs">{{ question.title }}</div>
-            </div>
-
-            <div
-              class="reminder w-screen mx-auto px-3"
-              *ngIf="question.type === typeContentStepEnum.CALENDAR"
+              *ngIf="question.type === typeContentStepEnum.TEXT"
+              class="my-5 input-container"
             >
               <p-floatLabel>
-                <p-calendar
-                  [showTime]="true"
-                  hourFormat="24"
-                  [timeOnly]="true"
-                  formControlName="remind"
-                  [touchUI]="true"
-                  appendTo="body"
-                  styleClass="w-screen"
-                  [showClear]="true"
-                  (onClear)="onReminderClear()"
-                ></p-calendar>
-
-                <label>
-                  {{
-                    stepForm.get("remind")?.value
-                      ? "Reminder time"
-                      : "No reminder time selected"
-                  }}
-                </label>
+                <input pInputText [formControlName]="question.name" class="custom-input" />
+                <label
+                  >{{ question.content
+                  }}{{ question.required ? "*" : "" }}</label
+                >
               </p-floatLabel>
             </div>
 
             <div
-              *ngIf="question.type === typeContentStepEnum.TEXT_BLOCK"
-              class="my-5 icon-block flex flex-column align-items-center justify-content-center"
-              [class.selected]="
-                isSelected(question.id, typeContentStepEnum.TEXT_BLOCK)
-              "
-              (click)="toggleSelection(question.id, i)"
+              *ngIf="question.type === typeContentStepEnum.NUMBER"
+              class="my-5 input-container"
             >
-              <span class="text-1xl">{{ question.title }}</span>
-              <div class="text-sm">{{ question.content }}</div>
+              <p-floatLabel>
+                <p-inputNumber
+                  inputallowEmptyId="integeronly"
+                  [formControlName]="question.name"
+                />
+
+                <label
+                  >{{ question.content
+                  }}{{ question.required ? "*" : "" }}</label
+                >
+              </p-floatLabel>
             </div>
-          </ng-container>
+
+            <div
+              *ngIf="
+                question.type === typeContentStepEnum.TEXT_WITH_ICON_NO_FORM
+              "
+              class="my-5 flex flex-column align-items-center"
+            >
+              <div class="circle-icon">
+                <span class="material-icons text-5xl">{{ question.icon }}</span>
+              </div>
+
+              <p class="font-bold text-lg">{{ question.content }}</p>
+            </div>
+          </div>
+
+          <!-- Contenitore specifico per i blocchi -->
+          <div class="icon-block-container overflow-y-scroll">
+            <ng-container *ngFor="let question of contents.steps[i]">
+              <div
+                *ngIf="question.type === typeContentStepEnum.ICON_BLOCK"
+                class="my-5 icon-block flex flex-column align-items-center justify-content-center"
+                [class.selected]="
+                  isSelected(question.id, typeContentStepEnum.ICON_BLOCK)
+                "
+                (click)="toggleSelection(question.id, i)"
+              >
+                <span class="material-icons text-5xl">{{ question.icon }}</span>
+                <div class="text-xs">{{ question.title }}</div>
+              </div>
+
+              <div
+                class="reminder w-screen mx-auto px-3"
+                *ngIf="question.type === typeContentStepEnum.CALENDAR"
+              >
+                <p-floatLabel>
+                  <p-calendar
+                    [showTime]="true"
+                    hourFormat="24"
+                    [timeOnly]="true"
+                    formControlName="remind"
+                    [touchUI]="true"
+                    appendTo="body"
+                    styleClass="w-screen"
+                    [showClear]="true"
+                    (onClear)="onReminderClear()"
+                  ></p-calendar>
+
+                  <label>
+                    {{
+                      stepForm.get("remind")?.value
+                        ? "Reminder time"
+                        : "No reminder time selected"
+                    }}
+                  </label>
+                </p-floatLabel>
+              </div>
+
+              <div
+                *ngIf="question.type === typeContentStepEnum.TEXT_BLOCK"
+                class="my-5 icon-block flex flex-column align-items-center justify-content-center"
+                [class.selected]="
+                  isSelected(question.id, typeContentStepEnum.TEXT_BLOCK)
+                "
+                (click)="toggleSelection(question.id, i)"
+              >
+                <span class="text-1xl">{{ question.title }}</span>
+                <div class="text-sm">{{ question.content }}</div>
+              </div>
+            </ng-container>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 
   <div class="footer flex justify-content-between">

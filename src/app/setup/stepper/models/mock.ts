@@ -4,7 +4,7 @@ export const steps: IStep[] = [
   {
     label: 'Step 1',
     active: true,
-    title: '',
+    title: 'Tell us a bit about yourself.',
     description: '',
     isLast: false,
     icon: ''

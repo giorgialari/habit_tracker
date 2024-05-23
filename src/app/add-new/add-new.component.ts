@@ -58,14 +58,16 @@ export class AddNewComponent implements OnInit, AfterContentInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngAfterContentInit(): void {
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.isHabitToEdit = true;
+        console.log('  this.isHabitToEdit ', params['id']);
+
         this.habitService.getHabit(params['id']).then(habit => {
-          console.log(habit);
+          console.log('habit', habit);
           if (habit) {
             this.newHabitForm.patchValue(habit);
             this.selectedDays = habit.frequency;
@@ -95,8 +97,8 @@ export class AddNewComponent implements OnInit, AfterContentInit {
     this.location.back();
   }
 
-   // Gestisci l'evento di cancellazione del valore del calendario
-   onReminderClear() {
+  // Gestisci l'evento di cancellazione del valore del calendario
+  onReminderClear() {
     this.newHabitForm.get('remind')?.setValue(null);
     this.cdRef.detectChanges(); // Aggiorna la vista
   }
