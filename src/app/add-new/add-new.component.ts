@@ -65,10 +65,14 @@ export class AddNewComponent implements OnInit, AfterContentInit {
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.isHabitToEdit = true;
-
         this.habitService.getHabit(params['id']).then(habit => {
           if (habit) {
-            this.newHabitForm.patchValue(habit);
+            const startDate = new Date(habit.startDate);
+            this.newHabitForm.patchValue({
+              ...habit,
+              startDate: startDate
+            });
+
             this.selectedDays = habit.frequency;
             this.selectedTime = habit.remind;
           }

@@ -68,9 +68,10 @@ p-floatlabel input {
     font-size: 1rem;
   }
 
-  // .component-container {
-  //   height: auto; // Adatta l'altezza per schermi più piccoli
-  // }
+  .component-container {
+    height: auto; // Adatta l'altezza per schermi più piccoli
+    margin-bottom: 2%;
+  }
 }
 
 @media (max-width: 480px) {

@@ -27,16 +27,18 @@
       </ion-item>
       <ion-item-options side="start">
         <ion-item-option
-        color="success"
-        (click)="editHabit(habit); $event.stopPropagation()"
-      >
-        Edit
-      </ion-item-option>
+          color="success"
+          (click)="editHabit(habit); $event.stopPropagation()"
+          class="w-2 text-center"
+        >
+          <span class="material-icons"> edit </span>
+        </ion-item-option>
         <ion-item-option
           color="danger"
           (click)="deleteHabit(habit); $event.stopPropagation()"
+          class="w-2 text-center"
         >
-          Delete
+          <span class="material-icons"> delete_outline </span>
         </ion-item-option>
       </ion-item-options>
     </ion-item-sliding>

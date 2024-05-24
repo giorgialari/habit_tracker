@@ -20,7 +20,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   private continue = false;
   habits: Habit[] = [];
 
-  constructor(public gestureCtrl: GestureController, private calendarService: CalendarService, private habitService: HabitService, private cdr: ChangeDetectorRef) {
+  constructor(public gestureCtrl: GestureController, private calendarService: CalendarService, private habitService: HabitService) {
     this.loadWeekDays(this.today);
   }
 
@@ -37,8 +37,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   async loadHabits() {
     this.habits = await this.habitService.getAllHabits();
-    console.log(this.habits);
-
   }
 
   hasData(day: Date): boolean {
