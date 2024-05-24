@@ -120,6 +120,7 @@ export class AddNewComponent implements OnInit, AfterContentInit {
     );
 
     await this.habitService.setHabits(newHabit, repetitionDates);
+    this.habitService.notifyNewHabitAdded();
     this.newHabitForm.reset();
     this.selectedDays = [];
     this.router.navigate(['/tabs/dashboard']);

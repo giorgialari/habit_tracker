@@ -35,8 +35,8 @@ export class MyHabitsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.routerSubscription = this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      this.loadHabits(); // Ricarica i dati ogni volta che si verifica una navigazione
+    ).subscribe(async () => {
+      await this.loadHabits(); // Ricarica i dati ogni volta che si verifica una navigazione
     });
   }
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { Habit } from '../../habit-dashboard/_models/habits.interface';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import * as moment from 'moment';
 
@@ -11,6 +11,7 @@ import * as moment from 'moment';
 export class HabitService {
   private _storage: Storage | null = null;
   private storageReady = new BehaviorSubject<boolean>(false);
+  private newHabitAdded = new Subject<void>();
 
   constructor(private storage: Storage) {
     this.init();
@@ -104,5 +105,13 @@ export class HabitService {
     return dates;
   }
 
+
+  public getNewHabitAdded() {
+    return this.newHabitAdded.asObservable();
+  }
+
+  public notifyNewHabitAdded() {
+    this.newHabitAdded.next();
+  }
 
 }
