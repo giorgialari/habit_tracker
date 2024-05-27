@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
+
 import { AddNewComponent } from './add-new.component';
 import { BadgeModule } from 'primeng/badge';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -13,6 +14,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
+import { NavigationHeaderComponentModule } from '../_shared/components/navigation-header/navigation-header.module';
 
 const primeNgModules = [
   CheckboxModule,
@@ -26,7 +28,7 @@ const primeNgModules = [
 ];
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule, ButtonModule, ...primeNgModules],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule, NavigationHeaderComponentModule, ...primeNgModules],
   declarations: [AddNewComponent],
   exports: [AddNewComponent]
 })

@@ -14,6 +14,10 @@ const routes: Routes = [
         resolve: { setup: SetupResolver } // Usa il resolver per la rotta dashboard
       },
       {
+        path: 'calendar-month',
+        loadChildren: () => import('../tab-calendar-month/tab-calendar-month.module').then( m => m.TabCalendarMonthPageModule)
+      },
+      {
         path: 'tab2',
         loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule),
         resolve: { setup: SetupResolver }

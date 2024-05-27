@@ -1,17 +1,9 @@
 <div class="mx-1">
   <div class="component-container">
     <div>
-      <div
-        class="header flex flex-row align-items-center justify-content-center"
-      >
-        <span
-          class="material-icons ml-3 mt-2"
-          (click)="goBack()"
-          style="position: absolute; left: 0; cursor: pointer"
-          >arrow_back</span
-        >
-        <h3>{{ isHabitToEdit ? "Edit Habit" : "Add New Habit" }}</h3>
-      </div>
+      <app-navigation-header
+        [title]="isHabitToEdit ? 'Edit Habit' : 'Add New Habit'"
+      ></app-navigation-header>
       <form [formGroup]="newHabitForm">
         <div class="new-habit-container mt-5">
           <div class="mt-5 w-screen px-3 mx-auto pb-2">

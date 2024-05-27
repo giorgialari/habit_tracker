@@ -1,7 +1,6 @@
 import { Component, OnInit, AfterContentInit, Input, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
 import { HabitService } from '../_shared/services/habit.service';
 import { Habit } from '../habit-dashboard/_models/habits.interface';
 
@@ -46,7 +45,6 @@ export class AddNewComponent implements OnInit, AfterContentInit {
   constructor(
     private habitService: HabitService,
     private router: Router,
-    private location: Location,
     private route: ActivatedRoute,
     private cdRef: ChangeDetectorRef
   ) {
@@ -96,9 +94,7 @@ export class AddNewComponent implements OnInit, AfterContentInit {
     this.newHabitForm?.get('frequency')?.setValue(this.selectedDays);
   }
 
-  goBack() {
-    this.location.back();
-  }
+
 
   // Gestisci l'evento di cancellazione del valore del calendario
   onReminderClear() {
