@@ -3,6 +3,11 @@ import {
   ChangeDetectionStrategy,
   ViewEncapsulation,
   AfterViewChecked,
+  ViewChild,
+  ElementRef,
+  OnInit,
+  ChangeDetectorRef,
+  Renderer2,
 } from '@angular/core';
 import {
   startOfDay,
@@ -19,6 +24,7 @@ import {
 } from 'angular-calendar';
 import { Habit } from '../habit-dashboard/_models/habits.interface';
 import { HabitService } from '../_shared/services/habit.service';
+import { Gesture, GestureController } from '@ionic/angular';
 
 @Component({
   selector: 'app-calendar-multiple-view',
@@ -27,7 +33,9 @@ import { HabitService } from '../_shared/services/habit.service';
   templateUrl: './calendar-multiple-view.component.html',
   styleUrls: ['./calendar-multiple-view.component.scss', './_month.component.scss'],
 })
-export class CalendarMultipleViewComponent implements AfterViewChecked {
+export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
+  @ViewChild('swipeContainer', { static: true }) swipeContainer!: ElementRef;
+
   view: CalendarView = CalendarView.Month;
 
   CalendarView = CalendarView;
@@ -59,11 +67,18 @@ export class CalendarMultipleViewComponent implements AfterViewChecked {
   activeDayIsOpen: boolean = true;
 
 
-  constructor(private habitService: HabitService) {
+  constructor(
+    private habitService: HabitService,
+    private gestureCtrl: GestureController,
+    private renderer: Renderer2,
+    private cd: ChangeDetectorRef) {
     this.loadHabits();
   }
   ngAfterViewChecked() {
     this.changeDateWithOnlyNumber();
+  }
+  ngOnInit() {
+    this.setupSwipeGesture();
   }
 
   private changeDateWithOnlyNumber() {
@@ -157,6 +172,71 @@ export class CalendarMultipleViewComponent implements AfterViewChecked {
   setView(view: CalendarView) {
     this.view = view;
     this.changeDateWithOnlyNumber();
+    if (view === CalendarView.Day) {
+      setTimeout(() => this.scrollToCurrentHour(), 0);
+    }
+  }
+
+  scrollToCurrentHour(): void {
+    this.viewDate = new Date();
+    this.cd.detectChanges();
+    const hourElement = document.querySelector(`.cal-current-time-marker`);
+    if (hourElement) {
+      hourElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+  }
+
+
+  setupSwipeGesture() {
+    const gesture: Gesture = this.gestureCtrl.create({
+      el: this.swipeContainer.nativeElement,
+      gestureName: 'swipe',
+      onMove: detail => {
+        console.log('Moving', detail);
+      },
+      onEnd: detail => {
+        console.log('End gesture', detail);
+        if (detail.velocityX > 0.3) {
+          this.goToPreviousView(); // Swipe right
+        } else if (detail.velocityX < -0.3) {
+          this.goToNextView(); // Swipe left
+        }
+      }
+    });
+
+    gesture.enable(true);
+  }
+
+  goToNextView() {
+    this.addSwipeClass('left');
+    this.viewDate = this.addMonths(this.viewDate, 1);
+    this.refreshView();
+  }
+
+  goToPreviousView() {
+    this.addSwipeClass('right');
+    this.viewDate = this.addMonths(this.viewDate, -1);
+    this.refreshView();
+  }
+
+  addMonths(date: Date, months: number): Date {
+    const d = new Date(date);
+    d.setMonth(d.getMonth() + months);
+    return d;
+  }
+
+  refreshView() {
+    this.refresh.next({});
+    this.cd.detectChanges(); // Forza il rilevamento dei cambiamenti
+  }
+
+  addSwipeClass(direction: string) {
+    const element = this.swipeContainer.nativeElement;
+    this.renderer.addClass(element, `swipe-${direction}`);
+    setTimeout(() => {
+      this.renderer.removeClass(element, `swipe-${direction}`);
+    }, 100); // La durata dell'animazione deve corrispondere a quella definita in CSS
   }
 
   closeOpenMonthViewDay() {

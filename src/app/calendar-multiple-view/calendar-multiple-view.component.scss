@@ -9,3 +9,32 @@
 .cal-week-view .cal-time-events .cal-day-columns:not(.cal-resize-active) .cal-hour-segment:hover{
   background-color: orange;
 }
+
+
+.swipe-container {
+  touch-action: pan-y pinch-zoom;
+}
+
+.swipe-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.swipe-left, .swipe-right {
+  transition: transform 0.1s ease-in-out;
+}
+
+.swipe-left {
+  transform: translateX(-100%);
+}
+
+.swipe-right {
+  transform: translateX(100%);
+}
+
+#calendar-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Assicurati che l'header rimanga sopra altri contenuti */
+  background-color: black;
+}
