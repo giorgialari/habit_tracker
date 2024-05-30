@@ -10,8 +10,6 @@ import {
   Renderer2,
 } from '@angular/core';
 import {
-  startOfDay,
-  endOfDay,
   isSameDay,
   isSameMonth,
 } from 'date-fns';
@@ -25,6 +23,7 @@ import {
 import { Habit } from '../habit-dashboard/_models/habits.interface';
 import { HabitService } from '../_shared/services/habit.service';
 import { Gesture, GestureController } from '@ionic/angular';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-calendar-multiple-view',
@@ -75,19 +74,14 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
     this.loadHabits();
   }
   ngAfterViewChecked() {
-    this.changeDateWithOnlyNumber();
+    this.activeDayIsOpen = this.events.length > 0;
+    this.cd.detectChanges();
+    console.log('ngAfterViewChecked activeDayIsOpen', this.activeDayIsOpen);
+    console.log('ngAfterViewChecked events', this.events);
   }
   ngOnInit() {
     this.setupSwipeGesture();
-  }
 
-  private changeDateWithOnlyNumber() {
-    const dateElements = document.querySelectorAll('.cal-week-view .cal-day-headers span');
-    dateElements.forEach((element) => {
-      const dateText = element.textContent || '';
-      const dateNumber = dateText.slice(-2); // Prende gli ultimi due caratteri
-      element.setAttribute('data-day', dateNumber);
-    });
   }
 
   private async loadHabits() {
@@ -125,22 +119,11 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
         this.activeDayIsOpen = true;
       }
       this.viewDate = date;
+      this.cd.detectChanges();
+      console.log('dayClicked activeDayIsOpen', this.activeDayIsOpen);
     }
   }
-  dayHeaderClicked({ day, sourceEvent }: { day: any; sourceEvent: MouseEvent }): void {
-    const date = day.date; // Ottieni la data dal giorno
-    if (isSameMonth(date, this.viewDate)) {
-      if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        this.events.length === 0
-      ) {
-        this.activeDayIsOpen = false;
-      } else {
-        this.activeDayIsOpen = true;
-      }
-      this.viewDate = date;
-    }
-  }
+
   eventTimesChanged({
     event,
     newStart,
@@ -171,7 +154,6 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
 
   setView(view: CalendarView) {
     this.view = view;
-    this.changeDateWithOnlyNumber();
     if (view === CalendarView.Day) {
       setTimeout(() => this.scrollToCurrentHour(), 0);
     }
@@ -193,10 +175,8 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
       el: this.swipeContainer.nativeElement,
       gestureName: 'swipe',
       onMove: detail => {
-        console.log('Moving', detail);
       },
       onEnd: detail => {
-        console.log('End gesture', detail);
         if (detail.velocityX > 0.3) {
           this.goToPreviousView(); // Swipe right
         } else if (detail.velocityX < -0.3) {
@@ -211,12 +191,14 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
   goToNextView() {
     this.addSwipeClass('left');
     this.viewDate = this.addMonths(this.viewDate, 1);
+    this.closeOpenMonthViewDay();
     this.refreshView();
   }
 
   goToPreviousView() {
     this.addSwipeClass('right');
     this.viewDate = this.addMonths(this.viewDate, -1);
+    this.closeOpenMonthViewDay();
     this.refreshView();
   }
 
@@ -241,5 +223,6 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
+    console.log('closeOpenMonthViewDay activeDayIsOpen', this.activeDayIsOpen);
   }
 }

@@ -12,7 +12,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 
 const primeNgModules = [
-  ButtonModule];
+  ButtonModule
+];
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule,

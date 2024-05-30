@@ -1,58 +1,30 @@
-<div
-  id="calendar-header"
-  class="grid border-none border-bottom-1 border-600 border-solid py-3 px-3"
->
-  <div class="col my-auto">
-    <h3 class="p-text-center m-0">
-      {{ viewDate | calendarDate : view + "ViewTitle" : "en" }}
-    </h3>
-  </div>
-  <div class="col flex justify-content-end">
-    <p-button
-      [outlined]="true"
-      severity="warning"
-    >
-      <span class="material-icons mr-2">today</span>
-      <div
-        mwlCalendarToday
-        [(viewDate)]="viewDate"
-        (mwlClick)="scrollToCurrentHour()"
-      >
-        Today
-      </div>
-    </p-button>
-  </div>
-</div>
-
-<div class="row p-text-center mt-2">
-  <div class="col-md-4">
-    <div class="btn-group">
-      <div
-        class="btn btn-primary"
-        mwlCalendarPreviousView
-        [view]="view"
-        [(viewDate)]="viewDate"
-        (viewDateChange)="closeOpenMonthViewDay()"
-      >
-        Previous
-      </div>
-
-      <div
-        class="btn btn-primary"
-        mwlCalendarNextView
-        [view]="view"
-        [(viewDate)]="viewDate"
-        (viewDateChange)="closeOpenMonthViewDay()"
-      >
-        Next
-      </div>
+<div id="calendar-header" class="flex flex-column">
+  <div
+    class="grid border-none border-bottom-1 border-600 border-solid py-3 px-3"
+  >
+    <div class="col my-auto">
+      <h3 class="p-text-center m-0">
+        {{ viewDate | calendarDate : view + "ViewTitle" : "en" }}
+      </h3>
+    </div>
+    <div class="col flex justify-content-end">
+      <p-button [outlined]="true" severity="warning">
+        <span class="material-icons mr-2">today</span>
+        <div
+          mwlCalendarToday
+          [(viewDate)]="viewDate"
+          (mwlClick)="scrollToCurrentHour()"
+        >
+          Today
+        </div>
+      </p-button>
     </div>
   </div>
 
-  <div class="col-md-4">
-    <div class="btn-group">
+  <div class="tab-group-container">
+    <div class="tab-group p-1">
       <div
-        class="btn btn-primary"
+        class="tab"
         (click)="setView(CalendarView.Month)"
         [class.active]="view === CalendarView.Month"
       >
@@ -60,7 +32,7 @@
       </div>
 
       <div
-        class="btn btn-primary"
+        class="tab"
         (click)="setView(CalendarView.Day)"
         [class.active]="view === CalendarView.Day"
       >
@@ -69,29 +41,32 @@
     </div>
   </div>
 </div>
-<br />
-<div [ngSwitch]="view" #swipeContainer class="px-3 swipe-container">
-  <div class="px-3">
-    <mwl-calendar-month-view
-      *ngSwitchCase="CalendarView.Month"
+
+<div>
+  <br />
+  <div [ngSwitch]="view" #swipeContainer class="px-3 swipe-container">
+    <div class="px-3">
+      <mwl-calendar-month-view
+        *ngSwitchCase="CalendarView.Month"
+        [viewDate]="viewDate"
+        [events]="events"
+        [refresh]="refresh"
+        [activeDayIsOpen]="activeDayIsOpen"
+        (dayClicked)="dayClicked($event.day)"
+        (eventClicked)="handleEvent('Clicked', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)"
+      >
+      </mwl-calendar-month-view>
+    </div>
+
+    <mwl-calendar-day-view
+      *ngSwitchCase="CalendarView.Day"
       [viewDate]="viewDate"
       [events]="events"
       [refresh]="refresh"
-      [activeDayIsOpen]="activeDayIsOpen"
-      (dayClicked)="dayClicked($event.day)"
       (eventClicked)="handleEvent('Clicked', $event.event)"
       (eventTimesChanged)="eventTimesChanged($event)"
     >
-    </mwl-calendar-month-view>
+    </mwl-calendar-day-view>
   </div>
-
-  <mwl-calendar-day-view
-    *ngSwitchCase="CalendarView.Day"
-    [viewDate]="viewDate"
-    [events]="events"
-    [refresh]="refresh"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
-  >
-  </mwl-calendar-day-view>
 </div>
