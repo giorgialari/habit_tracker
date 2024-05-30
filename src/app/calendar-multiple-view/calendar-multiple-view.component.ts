@@ -18,12 +18,18 @@ import {
   CalendarEvent,
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
-  CalendarView,
 } from 'angular-calendar';
 import { Habit } from '../habit-dashboard/_models/habits.interface';
 import { HabitService } from '../_shared/services/habit.service';
 import { Gesture, GestureController } from '@ionic/angular';
-import { MenuItem } from 'primeng/api';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { TabUserOrderService } from '../_shared/services/tab-user-order.service';
+
+export enum CustomCalendarView {
+  Month = "month",
+  Week = "week",
+  Day = "day"
+}
 
 @Component({
   selector: 'app-calendar-multiple-view',
@@ -35,9 +41,9 @@ import { MenuItem } from 'primeng/api';
 export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
   @ViewChild('swipeContainer', { static: true }) swipeContainer!: ElementRef;
 
-  view: CalendarView = CalendarView.Month;
+  view: CustomCalendarView = CustomCalendarView.Month;
 
-  CalendarView = CalendarView;
+  CalendarView = CustomCalendarView;
 
   viewDate: Date = new Date();
 
@@ -59,6 +65,12 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
     },
   ];
 
+  tabs = [
+    { id: 1, label: 'Day', view: CustomCalendarView.Day },
+    { id: 2, label: 'Month', view: CustomCalendarView.Month },
+    { id: 3, label: 'ToDo', view: CustomCalendarView.Week }
+  ];
+
   refresh: Subject<any> = new Subject();
 
   events: CalendarEvent[] = [];
@@ -70,17 +82,33 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
     private habitService: HabitService,
     private gestureCtrl: GestureController,
     private renderer: Renderer2,
+    private tabOrderUserService: TabUserOrderService,
     private cd: ChangeDetectorRef) {
     this.loadHabits();
   }
-  ngAfterViewChecked() {
-    this.activeDayIsOpen = this.events.length > 0;
-    this.cd.detectChanges();
-    console.log('ngAfterViewChecked activeDayIsOpen', this.activeDayIsOpen);
-    console.log('ngAfterViewChecked events', this.events);
-  }
-  ngOnInit() {
+  async ngOnInit() {
+
+    const savedTabs = await this.tabOrderUserService.getTabOrder();
+    if (savedTabs) {
+      this.tabs = savedTabs;
+    } else {
+      await this.tabOrderUserService.setTabOrder(this.tabs);
+    }
+
+    this.view = this.tabs[0].view;
+    if (this.view === CustomCalendarView.Day) {
+
+      this.scrollToCurrentHour();
+    }
+
     this.setupSwipeGesture();
+
+    this.cd.detectChanges();
+
+
+  }
+  ngAfterViewChecked() {
+    this.activeDayIsOpen = this.events.filter(event => isSameDay(event.start, this.viewDate)).length > 0;
 
   }
 
@@ -120,7 +148,6 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
       }
       this.viewDate = date;
       this.cd.detectChanges();
-      console.log('dayClicked activeDayIsOpen', this.activeDayIsOpen);
     }
   }
 
@@ -152,9 +179,9 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
     this.events = this.events.filter((event) => event !== eventToDelete);
   }
 
-  setView(view: CalendarView) {
+  setView(view: CustomCalendarView) {
     this.view = view;
-    if (view === CalendarView.Day) {
+    if (view === CustomCalendarView.Day) {
       setTimeout(() => this.scrollToCurrentHour(), 0);
     }
   }
@@ -223,6 +250,11 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
-    console.log('closeOpenMonthViewDay activeDayIsOpen', this.activeDayIsOpen);
   }
+
+  async drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.tabs, event.previousIndex, event.currentIndex);
+    await this.tabOrderUserService.setTabOrder(this.tabs);
+  }
+
 }

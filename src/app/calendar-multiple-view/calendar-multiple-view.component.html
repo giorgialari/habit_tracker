@@ -3,9 +3,16 @@
     class="grid border-none border-bottom-1 border-600 border-solid py-3 px-3"
   >
     <div class="col my-auto">
-      <h3 class="p-text-center m-0">
-        {{ viewDate | calendarDate : view + "ViewTitle" : "en" }}
-      </h3>
+      <ng-container *ngIf="view !== CalendarView.Week; else weekTitle">
+        <h3 class="p-text-center m-0">
+          {{ viewDate | calendarDate : view + "ViewTitle" : "en" }}
+        </h3>
+      </ng-container>
+      <ng-template #weekTitle>
+        <h3 class="p-text-center m-0">
+          {{ viewDate | calendarDate : "dayViewTitle" : "en" }}
+        </h3>
+      </ng-template>
     </div>
     <div class="col flex justify-content-end">
       <p-button [outlined]="true" severity="warning">
@@ -21,52 +28,56 @@
     </div>
   </div>
 
-  <div class="tab-group-container">
+  <div
+    class="tab-group-container"
+    cdkDropList
+    (cdkDropListDropped)="drop($event)"
+  >
     <div class="tab-group p-1">
       <div
         class="tab"
-        (click)="setView(CalendarView.Month)"
-        [class.active]="view === CalendarView.Month"
+        *ngFor="let tab of tabs; let i = index"
+        cdkDrag
+        (click)="setView(tab.view)"
+        [class.active]="view === tab.view"
       >
-        Month
-      </div>
-
-      <div
-        class="tab"
-        (click)="setView(CalendarView.Day)"
-        [class.active]="view === CalendarView.Day"
-      >
-        Day
+        {{ tab.label }}
       </div>
     </div>
   </div>
 </div>
 
 <div>
-  <br />
-  <div [ngSwitch]="view" #swipeContainer class="px-3 swipe-container">
-    <div class="px-3">
-      <mwl-calendar-month-view
-        *ngSwitchCase="CalendarView.Month"
+  <div [ngSwitch]="view">
+    <div #swipeContainer class="swipe-container">
+      <div class="px-3">
+        <mwl-calendar-month-view
+          *ngSwitchCase="CalendarView.Month"
+          [viewDate]="viewDate"
+          [events]="events"
+          [refresh]="refresh"
+          [activeDayIsOpen]="activeDayIsOpen"
+          (dayClicked)="dayClicked($event.day)"
+          (eventClicked)="handleEvent('Clicked', $event.event)"
+          (eventTimesChanged)="eventTimesChanged($event)"
+        >
+        </mwl-calendar-month-view>
+      </div>
+
+      <mwl-calendar-day-view
+        *ngSwitchCase="CalendarView.Day"
         [viewDate]="viewDate"
         [events]="events"
         [refresh]="refresh"
-        [activeDayIsOpen]="activeDayIsOpen"
-        (dayClicked)="dayClicked($event.day)"
         (eventClicked)="handleEvent('Clicked', $event.event)"
         (eventTimesChanged)="eventTimesChanged($event)"
       >
-      </mwl-calendar-month-view>
+      </mwl-calendar-day-view>
     </div>
 
-    <mwl-calendar-day-view
-      *ngSwitchCase="CalendarView.Day"
-      [viewDate]="viewDate"
-      [events]="events"
-      [refresh]="refresh"
-      (eventClicked)="handleEvent('Clicked', $event.event)"
-      (eventTimesChanged)="eventTimesChanged($event)"
-    >
-    </mwl-calendar-day-view>
+    <!-- N.B. Viene usata Week perché la libreria non riconosce altri valori -->
+    <app-todo-habits-view
+      *ngSwitchCase="CalendarView.Week"
+    ></app-todo-habits-view>
   </div>
 </div>

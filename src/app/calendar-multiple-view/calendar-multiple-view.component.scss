@@ -37,9 +37,11 @@
 #calendar-header {
   position: sticky;
   top: 0;
-  z-index: 1010;  /* Aumentato per mantenere l'header sopra le tab */
+  z-index: 1010;
+  /* Aumentato per mantenere l'header sopra le tab */
   background-color: black;
-  padding: 1rem 0;  /* Uso 'rem' per una migliore responsività */
+  padding: 1rem 0;
+  /* Uso 'rem' per una migliore responsività */
 }
 
 .tab-group {
@@ -67,3 +69,11 @@
   border-bottom: 2px solid orange;
   font-weight: bold;
 }
+
+
+.cdk-drag-preview {
+  background-color: rgba(240, 240, 240, 0.3); /* Colore grigio chiaro con opacità */
+  border: 1px solid rgba(204, 204, 204, 0.3); /* Bordo grigio chiaro con opacità */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Aggiungi un'ombra leggera */
+}
+

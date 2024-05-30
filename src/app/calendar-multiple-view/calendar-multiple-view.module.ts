@@ -9,21 +9,42 @@ import { CalendarMultipleViewComponent } from './calendar-multiple-view.componen
 import { NavigationHeaderComponentModule } from '../_shared/components/navigation-header/navigation-header.module';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { BadgeModule } from 'primeng/badge';
+import { CheckboxModule } from 'primeng/checkbox';
+import { DividerModule } from 'primeng/divider';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { CardModule } from 'primeng/card';
+import { DragDropModule } from '@angular/cdk/drag-drop'; // Importa il modulo DragDrop
 
+import { InputTextModule } from 'primeng/inputtext';
+import { _todoHabitsViewComponent } from './_todo-habits-view/_todo-habits-view.component';
+const angularModules = [
+  CommonModule,
+  FormsModule,
+  ReactiveFormsModule,
+  DragDropModule
+];
 
 const primeNgModules = [
-  ButtonModule
+  CheckboxModule,
+  ButtonModule,
+  DividerModule,
+  BadgeModule,
+  InputTextModule,
+  FloatLabelModule,
+  CardModule
 ];
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule,
+  imports: [...angularModules,
+    IonicModule,
     NavigationHeaderComponentModule,
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory
-    }),
-    ...primeNgModules],
-  declarations: [CalendarMultipleViewComponent],
-  exports: [CalendarMultipleViewComponent]
+  CalendarModule.forRoot({
+    provide: DateAdapter,
+    useFactory: adapterFactory
+  }),
+  ...primeNgModules],
+  declarations: [CalendarMultipleViewComponent, _todoHabitsViewComponent],
+  exports: [CalendarMultipleViewComponent, _todoHabitsViewComponent]
 })
 export class CalendarMultipleViewComponentModule { }
