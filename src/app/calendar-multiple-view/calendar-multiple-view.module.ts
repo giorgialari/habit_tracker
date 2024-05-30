@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CalendarMonthComponent } from './calendar-month.component';
+import { CalendarMultipleViewComponent } from './calendar-multiple-view.component';
 import { NavigationHeaderComponentModule } from '../_shared/components/navigation-header/navigation-header.module';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -22,7 +22,7 @@ const primeNgModules = [
       useFactory: adapterFactory
     }),
     ...primeNgModules],
-  declarations: [CalendarMonthComponent],
-  exports: [CalendarMonthComponent]
+  declarations: [CalendarMultipleViewComponent],
+  exports: [CalendarMultipleViewComponent]
 })
-export class CalendarMonthComponentModule { }
+export class CalendarMultipleViewComponentModule { }

@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { TabCalendarMonthPageRoutingModule } from './tab-calendar-month-routing.module';
+import { TabCalendarMonthPageRoutingModule } from './tab-calendar-multiple-view-routing.module';
 
-import { TabCalendarMonthPage } from './tab-calendar-month.page';
-import { CalendarMonthComponentModule } from '../calendar-month/calendar-month.module';
+import { TabCalendarMonthPage } from './tab-calendar-multiple-view.page';
+import { CalendarMultipleViewComponentModule } from '../calendar-multiple-view/calendar-multiple-view.module';
 
 @NgModule({
   imports: [
@@ -15,7 +15,7 @@ import { CalendarMonthComponentModule } from '../calendar-month/calendar-month.m
     FormsModule,
     IonicModule,
     TabCalendarMonthPageRoutingModule,
-    CalendarMonthComponentModule
+    CalendarMultipleViewComponentModule
   ],
   declarations: [TabCalendarMonthPage]
 })

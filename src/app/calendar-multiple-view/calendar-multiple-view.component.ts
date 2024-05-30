@@ -19,29 +19,15 @@ import {
 } from 'angular-calendar';
 import { Habit } from '../habit-dashboard/_models/habits.interface';
 import { HabitService } from '../_shared/services/habit.service';
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3'
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
-};
 
 @Component({
-  selector: 'app-calendar-month',
+  selector: 'app-calendar-multiple-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  templateUrl: './calendar-month.component.html',
-  styleUrls: ['./calendar-month.component.scss', './_month.component.scss'],
+  templateUrl: './calendar-multiple-view.component.html',
+  styleUrls: ['./calendar-multiple-view.component.scss', './_month.component.scss'],
 })
-export class CalendarMonthComponent implements AfterViewChecked {
+export class CalendarMultipleViewComponent implements AfterViewChecked {
   view: CalendarView = CalendarView.Month;
 
   CalendarView = CalendarView;
@@ -162,23 +148,6 @@ export class CalendarMonthComponent implements AfterViewChecked {
     console.log('handleEvent', action, event);
     // this.modalData = { event, action };
     // this.modal.open(this.modalContent, { size: 'lg' });
-  }
-
-  addEvent(): void {
-    this.events = [
-      ...this.events,
-      {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red,
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
-      },
-    ];
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {

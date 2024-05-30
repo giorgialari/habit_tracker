@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { TabCalendarMonthPage } from './tab-calendar-month.page';
+import { TabCalendarMonthPage } from './tab-calendar-multiple-view.page';
 
 const routes: Routes = [
   {
