@@ -1,0 +1,78 @@
+// .calendar-container {
+//   position: relative;
+// }
+
+// .selected-day-details {
+//   margin-top: 20px;
+// }
+
+
+.cal-month-view {
+  background-color: transparent;
+}
+
+
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.cal-month-view .cal-day-cell.cal-weekend .cal-day-number {
+  color: #FF3B30;
+}
+
+.cal-month-view {
+  background-color: transparent;
+}
+
+.cal-month-view .cal-day-cell.cal-today {
+  background-color: #FF3B30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cal-month-view .cal-day-cell.cal-today .cal-day-number {
+  margin: 0px;
+}
+
+
+.cal-month-view .cal-day-cell.cal-out-month .cal-day-number {
+  opacity: .5;
+}
+
+.cal-month-view .cal-day-number {
+  opacity: 1;
+}
+
+.cal-month-view .cal-cell-row .cal-cell:hover,
+.cal-month-view .cal-cell.cal-has-events.cal-open {
+  background-color: initial;
+  border: 2px solid red;
+}
+
+.cal-month-view .cal-cell-row:hover {
+  background-color: transparent;
+}
+
+.cal-cell[role="columnheader"]{
+  font-size: 0;
+}
+.cal-cell[role="columnheader"]:first-letter{
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.cal-open-day-events {
+  padding: 10px;
+  background-color: #333; /* Cambia il colore di sfondo secondo le tue esigenze */
+  color: white; /* Colore del testo */
+}
+
+.cal-open-day-events p {
+  margin: 0;
+  text-align: center; /* Centra il testo */
+}
+

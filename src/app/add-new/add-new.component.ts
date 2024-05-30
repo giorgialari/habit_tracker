@@ -1,8 +1,9 @@
 import { Component, OnInit, AfterContentInit, Input, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HabitService } from '../_shared/services/habit.service';
 import { Habit } from '../habit-dashboard/_models/habits.interface';
+import { EventColor } from 'calendar-utils';
 
 
 @Component({
@@ -46,18 +47,39 @@ export class AddNewComponent implements OnInit, AfterContentInit {
     private habitService: HabitService,
     private router: Router,
     private route: ActivatedRoute,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private fb: FormBuilder
   ) {
-    this.newHabitForm = new FormGroup({
-      title: new FormControl('', Validators.required),
-      startDate: new FormControl('', Validators.required),
-      endDate: new FormControl(''),
-      frequency: new FormControl('', Validators.required), //frequenza di notifica e frequenza di esecuzione
-      remind: new FormControl(''), //orario di notifica
+    this.newHabitForm = this.fb.group({
+      title: ['', Validators.required],
+      startDate: ['', Validators.required],
+      endDate: [''],
+      frequency: ['', Validators.required],
+      color: [''], // Colore come stringa
+      remind: [''],
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.newHabitForm.get('startDate')?.valueChanges.subscribe(value => {
+      this.newHabitForm.get('endDate')?.setValue(value);
+
+      const dayOfWeek = this.getDayOfWeek(value);
+      const dayId = this.mapDayOfWeekToId(dayOfWeek);
+
+      this.selectedDays = [dayId];
+    });
+  }
+
+  private getDayOfWeek(date: Date): string {
+    const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+    return days[date?.getDay()];
+  }
+
+  private mapDayOfWeekToId(dayOfWeek: string): string {
+    const day = this.days.find(d => d.id === dayOfWeek);
+    return day ? day.id : '';
+  }
 
   ngAfterContentInit(): void {
     this.route.params.subscribe(params => {
@@ -65,10 +87,8 @@ export class AddNewComponent implements OnInit, AfterContentInit {
         this.isHabitToEdit = true;
         this.habitService.getHabit(params['id']).then(habit => {
           if (habit) {
-            const startDate = new Date(habit.startDate);
             this.newHabitForm.patchValue({
               ...habit,
-              startDate: startDate
             });
 
             this.selectedDays = habit.frequency;
@@ -79,12 +99,38 @@ export class AddNewComponent implements OnInit, AfterContentInit {
     });
   }
 
+  testSalvataggio() {
+    const eventColor = this.getEventColor();
+
+    const newHabit: Habit = {
+      id: this.isHabitToEdit ? this.route.snapshot.params['id'] : Date.now(),  // Questo id sarà sostituito in setHabits
+      title: this.newHabitForm.value.title,
+      completed: false,
+      completedAt: '',
+      startDate: this.newHabitForm.value.startDate,
+      endDate: this.newHabitForm.value.endDate,
+      frequency: this.newHabitForm.value.frequency,
+      remind: this.newHabitForm.value.remind,
+      color: eventColor
+    };
+
+    console.log(newHabit);
+  }
   selectTime(time: string) {
     this.selectedTime = time;
     this.newHabitForm?.get('remind')?.setValue(time);
   }
 
   toggleDay(dayId: string) {
+    //Se l'utente tenta di elimniare il giorno di startDate allora esco dalla funzione e non lo elimino
+    if (this.newHabitForm.value.startDate) {
+      const dayOfWeek = this.getDayOfWeek(this.newHabitForm.value.startDate);
+      const dayIdOfWeek = this.mapDayOfWeekToId(dayOfWeek);
+      if (dayId === dayIdOfWeek) {
+        return;
+      }
+    }
+
     const index = this.selectedDays.indexOf(dayId);
     if (index > -1) {
       this.selectedDays.splice(index, 1);
@@ -95,6 +141,17 @@ export class AddNewComponent implements OnInit, AfterContentInit {
   }
 
 
+  onColorChange(color: any) {
+    this.newHabitForm.get('color')?.setValue(color);
+  }
+
+  getEventColor(): EventColor {
+    const color = this.newHabitForm.get('color')?.value || '';
+    return {
+      primary: color,
+      secondary: color
+    };
+  }
 
   // Gestisci l'evento di cancellazione del valore del calendario
   onReminderClear() {
@@ -102,6 +159,8 @@ export class AddNewComponent implements OnInit, AfterContentInit {
     this.cdRef.detectChanges(); // Aggiorna la vista
   }
   async submit() {
+    const eventColor = this.getEventColor();
+
     const newHabit: Habit = {
       id: this.isHabitToEdit ? this.route.snapshot.params['id'] : Date.now(),  // Questo id sarà sostituito in setHabits
       title: this.newHabitForm.value.title,
@@ -110,7 +169,8 @@ export class AddNewComponent implements OnInit, AfterContentInit {
       startDate: this.newHabitForm.value.startDate,
       endDate: this.newHabitForm.value.endDate,
       frequency: this.newHabitForm.value.frequency,
-      remind: this.newHabitForm.value.remind
+      remind: this.newHabitForm.value.remind,
+      color: eventColor
     };
 
     const repetitionDates = this.habitService.generateRepetitionDates(

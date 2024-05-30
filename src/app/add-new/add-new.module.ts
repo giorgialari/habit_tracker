@@ -15,6 +15,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { NavigationHeaderComponentModule } from '../_shared/components/navigation-header/navigation-header.module';
+import { ColorPickerModule } from 'primeng/colorpicker';
 
 const primeNgModules = [
   CheckboxModule,
@@ -24,7 +25,8 @@ const primeNgModules = [
   InputTextModule,
   FloatLabelModule,
   CalendarModule,
-  DropdownModule
+  DropdownModule,
+  ColorPickerModule
 ];
 
 @NgModule({

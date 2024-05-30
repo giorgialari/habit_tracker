@@ -1,7 +1,11 @@
-.calendar-container {
-  position: relative;
+.cal-week-view {
+  background-color: transparent;
+}
+.cal-week-view .cal-hour-odd {
+  background-color: inherit;
 }
 
-.selected-day-details {
-  margin-top: 20px;
+
+.cal-week-view .cal-time-events .cal-day-columns:not(.cal-resize-active) .cal-hour-segment:hover{
+  background-color: orange;
 }

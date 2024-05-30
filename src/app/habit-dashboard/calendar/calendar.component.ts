@@ -1,4 +1,4 @@
-import { AfterContentChecked, AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GestureController } from '@ionic/angular';
 import { Subscription, interval, takeWhile } from 'rxjs';
 import { CalendarService } from '../../_shared/services/calendar.service';
@@ -26,7 +26,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     await this.loadHabits();
-    this.habitService.getNewHabitAdded().subscribe( async () => {
+    this.habitService.getNewHabitAdded().subscribe(async () => {
       await this.loadHabits();
     });
   }

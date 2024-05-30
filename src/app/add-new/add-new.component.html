@@ -23,6 +23,8 @@
                 appendTo="body"
                 dateFormat="dd/mm/yy"
                 styleClass="w-screen"
+                [showTime]="true"
+                [hourFormat]="'12'"
               ></p-calendar>
               <label>Start date</label>
             </p-floatLabel>
@@ -37,9 +39,21 @@
                 appendTo="body"
                 dateFormat="dd/mm/yy"
                 styleClass="w-screen"
+                [showTime]="true"
+                [hourFormat]="'12'"
               ></p-calendar>
               <label>End date</label>
             </p-floatLabel>
+          </div>
+
+          <!-- colorpicker -->
+          <div class="mt-5 w-screen px-3 mx-auto pb-2">
+            <h4>Set color</h4>
+            <p-colorPicker
+              formControlName="color"
+              [style]="{ width: '100%' }"
+              (onChange)="onColorChange($event.value)"
+            ></p-colorPicker>
           </div>
 
           <div class="periodicity-container w-screen mx-auto px-3 my-5">
@@ -83,6 +97,14 @@
     </div>
 
     <div class="mt-5">
+      <p-button
+        [label]="'Test Salvataggio'"
+        size="small"
+        severity="warning"
+        (onClick)="testSalvataggio()"
+        [rounded]="true"
+      />
+
       <p-button
         [label]="isHabitToEdit ? 'Edit habit' : 'Add new habit'"
         size="small"

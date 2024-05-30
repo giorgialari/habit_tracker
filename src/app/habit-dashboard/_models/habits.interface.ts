@@ -1,3 +1,4 @@
+import { EventColor } from 'calendar-utils';
 
 export interface Habit {
   id: number;
@@ -8,6 +9,7 @@ export interface Habit {
   startDate: string;
   endDate: string;
   remind: string;
+  color: EventColor;
   isHabitToEdit?: boolean;
 }
 

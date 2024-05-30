@@ -50,8 +50,7 @@ export class HabitService {
     const habits: Habit[] = await this.getAllHabits();
 
     for (const date of dates) {
-      const habitDate = moment(date).startOf('day').format('YYYY-MM-DD'); // Formatta la data come stringa YYYY-MM-DD
-      const habitToSave = { ...newHabit, startDate: habitDate, id: this.generateUniqueId() }; // Genera id univoco
+      const habitToSave = { ...newHabit, id: this.generateUniqueId() }; // Genera id univoco
 
       habits.push(habitToSave); // Aggiungi la nuova abitudine configurata alla lista delle abitudini
     }
