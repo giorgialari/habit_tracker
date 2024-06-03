@@ -4,9 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Custom components
 import { HabitDashboardComponent } from './habit-dashboard.component';
-import { CalendarComponent } from './calendar/calendar.component';
-import { CalendarHeaderComponent } from './calendar/calendar-header/calendar-header.component';
-import { MyHabitsComponent } from './my-habits/my-habits.component';
 
 // Routing module
 import { HabitDashboardRoutingModule } from './habit-dashboard-routing.module';
@@ -19,6 +16,7 @@ import { ButtonModule } from 'primeng/button';
 import { BadgeModule } from 'primeng/badge';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
+import { CalendarMultipleViewComponentModule } from '../calendar-multiple-view/calendar-multiple-view.module';
 
 const angularModules = [
   CommonModule,
@@ -36,21 +34,16 @@ const primeNgModules = [
 ];
 
 const customModules = [
-  HabitDashboardRoutingModule
+  HabitDashboardRoutingModule,
+  CalendarMultipleViewComponentModule
 ];
 
 @NgModule({
   declarations: [
     HabitDashboardComponent,
-    CalendarComponent,
-    CalendarHeaderComponent,
-    MyHabitsComponent,
   ],
   exports: [
     HabitDashboardComponent,
-    CalendarComponent,
-    CalendarHeaderComponent,
-    MyHabitsComponent,
   ],
   imports: [
     ...angularModules,
