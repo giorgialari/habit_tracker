@@ -16,7 +16,7 @@
   display: flex;
   justify-content: space-between;
   width: 90%;
-  background-color: $gray;
+  background-color: $stepper-bar-background;
   margin: 0 auto;
   border-radius: 24px;
 }
@@ -24,7 +24,7 @@
 .step {
   flex-grow: 1;
   height: 8px;
-  background-color: $lightGray;
+  background-color: $stepper-background;
   transition: background-color 0.3s;
   margin-left: 2px;
 
@@ -40,27 +40,27 @@
   }
 
   &.active {
-    background-color: $orange-inactive;
+    background-color: $color-selected;
   }
 }
 
 
 .ng-invalid.ng-touched {
-  border-color: $orange;
+  border-color: $invalid-color;
 }
 
 ::ng-deep .p-float-label .ng-invalid.ng-touched {
-  border-color: $orange;
+  border-color: $invalid-color;
   /* Cambia il colore del bordo dell'input */
 }
 
 ::ng-deep .p-float-label .ng-invalid.ng-touched+label {
-  color: $orange;
+  color: $invalid-color;
   /* Cambia il colore del testo della label */
 }
 
 .required {
-  color: white;
+  color: $text-color;
   font-size: 0.7rem;
   text-align: right;
   display: block;
@@ -79,8 +79,8 @@
 }
 
 .icon-block.selected {
-  border-color: $orange;
-  color: $orange;
+  border-color: $color-selected;
+  color: $text-on-selected;
 }
 
 
@@ -130,5 +130,5 @@
 }
 
 ::ng-deep .input-container input {
-   width: 80vw;
+  width: 80vw;
 }

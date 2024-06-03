@@ -7,16 +7,6 @@ button:focus {
   box-shadow: none;
 }
 
-.p-button-danger {
-  background-color: $orange-inactive;
-  border-color: $orange-inactive;
-
-  &:hover {
-    background-color: $orange;
-    border-color: $orange;
-  }
-}
-
 //P-INPUTTEXT
 .p-inputtext {
   background-color: transparent;
@@ -42,8 +32,12 @@ button:focus {
   box-shadow: none;
 }
 
-.p-checkbox .p-checkbox-box.p-highlight {
-  background-color: $orange;
-  border-color: $orange;
-}
+// p-card
+.p-card {
+  background-color: $card-background-color;
+  color: $card-text-color;
 
+  &:hover {
+    box-shadow: 0 4px 8px $card-hover-shadow-color;
+  }
+}

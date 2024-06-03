@@ -1,11 +1,4 @@
-// .calendar-container {
-//   position: relative;
-// }
-
-// .selected-day-details {
-//   margin-top: 20px;
-// }
-
+@import '../../theme/variables.scss';
 
 .cal-month-view {
   background-color: transparent;
@@ -68,7 +61,7 @@
 .cal-open-day-events {
   padding: 10px;
   background-color: #333; /* Cambia il colore di sfondo secondo le tue esigenze */
-  color: white; /* Colore del testo */
+  color: $text-color; /* Colore del testo */
 }
 
 .cal-open-day-events p {

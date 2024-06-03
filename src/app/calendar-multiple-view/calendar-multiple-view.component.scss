@@ -1,3 +1,6 @@
+@import '../../theme/variables.scss';
+
+
 .cal-week-view {
   background-color: transparent;
 }
@@ -38,10 +41,9 @@
   position: sticky;
   top: 0;
   z-index: 1010;
-  /* Aumentato per mantenere l'header sopra le tab */
-  background-color: black;
   padding: 1rem 0;
   /* Uso 'rem' per una migliore responsività */
+  background-color: $background-color;
 }
 
 .tab-group {

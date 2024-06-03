@@ -88,6 +88,16 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
   }
   async ngOnInit() {
 
+    await this.loadTabs();
+
+    this.setupSwipeGesture();
+    this.cd.detectChanges();
+
+
+  }
+
+  private async loadTabs() {
+    await this.tabOrderUserService.ready();
     const savedTabs = await this.tabOrderUserService.getTabOrder();
     if (savedTabs) {
       this.tabs = savedTabs;
@@ -95,18 +105,13 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
       await this.tabOrderUserService.setTabOrder(this.tabs);
     }
 
-    this.view = this.tabs[0].view;
+    this.view = this.tabs[0]?.view;
     if (this.view === CustomCalendarView.Day) {
-
       this.scrollToCurrentHour();
     }
-
-    this.setupSwipeGesture();
-
-    this.cd.detectChanges();
-
-
+    console.log('tabs', this.tabs);
   }
+
   ngAfterViewChecked() {
     this.activeDayIsOpen = this.events.filter(event => isSameDay(event.start, this.viewDate)).length > 0;
 
@@ -123,7 +128,7 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
       start: new Date(habit.startDate),
       end: habit.endDate ? new Date(habit.endDate) : undefined,
       title: habit.title,
-      color: habit.color, // Puoi mappare `habit.color` se definisci colori personalizzati
+      color: habit.color, 
       actions: this.actions,
       allDay: false,
       draggable: false,

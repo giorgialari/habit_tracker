@@ -1,11 +1,21 @@
 @import '../../theme/variables.scss';
 
-.bottom-tab-bar {
+ion-tab-bar {
+  height: 5rem;
+  /* Altezza della barra */
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  background-color: $gray;
-  box-shadow: 0px -2px 10px rgba(3,3,3,0.1);
+  border-top-left-radius: 3rem;
+  /* Arrotonda l'angolo in alto a sinistra */
+  border-top-right-radius: 3rem;
+  /* Arrotonda l'angolo in alto a destra */
+  overflow: hidden;
+  /* Per garantire che il contenuto non trabocchi */
+  position: relative;
+  /* Necessario per z-index */
+  z-index: 1;
+  /* Assicurati che sia sopra altri elementi */
 }
 
 ion-tab-button {
@@ -19,7 +29,8 @@ ion-tab-button {
 }
 
 ion-tab-button.tab-selected {
-  color: $orange-active; /* Colore arancione per il bottone attivo */
+  color: $color-selected;
+  /* Colore arancione per il bottone attivo */
 }
 
 .button-center {

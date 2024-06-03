@@ -16,11 +16,19 @@ export class TabUserOrderService {
     this._storage = storage;
   }
 
+  async ready(): Promise<void> {
+    if (!this._storage) {
+      await this.init();
+    }
+  }
+
   async getTabOrder() {
+    await this.ready();
     return this._storage?.get('user_custom_setup');
   }
 
   async setTabOrder(tabs: any[]) {
+    await this.ready();
     return this._storage?.set('user_custom_setup', tabs);
   }
 }

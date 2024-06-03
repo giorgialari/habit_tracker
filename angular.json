@@ -33,7 +33,6 @@
             ],
             "styles": [
               "node_modules/angular-calendar/css/angular-calendar.css",
-              "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeflex/primeflex.css",
               "node_modules/primeicons/primeicons.css",
@@ -128,7 +127,6 @@
             ],
             "styles": [
               "node_modules/angular-calendar/css/angular-calendar.css",
-              "node_modules/primeng/resources/themes/nova-light/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeflex/primeflex.css",
               "node_modules/primeicons/primeicons.css",

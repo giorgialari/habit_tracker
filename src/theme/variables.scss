@@ -1,32 +1,111 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
-//Scala di arancioni
-$orange-1: #FF3B30;
-$orange-2: #FF453A;
-$orange-3: #FF5E3A;
-$orange-4: #FF6C3A;
-$orange-5: #FF7B3A;
-$orange-6: #FF8C3A;
-$orange-7: #FF9D3A;
-$orange-8: #FFAE3A;
-$orange-9: #FFBF3A;
-$orange-10: #FFD03A;
+// //Scala di arancioni
+// $orange-1: #FF3B30;
+// $orange-2: #FF453A;
+// $orange-3: #FF5E3A;
+// $orange-4: #FF6C3A;
+// $orange-5: #FF7B3A;
+// $orange-6: #FF8C3A;
+// $orange-7: #FF9D3A;
+// $orange-8: #FFAE3A;
+// $orange-9: #FFBF3A;
+// $orange-10: #FFD03A;
 
-//Base Colors
-$orange: #FF3B30;
-$orange-active: $orange-1;
-$orange-inactive: $orange-4;
-$orange-dark: $orange-6;
+// //Base Colors
+// $orange: #FF3B30;
+// $orange-active: $orange-1;
+// $orange-inactive: $orange-4;
+// $orange-dark: $orange-6;
 
-$orange-light: darken($orange, 30%);
-$orange-dark: darken($orange, 20%);
-$orange-muted: desaturate($orange, 10%);
+// $orange-light: darken($orange, 30%);
+// $orange-dark: darken($orange, 20%);
+// $orange-muted: desaturate($orange, 10%);
 
-$lightGray: #3a3f4b;
-$gray: #1e232e;
-$darkGray: #13161d;
+// $lightGray: #3a3f4b;
+// $darkGray: #13161d;
 
 
 :root {
   --ion-font-family: 'Poppins', sans-serif;
 }
+
+
+
+// Colors extracted from the app image
+$primary-color: #0e5b95; // Blu chiaro
+$secondary-color: #2b4469; // Blu medio
+$background-color: #191c37; // Sfondo scuro
+$hover-background-color: #4f516b; // Grigio bluastro
+$focus-outline-color: #0e5b95; // Blu chiaro
+$error-color: #ffdd00; // Giallo
+$highlight-background-color: #f97316; // Arancione del pulsante "DI PIÙ"
+$text-color: #ffffff; // Bianco
+$text-color-dark: #000000; // Nero (per contrasto su sfondi chiari)
+$border-color: #1d2d59; // Blu scuro
+$color-selected: #ffdd00; // Giallo per l'icona selezionata
+$text-on-selected: #000000; // Nero per il testo su sfondo giallo
+$gray: #1e232e;
+$today-color: darken($color-selected, 0%); // Blu chiaro schiarito
+
+
+// Messages colors
+$info-background-color: $primary-color; // Blu chiaro
+$warning-background-color: $error-color; // Giallo
+$error-background-color: $highlight-background-color; // Arancione
+
+// Tab bar colors
+$tab-bar-background: $background-color;
+$tab-bar-color: $text-color;
+$tab-bar-color-selected: $color-selected; // Giallo
+
+// Button colors
+$button-center-background: $highlight-background-color; // Arancione
+$button-center-color: $text-color; // Bianco
+
+// Forms colors
+$form-background-color: $background-color; // Sfondo scuro
+$form-hover-border-color: $hover-background-color; // Grigio bluastro
+$form-focus-border-color: $focus-outline-color; // Blu chiaro
+$form-filled-background-color: $background-color; // Sfondo scuro
+
+// Buttons
+$button-secondary-background: $secondary-color; // Blu medio
+$button-secondary-text: $text-color; // Bianco
+$button-success-background: $hover-background-color; // Grigio bluastro (Placeholder)
+$button-success-text: $text-color; // Bianco (Placeholder)
+$button-info-background: $info-background-color; // Blu chiaro
+$button-info-text: $text-color; // Bianco
+$button-warning-background: $warning-background-color; // Giallo
+$button-warning-text: $text-color-dark; // Nero
+$button-help-background: $hover-background-color; // Grigio bluastro (Placeholder)
+$button-help-text: $text-color; // Bianco (Placeholder)
+$button-danger-background: $highlight-background-color; // Arancione
+$button-danger-text: $text-color; // Bianco
+
+// Surfaces
+$surface-ground: $background-color; // Sfondo scuro
+$surface-content: $secondary-color; // Blu medio
+$surface-border: $border-color; // Blu scuro
+
+
+//stepper
+$stepper-background: $background-color; // Sfondo scuro
+$stepper-border: $border-color; // Blu scuro
+$stepper-text: $text-color; // Bianco
+$stepper-text-active: $color-selected; // Giallo
+$stepper-text-inactive: $hover-background-color; // Grigio bluastro
+$stepper-bar-background: $gray; // Sfondo scuro
+
+
+// Inactive/Invalid states
+$inactive-color: lighten($background-color, 20%); // Versione più chiara del colore di sfondo
+$invalid-color: #ff4d4d; // Rosso chiaro per indicare errori (puoi personalizzarlo)
+$disabled-color: darken($hover-background-color, 20%); // Grigio più scuro per stati disabilitati
+
+
+// Card
+$card-background-color: $background-color;
+$card-text-color: $text-color;
+$card-shadow-color: rgba(255, 255, 255, 0.1); // Colore dell'ombra per l'effetto rilievo
+$card-hover-shadow-color: rgba(255, 255, 255, 0.2); // Ombra per hover

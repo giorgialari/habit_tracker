@@ -18,7 +18,6 @@
   line-height: 2.2rem; // Aumentato del 10%
   border-radius: 50%;
   margin: 0.5rem;
-  background-color: $lightGray; // Grigio scuro per i cerchi non selezionati
   // color: white;
   border: none;
   font-size: 1.1rem; // Aumentato del 10%
@@ -26,11 +25,10 @@
 }
 
 .days button.selected {
-  background-color: $orange; // Cambia colore quando selezionato
+  background-color: $color-selected; // Cambia colore quando selezionato
 }
 
 .reminder-time button {
-  background-color: $gray; // Grigio scuro per bottoni non selezionati
   // color: white;
   border: 2px solid transparent;
   border-radius: 20px; // Bottoni con bordi arrotondati
@@ -44,7 +42,7 @@
 }
 
 .reminder-time button.selected {
-  border-color: $orange; // Rosso per evidenziare la selezione
+  border-color: $color-selected;
 }
 
 p-floatlabel input {
