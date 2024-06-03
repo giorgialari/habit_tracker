@@ -1,6 +1,5 @@
 @import '../../theme/variables.scss';
 
-
 .cal-week-view {
   background-color: transparent;
 }
@@ -9,11 +8,9 @@
   background-color: inherit;
 }
 
-
 .cal-week-view .cal-time-events .cal-day-columns:not(.cal-resize-active) .cal-hour-segment:hover {
-  background-color: orange;
+  background-color: $highlight-background-color; // Sostituito con variabile
 }
-
 
 .swipe-container {
   touch-action: pan-y pinch-zoom;
@@ -42,8 +39,7 @@
   top: 0;
   z-index: 1010;
   padding: 1rem 0;
-  /* Uso 'rem' per una migliore responsività */
-  background-color: $background-color;
+  background-color: $background-color; // Sostituito con variabile
 }
 
 .tab-group {
@@ -52,11 +48,10 @@
 }
 
 .tab {
-  padding: 10px 20px;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
   margin: 0 5px;
-  border-bottom: 2px solid transparent;
+  border-bottom: 2px solid $secondary-color;
   text-align: center;
   flex: 1;
 }
@@ -66,16 +61,50 @@
 }
 
 .tab.active {
-  color: orange;
-
-  border-bottom: 2px solid orange;
+  color: $text-color;
+  border-bottom: 2px solid $highlight-background-color;
   font-weight: bold;
 }
 
-
 .cdk-drag-preview {
-  background-color: rgba(240, 240, 240, 0.3); /* Colore grigio chiaro con opacità */
-  border: 1px solid rgba(204, 204, 204, 0.3); /* Bordo grigio chiaro con opacità */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Aggiungi un'ombra leggera */
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); // Aggiungi un'ombra leggera
 }
 
+
+.cal-cell-top span[aria-hidden="true"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cal-day-badge {
+  margin-bottom: 0.1rem; // Spazio tra il badge e il numero del giorno
+}
+
+
+.cal-month-view .cal-days {
+  border-color: $secondary-color;
+}
+
+.cal-month-view .cal-day-cell:not(:last-child) {
+  border-color: $secondary-color;
+}
+
+.cal-month-view .cal-days .cal-cell-row {
+  border-color: $secondary-color;
+
+}
+
+.cal-week-view .cal-hour:not(:last-child) .cal-hour-segment,
+.cal-week-view .cal-hour:last-child :not(:last-child) .cal-hour-segment{
+  border-color: $secondary-color;
+}
+.cal-week-view .cal-time-events {
+  border-color: $secondary-color;
+}
+
+.cal-week-view{
+  border-top: solid 1px $secondary-color;
+}

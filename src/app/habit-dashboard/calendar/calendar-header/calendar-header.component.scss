@@ -7,7 +7,7 @@
 
 .grid-with-gradient-border {
   // Un bordo in basso leggermente sfumato di arancione
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid $text-color;
   font-size: 1.58rem; // Aumentato del 5% rispetto a 1.5rem
   padding: 1rem 0.5rem; // Aggiungi padding per layout coerente
 }
@@ -15,7 +15,7 @@
 // Stile per il Bottone Custom
 .user-menu-button {
   border-radius: 50%; /* Forma rotonda */
-  color: white; /* Icona bianca */
+  color: $text-color; /* Icona bianca */
   cursor: pointer; /* Cursor pointer per indicare che è cliccabile */
   display: flex; /* Display flex per centrale l'icona */
   align-items: center; /* Allinea al centro verticalmente */

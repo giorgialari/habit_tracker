@@ -13,7 +13,7 @@
 }
 
 .cal-month-view .cal-day-cell.cal-weekend .cal-day-number {
-  color: #FF3B30;
+  color: $highlight-background-color;
 }
 
 .cal-month-view {
@@ -21,7 +21,7 @@
 }
 
 .cal-month-view .cal-day-cell.cal-today {
-  background-color: #FF3B30;
+  background-color: $highlight-background-color;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,7 +43,7 @@
 .cal-month-view .cal-cell-row .cal-cell:hover,
 .cal-month-view .cal-cell.cal-has-events.cal-open {
   background-color: initial;
-  border: 2px solid red;
+  border: 2px solid $highlight-background-color;
 }
 
 .cal-month-view .cal-cell-row:hover {
@@ -58,6 +58,7 @@
   text-transform: uppercase;
 }
 
+// TODO: da rivedere
 .cal-open-day-events {
   padding: 10px;
   background-color: #333; /* Cambia il colore di sfondo secondo le tue esigenze */

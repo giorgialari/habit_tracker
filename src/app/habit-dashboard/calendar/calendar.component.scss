@@ -44,8 +44,6 @@
   color: $text-color;
 }
 .dayNumberToday {
-  font-weight: bold;
-  color: $text-on-selected;
   font-size: 0.9rem !important;
 }
 
@@ -64,29 +62,25 @@
 }
 
 .today {
-  border: 3px solid $color-selected;
+  border: 3px solid $today-color;
   background-color: $today-color !important;
   font-weight: bold;
-  color: $text-on-selected;
+
 }
 
 .selected-day {
   background-color: $color-selected; // Sfumatura più chiara per i giorni selezionati
   border: 2px solid $color-selected; // Bordo leggermente desaturato
-  color: $text-on-selected;
+
 }
 
 .day-with-data {
-  // background-color: $orange-dark; // Sfumatura più scura per i giorni con dati
   border: 2px solid $color-selected; // Bordo arancione standard
   color: $text-color;
 }
 
 .day-number-with-data {
   font-weight: bold;
-}
-.selected-day-number {
-  color: $text-on-selected;
 }
 
 :host {

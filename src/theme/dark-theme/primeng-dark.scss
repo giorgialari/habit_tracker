@@ -1,10 +1,15 @@
-@import './theme/variables.scss';
+@import '../variables.scss';
 
 
 //P-BUTTON
 button:focus {
   outline: none;
   box-shadow: none;
+}
+
+.p-button-danger {
+  background-color: $button-danger-background;
+  color: $button-danger-text;
 }
 
 //P-INPUTTEXT
@@ -40,4 +45,11 @@ button:focus {
   &:hover {
     box-shadow: 0 4px 8px $card-hover-shadow-color;
   }
+}
+
+
+// p-datePicker
+.p-datepicker,
+.p-datepicker-header {
+  background-color: $background-color;
 }

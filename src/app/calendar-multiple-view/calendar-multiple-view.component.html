@@ -35,7 +35,7 @@
   >
     <div class="tab-group p-1">
       <div
-        class="tab"
+        class="tab pt-2 pb-1"
         *ngFor="let tab of tabs; let i = index"
         cdkDrag
         (click)="setView(tab.view)"
@@ -49,7 +49,7 @@
 
 <div>
   <div [ngSwitch]="view">
-    <div #swipeContainer class="swipe-container">
+    <div #swipeContainer class="swipe-container mb-3">
       <div class="px-3">
         <mwl-calendar-month-view
           *ngSwitchCase="CalendarView.Month"
@@ -77,6 +77,7 @@
 
     <!-- N.B. Viene usata Week perché la libreria non riconosce altri valori -->
     <app-todo-habits-view
+      class="mb-3"
       *ngSwitchCase="CalendarView.Week"
     ></app-todo-habits-view>
   </div>

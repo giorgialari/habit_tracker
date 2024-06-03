@@ -1,30 +1,5 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
-// //Scala di arancioni
-// $orange-1: #FF3B30;
-// $orange-2: #FF453A;
-// $orange-3: #FF5E3A;
-// $orange-4: #FF6C3A;
-// $orange-5: #FF7B3A;
-// $orange-6: #FF8C3A;
-// $orange-7: #FF9D3A;
-// $orange-8: #FFAE3A;
-// $orange-9: #FFBF3A;
-// $orange-10: #FFD03A;
-
-// //Base Colors
-// $orange: #FF3B30;
-// $orange-active: $orange-1;
-// $orange-inactive: $orange-4;
-// $orange-dark: $orange-6;
-
-// $orange-light: darken($orange, 30%);
-// $orange-dark: darken($orange, 20%);
-// $orange-muted: desaturate($orange, 10%);
-
-// $lightGray: #3a3f4b;
-// $darkGray: #13161d;
-
 
 :root {
   --ion-font-family: 'Poppins', sans-serif;
@@ -43,10 +18,10 @@ $highlight-background-color: #f97316; // Arancione del pulsante "DI PIÙ"
 $text-color: #ffffff; // Bianco
 $text-color-dark: #000000; // Nero (per contrasto su sfondi chiari)
 $border-color: #1d2d59; // Blu scuro
-$color-selected: #ffdd00; // Giallo per l'icona selezionata
+$color-selected: $highlight-background-color; // Giallo per l'icona selezionata
 $text-on-selected: #000000; // Nero per il testo su sfondo giallo
-$gray: #1e232e;
-$today-color: darken($color-selected, 0%); // Blu chiaro schiarito
+$gray: gray;
+$today-color: $highlight-background-color;
 
 
 // Messages colors
@@ -95,7 +70,7 @@ $stepper-border: $border-color; // Blu scuro
 $stepper-text: $text-color; // Bianco
 $stepper-text-active: $color-selected; // Giallo
 $stepper-text-inactive: $hover-background-color; // Grigio bluastro
-$stepper-bar-background: $gray; // Sfondo scuro
+$stepper-bar-background: $secondary-color; // Sfondo scuro
 
 
 // Inactive/Invalid states
