@@ -12,6 +12,12 @@ button:focus {
   color: $button-danger-text;
 }
 
+.p-button-danger.p-button-outlined {
+  color: $button-danger-background-outline;
+  border-color: $button-danger-background-outline;
+  background-color: transparent !important;
+}
+
 //P-INPUTTEXT
 .p-inputtext {
   background-color: transparent;

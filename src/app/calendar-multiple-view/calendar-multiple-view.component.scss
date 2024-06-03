@@ -14,25 +14,23 @@
 
 .swipe-container {
   touch-action: pan-y pinch-zoom;
-}
-
-.swipe-container {
   position: relative;
   overflow: hidden;
 }
 
 .swipe-left,
 .swipe-right {
-  transition: transform 0.1s ease-in-out;
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Effetto più morbido */
 }
 
 .swipe-left {
-  transform: translateX(-100%);
+  transform: translateX(-100%) rotateY(-10deg); /* Aggiunge una rotazione per l'effetto curvo */
 }
 
 .swipe-right {
-  transform: translateX(100%);
+  transform: translateX(100%) rotateY(10deg); /* Aggiunge una rotazione per l'effetto curvo */
 }
+
 
 #calendar-header {
   position: sticky;

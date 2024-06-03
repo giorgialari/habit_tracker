@@ -21,7 +21,7 @@
 }
 
 .cal-month-view .cal-day-cell.cal-today {
-  background-color: $highlight-background-color;
+  background-color: lighten($highlight-background-color, 5%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -50,10 +50,11 @@
   background-color: transparent;
 }
 
-.cal-cell[role="columnheader"]{
+.cal-cell[role="columnheader"] {
   font-size: 0;
 }
-.cal-cell[role="columnheader"]:first-letter{
+
+.cal-cell[role="columnheader"]:first-letter {
   font-size: 1rem;
   text-transform: uppercase;
 }
@@ -61,12 +62,14 @@
 // TODO: da rivedere
 .cal-open-day-events {
   padding: 10px;
-  background-color: #333; /* Cambia il colore di sfondo secondo le tue esigenze */
-  color: $text-color; /* Colore del testo */
+  background-color: #333;
+  /* Cambia il colore di sfondo secondo le tue esigenze */
+  color: $text-color;
+  /* Colore del testo */
 }
 
 .cal-open-day-events p {
   margin: 0;
-  text-align: center; /* Centra il testo */
+  text-align: center;
+  /* Centra il testo */
 }
-
