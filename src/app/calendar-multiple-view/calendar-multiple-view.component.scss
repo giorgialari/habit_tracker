@@ -1,17 +1,6 @@
 @import '../../theme/variables.scss';
 
-.cal-week-view {
-  background-color: transparent;
-}
-
-.cal-week-view .cal-hour-odd {
-  background-color: inherit;
-}
-
-.cal-week-view .cal-time-events .cal-day-columns:not(.cal-resize-active) .cal-hour-segment:hover {
-  background-color: $highlight-background-color; // Sostituito con variabile
-}
-
+/** STILE DELLO SWIPE CON ANIMAZIONI */
 .swipe-container {
   touch-action: pan-y pinch-zoom;
   position: relative;
@@ -20,26 +9,21 @@
 
 .swipe-left,
 .swipe-right {
-  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Effetto più morbido */
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  /* Effetto più morbido */
 }
 
 .swipe-left {
-  transform: translateX(-100%) rotateY(-10deg); /* Aggiunge una rotazione per l'effetto curvo */
+  transform: translateX(-100%) rotateY(-10deg);
+  /* Aggiunge una rotazione per l'effetto curvo */
 }
 
 .swipe-right {
-  transform: translateX(100%) rotateY(10deg); /* Aggiunge una rotazione per l'effetto curvo */
+  transform: translateX(100%) rotateY(10deg);
+  /* Aggiunge una rotazione per l'effetto curvo */
 }
 
-
-#calendar-header {
-  position: sticky;
-  top: 0;
-  z-index: 1010;
-  padding: 1rem 0;
-  background-color: $background-color; // Sostituito con variabile
-}
-
+/** STILE DELLE TAB */
 .tab-group {
   display: flex;
   justify-content: center;
@@ -71,6 +55,28 @@
 }
 
 
+/** STILE DELLE CELLE DEL CALENDARIO */
+
+#calendar-header {
+  position: sticky;
+  top: 0;
+  z-index: 1010;
+  padding: 1rem 0;
+  background-color: $background-color; // Sostituito con variabile
+}
+
+.cal-week-view {
+  background-color: transparent;
+}
+
+.cal-week-view .cal-hour-odd {
+  background-color: inherit;
+}
+
+.cal-week-view .cal-time-events .cal-day-columns:not(.cal-resize-active) .cal-hour-segment:hover {
+  background-color: $highlight-background-color; // Sostituito con variabile
+}
+
 .cal-cell-top span[aria-hidden="true"] {
   display: flex;
   flex-direction: column;
@@ -96,13 +102,14 @@
 }
 
 .cal-week-view .cal-hour:not(:last-child) .cal-hour-segment,
-.cal-week-view .cal-hour:last-child :not(:last-child) .cal-hour-segment{
+.cal-week-view .cal-hour:last-child :not(:last-child) .cal-hour-segment {
   border-color: $secondary-color;
 }
+
 .cal-week-view .cal-time-events {
   border-color: $secondary-color;
 }
 
-.cal-week-view{
+.cal-week-view {
   border-top: solid 1px $secondary-color;
 }

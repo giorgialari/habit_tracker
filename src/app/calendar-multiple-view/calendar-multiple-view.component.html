@@ -41,7 +41,12 @@
         (click)="setView(tab.view)"
         [class.active]="view === tab.view"
       >
-        {{ tab.label }}
+        <div class="flex flex-row align-items-center justify-content-center">
+            <div class="material-icons p-2 vertical-align-middle	text-base">
+              {{ tab.icon }}
+            </div>
+          <div>{{ tab.label }}</div>
+        </div>
       </div>
     </div>
   </div>

@@ -66,9 +66,24 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
   ];
 
   tabs = [
-    { id: 1, label: 'Day', view: CustomCalendarView.Day },
-    { id: 2, label: 'Month', view: CustomCalendarView.Month },
-    { id: 3, label: 'ToDo', view: CustomCalendarView.Week },
+    {
+      id: 1,
+      label: 'Day',
+      view: CustomCalendarView.Day,
+      icon: 'today',
+    },
+    {
+      id: 2,
+      label: 'Month',
+      view: CustomCalendarView.Month,
+      icon: 'calendar_month',
+    },
+    {
+      id: 3,
+      label: 'ToDo',
+      view: CustomCalendarView.Week,
+      icon: 'check',
+    },
   ];
 
   refresh: Subject<any> = new Subject();
@@ -273,7 +288,6 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
       this.renderer.removeClass(element, `swipe-${direction}`);
     }, 300); // La durata dell'animazione deve corrispondere a quella definita in CSS
   }
-
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;

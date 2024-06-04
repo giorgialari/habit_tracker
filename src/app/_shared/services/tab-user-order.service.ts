@@ -24,11 +24,11 @@ export class TabUserOrderService {
 
   async getTabOrder() {
     await this.ready();
-    return this._storage?.get('user_custom_setup');
+    return this._storage?.get('user_custom_setup_tabs');
   }
 
   async setTabOrder(tabs: any[]) {
     await this.ready();
-    return this._storage?.set('user_custom_setup', tabs);
+    return this._storage?.set('user_custom_setup_tabs', tabs);
   }
 }
