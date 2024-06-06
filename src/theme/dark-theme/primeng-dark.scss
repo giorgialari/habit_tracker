@@ -27,6 +27,18 @@ button:focus {
   font-size: 0.8rem;
 }
 
+//P-DROPDOWN
+.p-dropdown {
+  background-color: transparent;
+}
+
+.p-dropdown-panel {
+  background-color: $background-color;
+}
+
+.p-dropdown-check-icon {
+  visibility: hidden;
+}
 
 //P-CHECKBOX
 .p-checkbox .p-checkbox-box {

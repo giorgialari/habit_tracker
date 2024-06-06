@@ -4,8 +4,79 @@
       <app-navigation-header
         [title]="isHabitToEdit ? 'Edit Habit' : 'Add New Habit'"
       ></app-navigation-header>
+
+      <div class="grid px-3 mt-5">
+        <div class="col-4">
+          <div
+            class="text-center border-round-sm font-bold icon-container"
+            [ngStyle]="{
+              'background-color': selectedColor?.hex
+                ? selectedColor.hex
+                : 'initial'
+            }"
+          >
+            <span class="material-icons">
+              {{ iconSelectedCategory ? iconSelectedCategory : "category" }}
+            </span>
+          </div>
+        </div>
+
+        <div class="col-8 flex align-items-end">
+          <p-dropdown
+            [options]="categories"
+            [checkmark]="true"
+            optionLabel="label"
+            optionValue="id"
+            [showClear]="true"
+            placeholder="Select a Category"
+            class="w-full-category w-full"
+            (onChange)="onCategoryChange($event.value)"
+          />
+        </div>
+      </div>
+      <div class="mt-5 w-screen px-3 mx-auto pb-2">
+        <p-floatLabel>
+          <p-dropdown
+            [options]="colors_categories"
+            optionLabel="name"
+            optionValue="hex"
+            [showClear]="true"
+            placeholder="Select a Color"
+            class="w-full-category w-full"
+            (onChange)="onColorChange($event.value)"
+          >
+            <ng-template pTemplate="selectedItem">
+              <div
+                class="flex align-items-center gap-2"
+                *ngIf="selectedColor && selectedColor.hex"
+              >
+                <div
+                  class="color-circle"
+                  [style.background-color]="selectedColor.hex"
+                ></div>
+                <div>{{ selectedColor.name }}</div>
+              </div>
+              <div *ngIf="!selectedColor || !selectedColor.hex">
+                Select a Color
+              </div>
+            </ng-template>
+
+            <ng-template let-data pTemplate="item">
+              <div class="flex align-items-center gap-2">
+                <div
+                  class="color-circle"
+                  [style.background-color]="data.hex"
+                ></div>
+                <div>{{ data.name }}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+          <label>Choose a color</label>
+        </p-floatLabel>
+      </div>
       <form [formGroup]="newHabitForm">
         <div class="new-habit-container mt-5">
+          <!-- Titolo -->
           <div class="mt-5 w-screen px-3 mx-auto pb-2">
             <p-floatLabel>
               <input pInputText formControlName="title" />
@@ -13,7 +84,7 @@
             </p-floatLabel>
           </div>
 
-          <!-- <h4>Set start date</h4> -->
+          <!-- Start date</h4> -->
           <div class="mt-5 w-screen px-3 mx-auto pb-2">
             <p-floatLabel>
               <p-calendar
@@ -30,6 +101,7 @@
             </p-floatLabel>
           </div>
 
+          <!-- End date -->
           <div class="mt-5 w-screen px-3 mx-auto pb-2">
             <p-floatLabel>
               <p-calendar
@@ -47,14 +119,6 @@
           </div>
 
           <!-- colorpicker -->
-          <div class="mt-5 w-screen px-3 mx-auto pb-2">
-            <h4>Set color</h4>
-            <p-colorPicker
-              formControlName="color"
-              [style]="{ width: '100%' }"
-              (onChange)="onColorChange($event.value)"
-            ></p-colorPicker>
-          </div>
 
           <div class="periodicity-container w-screen mx-auto px-3 my-5">
             <h4>Set periodicity</h4>
@@ -69,6 +133,7 @@
             </div>
           </div>
 
+          <!-- reminder -->
           <div class="reminder w-screen mx-auto px-3">
             <p-floatLabel>
               <p-calendar

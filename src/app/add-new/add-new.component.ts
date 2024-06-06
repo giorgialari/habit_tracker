@@ -1,10 +1,16 @@
-import { Component, OnInit, AfterContentInit, Input, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterContentInit,
+  Input,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HabitService } from '../_shared/services/habit.service';
 import { Habit } from '../habit-dashboard/_models/habits.interface';
 import { EventColor } from 'calendar-utils';
-
+import { CATEGORIES, COLORS_CATEGORIES, DAYS } from './data/data';
 
 @Component({
   selector: 'app-add-new',
@@ -15,32 +21,15 @@ export class AddNewComponent implements OnInit, AfterContentInit {
   newHabitForm: FormGroup;
   @Input() isHabitToEdit: boolean = false;
 
-  days = [
-    { id: 'mon', label: 'M' },
-    { id: 'tue', label: 'T' },
-    { id: 'wed', label: 'W' },
-    { id: 'thu', label: 'T' },
-    { id: 'fri', label: 'F' },
-    { id: 'sat', label: 'S' },
-    { id: 'sun', label: 'S' }
-  ];
+  days = DAYS;
   selectedDays: string[] = [];
-  times = [
-    { label: 'Morning', icon: '' },
-    { label: 'Noon', icon: '' },
-    { label: 'Evening', icon: '' },
-    { label: 'None', icon: 'notifications_off' }
-  ];
+  categories = CATEGORIES;
+  selectedCategory: any;
+  iconSelectedCategory: string = '';
 
-  categories = [
-    { id: 1, label: 'Health', icon: 'fitness_center' },
-    { id: 2, label: 'Work', icon: 'work' },
-    { id: 3, label: 'Study', icon: 'school' },
-    { id: 4, label: 'Personal', icon: 'person' },
-    { id: 5, label: 'Other', icon: 'more_horiz' }
-  ];
+  colors_categories = COLORS_CATEGORIES;
+  selectedColor: any = '';
 
-  selectedCategory = null;
   selectedTime: string = '';
 
   constructor(
@@ -61,7 +50,7 @@ export class AddNewComponent implements OnInit, AfterContentInit {
   }
 
   ngOnInit() {
-    this.newHabitForm.get('startDate')?.valueChanges.subscribe(value => {
+    this.newHabitForm.get('startDate')?.valueChanges.subscribe((value) => {
       // Se la data di inizio cambia, aggiorna la data di fine aggiungendo un'ora
       const endDate = new Date(value);
       endDate.setHours(endDate.getHours() + 1);
@@ -82,15 +71,15 @@ export class AddNewComponent implements OnInit, AfterContentInit {
   }
 
   private mapDayOfWeekToId(dayOfWeek: string): string {
-    const day = this.days.find(d => d.id === dayOfWeek);
+    const day = this.days.find((d) => d.id === dayOfWeek);
     return day ? day.id : '';
   }
 
   ngAfterContentInit(): void {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       if (params['id']) {
         this.isHabitToEdit = true;
-        this.habitService.getHabit(params['id']).then(habit => {
+        this.habitService.getHabit(params['id']).then((habit) => {
           if (habit) {
             this.newHabitForm.patchValue({
               ...habit,
@@ -108,7 +97,7 @@ export class AddNewComponent implements OnInit, AfterContentInit {
     const eventColor = this.getEventColor();
 
     const newHabit: Habit = {
-      id: this.isHabitToEdit ? this.route.snapshot.params['id'] : Date.now(),  // Questo id sarà sostituito in setHabits
+      id: this.isHabitToEdit ? this.route.snapshot.params['id'] : Date.now(), // Questo id sarà sostituito in setHabits
       title: this.newHabitForm.value.title,
       completed: false,
       completedAt: '',
@@ -116,7 +105,7 @@ export class AddNewComponent implements OnInit, AfterContentInit {
       endDate: this.newHabitForm.value.endDate,
       frequency: this.newHabitForm.value.frequency,
       remind: this.newHabitForm.value.remind,
-      color: eventColor
+      color: eventColor,
     };
 
     console.log(newHabit);
@@ -145,16 +134,23 @@ export class AddNewComponent implements OnInit, AfterContentInit {
     this.newHabitForm?.get('frequency')?.setValue(this.selectedDays);
   }
 
-
   onColorChange(color: any) {
     this.newHabitForm.get('color')?.setValue(color);
+    this.selectedColor = this.colors_categories.find((c) => c.hex === color);
+
+    console.log(this.selectedColor);
+  }
+
+  onCategoryChange(categoryId: number) {
+    this.selectedCategory = this.categories.find((c) => c.id === categoryId);
+    this.iconSelectedCategory = this.selectedCategory.icon;
   }
 
   getEventColor(): EventColor {
     const color = this.newHabitForm.get('color')?.value || '';
     return {
       primary: color,
-      secondary: color
+      secondary: color,
     };
   }
 
@@ -167,7 +163,7 @@ export class AddNewComponent implements OnInit, AfterContentInit {
     const eventColor = this.getEventColor();
 
     const newHabit: Habit = {
-      id: this.isHabitToEdit ? this.route.snapshot.params['id'] : Date.now(),  // Questo id sarà sostituito in setHabits
+      id: this.isHabitToEdit ? this.route.snapshot.params['id'] : Date.now(), // Questo id sarà sostituito in setHabits
       title: this.newHabitForm.value.title,
       completed: false,
       completedAt: '',
@@ -175,7 +171,7 @@ export class AddNewComponent implements OnInit, AfterContentInit {
       endDate: this.newHabitForm.value.endDate,
       frequency: this.newHabitForm.value.frequency,
       remind: this.newHabitForm.value.remind,
-      color: eventColor
+      color: eventColor,
     };
 
     const repetitionDates = this.habitService.generateRepetitionDates(
@@ -183,7 +179,6 @@ export class AddNewComponent implements OnInit, AfterContentInit {
       newHabit.frequency,
       newHabit.endDate ? new Date(newHabit.endDate) : undefined
     );
-    console.log(repetitionDates);
 
     await this.habitService.setHabits(newHabit, repetitionDates);
     this.habitService.notifyNewHabitAdded();
@@ -191,6 +186,4 @@ export class AddNewComponent implements OnInit, AfterContentInit {
     this.selectedDays = [];
     this.router.navigate(['/tabs/dashboard']);
   }
-
-
 }
