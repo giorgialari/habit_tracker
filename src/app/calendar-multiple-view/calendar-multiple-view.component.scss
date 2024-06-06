@@ -113,3 +113,59 @@
 .cal-week-view {
   border-top: solid 1px $secondary-color;
 }
+
+
+
+
+//Stili dell'evento singolo DayView
+.cal-event {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 4px;
+  color: white;
+  /* Testo bianco se il background è scuro */
+}
+
+.cal-event-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.cal-event-title {
+  flex-grow: 1;
+}
+
+.cal-event-actions {
+  display: flex;
+  align-items: center;
+}
+
+.cal-event-action {
+  background: none;
+  border: none;
+  color: inherit;
+  /* Prende il colore del testo dal parent */
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+/* Stilizzazione base della checkbox */
+.checkbox-complete .p-checkbox-box {
+  border: 2px solid #007ad9;
+  /* Aggiusta questo colore per abbinarlo ai tuoi bottoni */
+  background-color: #007ad9;
+  /* Stesso colore di sfondo dei bottoni */
+}
+
+
+/* Icona della checkbox quando è selezionata */
+.checkbox-complete .p-checkbox-icon {
+  color: #fff;
+  /* Icona bianca */
+  font-weight: 900;
+  /* Icona in grassetto */
+}

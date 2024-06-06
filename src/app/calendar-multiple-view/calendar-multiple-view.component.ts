@@ -8,6 +8,7 @@ import {
   OnInit,
   ChangeDetectorRef,
   Renderer2,
+  TemplateRef,
 } from '@angular/core';
 import { isSameDay, isSameMonth } from 'date-fns';
 import { Subject } from 'rxjs';
@@ -133,6 +134,7 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
   private async loadHabits() {
     const habits: Habit[] = await this.habitService.getAllHabits();
     this.events = habits.map((habit) => this.mapHabitToEvent(habit));
+    console.log('events', this.events);
     this.refresh.next({});
   }
   private mapHabitToEvent = (habit: Habit): CalendarEvent => {

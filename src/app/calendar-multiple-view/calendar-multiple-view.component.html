@@ -42,9 +42,9 @@
         [class.active]="view === tab.view"
       >
         <div class="flex flex-row align-items-center justify-content-center">
-            <div class="material-icons p-2 vertical-align-middle	text-base">
-              {{ tab.icon }}
-            </div>
+          <div class="material-icons p-2 vertical-align-middle text-base">
+            {{ tab.icon }}
+          </div>
           <div>{{ tab.label }}</div>
         </div>
       </div>
@@ -76,6 +76,7 @@
         [refresh]="refresh"
         (eventClicked)="handleEvent('Clicked', $event.event)"
         (eventTimesChanged)="eventTimesChanged($event)"
+        [eventTemplate]="eventTemplate"
       >
       </mwl-calendar-day-view>
     </div>
@@ -87,3 +88,32 @@
     ></app-todo-habits-view>
   </div>
 </div>
+
+<!-- eventTemplate -->
+<ng-template #eventTemplate let-event="weekEvent.event">
+  <div
+    *ngIf="event"
+    class="cal-event"
+    [style.background-color]="event.color.primary"
+  >
+    <div class="cal-event-content">
+      <div class="cal-event-title">{{ event.title }}</div>
+      <div class="cal-event-actions">
+        <p-checkbox
+          binary="true"
+          [(ngModel)]="event.completed"
+          styleClass="no-blur checkbox-complete"
+        ></p-checkbox>
+        <button class="cal-event-action" (click)="handleEvent('Edited', event)">
+          <span class="material-icons">edit</span>
+        </button>
+        <button
+          class="cal-event-action"
+          (click)="handleEvent('Deleted', event)"
+        >
+          <span class="material-icons">delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
