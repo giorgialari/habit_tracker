@@ -62,12 +62,17 @@ export class AddNewComponent implements OnInit, AfterContentInit {
 
   ngOnInit() {
     this.newHabitForm.get('startDate')?.valueChanges.subscribe(value => {
-      this.newHabitForm.get('endDate')?.setValue(value);
+      // Se la data di inizio cambia, aggiorna la data di fine aggiungendo un'ora
+      const endDate = new Date(value);
+      endDate.setHours(endDate.getHours() + 1);
+
+      this.newHabitForm.get('endDate')?.setValue(endDate);
 
       const dayOfWeek = this.getDayOfWeek(value);
       const dayId = this.mapDayOfWeekToId(dayOfWeek);
 
       this.selectedDays = [dayId];
+      this.newHabitForm.get('frequency')?.setValue(this.selectedDays);
     });
   }
 
@@ -178,6 +183,7 @@ export class AddNewComponent implements OnInit, AfterContentInit {
       newHabit.frequency,
       newHabit.endDate ? new Date(newHabit.endDate) : undefined
     );
+    console.log(repetitionDates);
 
     await this.habitService.setHabits(newHabit, repetitionDates);
     this.habitService.notifyNewHabitAdded();
