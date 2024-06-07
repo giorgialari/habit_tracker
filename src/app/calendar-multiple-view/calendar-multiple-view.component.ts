@@ -7,9 +7,10 @@ import {
   OnInit,
   ChangeDetectorRef,
   Renderer2,
+  OnDestroy,
 } from '@angular/core';
 import { isSameDay, isSameMonth } from 'date-fns';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import {
   CalendarEvent,
   CalendarEventAction,
@@ -21,6 +22,8 @@ import { Gesture, GestureController } from '@ionic/angular';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { TabUserOrderService } from '../_shared/services/tab-user-order.service';
 import { collapseAnimation } from 'angular-calendar';
+import { Router } from '@angular/router';
+import { RefreshService } from '../_shared/services/refresh-trigger.service';
 
 export enum CustomCalendarView {
   Month = 'month',
@@ -39,7 +42,7 @@ export enum CustomCalendarView {
   ],
   animations: [collapseAnimation],
 })
-export class CalendarMultipleViewComponent implements OnInit {
+export class CalendarMultipleViewComponent implements OnInit, OnDestroy {
   @ViewChild('swipeContainer', { static: true }) swipeContainer!: ElementRef;
 
   view: CustomCalendarView = CustomCalendarView.Month;
@@ -53,7 +56,7 @@ export class CalendarMultipleViewComponent implements OnInit {
       label: '<span class="material-icons">edit</span>',
       a11yLabel: 'Edit',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
+        this.handleEvent(event);
       },
     },
   ];
@@ -80,7 +83,7 @@ export class CalendarMultipleViewComponent implements OnInit {
   ];
 
   refresh: Subject<any> = new Subject();
-
+  refreshComponentTriggerSubscription = new Subscription();
   events: CalendarEvent[] = [];
 
   activeDayIsOpen: boolean = false;
@@ -90,17 +93,27 @@ export class CalendarMultipleViewComponent implements OnInit {
     private gestureCtrl: GestureController,
     private renderer: Renderer2,
     private tabOrderUserService: TabUserOrderService,
+    private refreshService: RefreshService,
+    private router: Router,
     private cd: ChangeDetectorRef
-  ) {
-    this.loadHabits();
-  }
+  ) {}
   async ngOnInit() {
     await this.loadTabs();
 
     this.setupSwipeGesture();
+
+    this.refreshComponentTriggerSubscription = this.refreshService
+      .getRefreshTrigger()
+      .subscribe(async () => {
+        await this.loadHabits();
+        this.refreshView();
+        this.cd.detectChanges();
+      });
+  }
+  async beforeMonthViewRender() {
+    await this.loadHabits();
     this.cd.detectChanges();
   }
-
   private async loadTabs() {
     await this.tabOrderUserService.ready();
     const savedTabs = await this.tabOrderUserService.getTabOrder();
@@ -114,15 +127,11 @@ export class CalendarMultipleViewComponent implements OnInit {
     if (this.view === CustomCalendarView.Day) {
       this.scrollToCurrentHour();
     }
-    console.log('tabs', this.tabs);
   }
-
 
   private async loadHabits() {
     const habits: Habit[] = await this.habitService.getAllHabits();
     this.events = habits.map((habit) => this.mapHabitToEvent(habit));
-    console.log('events', this.events);
-    this.refresh.next({});
   }
   private mapHabitToEvent = (habit: Habit): CalendarEvent => {
     return {
@@ -143,7 +152,6 @@ export class CalendarMultipleViewComponent implements OnInit {
   };
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    console.log('dayClicked', date, events);
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -173,13 +181,10 @@ export class CalendarMultipleViewComponent implements OnInit {
       }
       return iEvent;
     });
-    this.handleEvent('Dropped or resized', event);
   }
 
-  handleEvent(action: string, event: CalendarEvent): void {
-    console.log('handleEvent', action, event);
-    // this.modalData = { event, action };
-    // this.modal.open(this.modalContent, { size: 'lg' });
+  handleEvent(event: CalendarEvent): void {
+    this.router.navigate(['/tabs/edit-habit', event.id]);
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
@@ -205,6 +210,8 @@ export class CalendarMultipleViewComponent implements OnInit {
       default:
         break;
     }
+
+    this.refreshService.forceRefresh();
   }
 
   scrollToCurrentHour(): void {
@@ -269,7 +276,7 @@ export class CalendarMultipleViewComponent implements OnInit {
 
   refreshView() {
     this.refresh.next({});
-    this.cd.detectChanges(); // Forza il rilevamento dei cambiamenti
+    this.cd.detectChanges();
   }
 
   addSwipeClass(direction: string) {
@@ -287,5 +294,9 @@ export class CalendarMultipleViewComponent implements OnInit {
   async drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.tabs, event.previousIndex, event.currentIndex);
     await this.tabOrderUserService.setTabOrder(this.tabs);
+  }
+
+  ngOnDestroy(): void {
+    this.refreshComponentTriggerSubscription.unsubscribe();
   }
 }

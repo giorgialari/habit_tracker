@@ -63,20 +63,17 @@
           [refresh]="refresh"
           [activeDayIsOpen]="activeDayIsOpen"
           (dayClicked)="dayClicked($event.day)"
-          (eventClicked)="handleEvent('Clicked', $event.event)"
           (eventTimesChanged)="eventTimesChanged($event)"
           [openDayEventsTemplate]="customOpenDayEventsTemplate"
+          (beforeViewRender)="beforeMonthViewRender()"
+
         >
           <ng-template
             #customOpenDayEventsTemplate
             let-events="events"
             let-isOpen="isOpen"
           >
-            <div
-              class="cal-open-day-events"
-              *ngIf="isOpen"
-              (click)="handleEvent('isOpen', isOpen)"
-            >
+            <div class="cal-open-day-events" *ngIf="isOpen">
               <div *ngFor="let event of events" class="event-container">
                 <!-- Icon and background color -->
                 <div
@@ -94,9 +91,7 @@
 
                 <!-- Edit icon -->
                 <div class="edit-icon">
-                  <span
-                    class="material-icons"
-                    (click)="handleEvent('Edited', event)"
+                  <span class="material-icons" (click)="handleEvent(event)"
                     >edit</span
                   >
                 </div>
@@ -111,7 +106,6 @@
         [viewDate]="viewDate"
         [events]="events"
         [refresh]="refresh"
-        (eventClicked)="handleEvent('Clicked', $event.event)"
         (eventTimesChanged)="eventTimesChanged($event)"
         [eventTemplate]="eventDayTemplate"
       >
@@ -132,6 +126,7 @@
     class="cal-event"
     [style.background-color]="event.color.primary"
     [style.color]="event.color.secondary"
+    (click)="handleEvent(event)"
   >
     <div class="flex flex-column">
       <div class="cal-event-header flex">
@@ -143,11 +138,6 @@
       <div class="cal-event-content">
         <div class="cal-event-title text-base">{{ event.title }}</div>
       </div>
-    </div>
-    <div class="cal-event-actions">
-      <button class="cal-event-action" (click)="handleEvent('Edited', event)">
-        <span class="material-icons">edit</span>
-      </button>
     </div>
   </div>
 </ng-template>

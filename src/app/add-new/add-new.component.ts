@@ -1,11 +1,9 @@
 import {
   Component,
   OnInit,
-  AfterContentInit,
   Input,
   ChangeDetectorRef,
   AfterViewInit,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -14,6 +12,7 @@ import { Habit } from '../habit-dashboard/_models/habits.interface';
 import { EventColor } from 'calendar-utils';
 import { CATEGORIES, COLORS_CATEGORIES, DAYS } from './data/data';
 import { parseISO } from 'date-fns';
+import { RefreshService } from '../_shared/services/refresh-trigger.service';
 
 @Component({
   selector: 'app-add-new',
@@ -42,6 +41,7 @@ export class AddNewComponent implements OnInit, AfterViewInit {
     private router: Router,
     private route: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
+    private refreshService: RefreshService,
     private fb: FormBuilder
   ) {
     this.newHabitForm = this.fb.group({
@@ -86,9 +86,7 @@ export class AddNewComponent implements OnInit, AfterViewInit {
       const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
       return days[date.getDay()];
     } else {
-      // Log dell'errore se la data non è valida, ma ritorna comunque un giorno per coerenza
-      console.error('Invalid date:', dateInput);
-      return 'Invalid date'; // Potresti scegliere di gestire diversamente l'errore.
+      return 'Invalid date';
     }
   }
 
@@ -163,8 +161,6 @@ export class AddNewComponent implements OnInit, AfterViewInit {
   onColorChange(color: any) {
     this.newHabitForm.get('color')?.setValue(color);
     this.selectedColor = this.colors_categories.find((c) => c.hex === color);
-
-    console.log(this.selectedColor);
   }
 
   onCategoryChange(categoryId: number) {
@@ -207,6 +203,15 @@ export class AddNewComponent implements OnInit, AfterViewInit {
     }
   }
 
+  saveHabit() {
+    if (this.isHabitToEdit) {
+      this.editHabit();
+    } else {
+      this.submit();
+    }
+    this.refreshService.forceRefresh();
+  }
+
   async submit() {
     const eventColor = this.getEventColor();
 
@@ -231,6 +236,34 @@ export class AddNewComponent implements OnInit, AfterViewInit {
 
     await this.habitService.setHabits(newHabit, repetitionDates);
     this.habitService.notifyNewHabitAdded();
+    this.newHabitForm.reset();
+    this.selectedDays = [];
+    this.router.navigate(['/tabs/dashboard']);
+  }
+
+  async editHabit() {
+    const eventColor = this.getEventColor();
+
+    const editedHabit: Habit = {
+      id: this.route.snapshot.params['id'],
+      category: this.newHabitForm.value.category,
+      title: this.newHabitForm.value.title,
+      completed: false,
+      completedAt: '',
+      startDate: this.newHabitForm.value.startDate,
+      endDate: this.newHabitForm.value.endDate,
+      frequency: this.newHabitForm.value.frequency,
+      remind: this.newHabitForm.value.remind,
+      color: eventColor,
+    };
+
+    const repetitionDates = this.habitService.generateRepetitionDates(
+      new Date(editedHabit.startDate),
+      editedHabit.frequency,
+      editedHabit.endDate ? new Date(editedHabit.endDate) : undefined
+    );
+
+    await this.habitService.editHabit(editedHabit, repetitionDates);
     this.newHabitForm.reset();
     this.selectedDays = [];
     this.router.navigate(['/tabs/dashboard']);

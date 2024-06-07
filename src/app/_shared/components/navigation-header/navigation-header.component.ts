@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Location } from '@angular/common';
+import { RefreshService } from '../../services/refresh-trigger.service';
 
 @Component({
   selector: 'app-navigation-header',
@@ -9,10 +10,18 @@ import { Location } from '@angular/common';
 export class NavigationHeaderComponent implements OnInit {
   @Input() title: string = '';
   @Output() back = new EventEmitter();
-  constructor(private location: Location) {}
+  constructor(
+    private location: Location,
+    private refreshService: RefreshService
+  ) {}
   ngOnInit() {}
   goBack() {
     this.location.back();
+    this.triggerRefresh();
+  }
+
+  triggerRefresh() {
+    this.refreshService.forceRefresh();
   }
 
   backEmitter() {

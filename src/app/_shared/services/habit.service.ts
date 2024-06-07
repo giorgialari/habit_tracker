@@ -47,7 +47,10 @@ export class HabitService {
     await this._storage?.set('user_habits', habits);
   }
 
-  public async setHabits(newHabit: Habit, dates: { start: Date, end: Date }[]): Promise<void> {
+  public async setHabits(
+    newHabit: Habit,
+    dates: { start: Date; end: Date }[]
+  ): Promise<void> {
     await this.waitForStorageReady();
     const habits: Habit[] = await this.getAllHabits();
 
@@ -56,8 +59,8 @@ export class HabitService {
       const habitToSave: Habit = {
         ...newHabit,
         id: this.generateUniqueId(), // Genera un ID univoco per ogni evento
-        startDate: date.start.toISOString(),       // Imposta la data di inizio specifica per questo evento
-        endDate: date.end.toISOString()            // Imposta la data di fine specifica per questo evento
+        startDate: date.start.toISOString(), // Imposta la data di inizio specifica per questo evento
+        endDate: date.end.toISOString(), // Imposta la data di fine specifica per questo evento
       };
 
       habits.push(habitToSave); // Aggiungi la nuova abitudine configurata alla lista delle abitudini
@@ -66,6 +69,26 @@ export class HabitService {
     await this._storage?.set('user_habits', habits); // Salva l'array aggiornato nello storage
   }
 
+  //Cerca l'abituine con quell'id e la modifica in base ai dati ricevuti habitToEdit: Habit, dates: { start: Date, end: Date }[]
+  public async editHabit(
+    habitToEdit: Habit,
+    dates: { start: Date; end: Date }[]
+  ): Promise<void> {
+    await this.waitForStorageReady();
+    let habits: Habit[] = await this.getAllHabits();
+    habits = habits.filter((h) => +h.id !== +habitToEdit.id); // Rimuovi la vecchia abitudine
+    for (const date of dates) {
+      const habitToSave: Habit = {
+        ...habitToEdit,
+        id: this.generateUniqueId(), // Genera un ID univoco per ogni evento
+        startDate: date.start.toISOString(), // Imposta la data di inizio specifica per questo evento
+        endDate: date.end.toISOString(), // Imposta la data di fine specifica per questo evento
+      };
+
+      habits.push(habitToSave); // Aggiungi la nuova abitudine configurata alla lista delle abitudini
+    }
+    await this._storage?.set('user_habits', habits); // Salva l'array aggiornato nello storage
+  }
 
   private generateUniqueId(): number {
     return Date.now() + Math.floor(Math.random() * 1000); // Genera un id univoco
@@ -92,13 +115,13 @@ export class HabitService {
     startDate: Date,
     frequency: string[],
     endDate?: Date
-  ): { start: Date, end: Date }[] {
+  ): { start: Date; end: Date }[] {
     if (!startDate || !endDate) {
       console.error('Both startDate and endDate must be provided');
       return []; // Assicurati che sia startDate che endDate siano definiti
     }
 
-    const events: { start: Date, end: Date }[] = [];
+    const events: { start: Date; end: Date }[] = [];
     const dayMap: any = {
       sun: 0,
       mon: 1,
@@ -119,7 +142,8 @@ export class HabitService {
     const endSeconds = endDate.getSeconds();
 
     // Converti tutto in secondi per un calcolo più facile
-    const startTimeInSeconds = startHours * 3600 + startMinutes * 60 + startSeconds;
+    const startTimeInSeconds =
+      startHours * 3600 + startMinutes * 60 + startSeconds;
     const endTimeInSeconds = endHours * 3600 + endMinutes * 60 + endSeconds;
 
     // Calcola la differenza in secondi
@@ -142,7 +166,9 @@ export class HabitService {
       ) {
         const eventStart = new Date(currentDay);
         eventStart.setHours(startHours, startMinutes, startSeconds, 0); // Imposta l'orario di inizio
-        const eventEnd = new Date(eventStart.getTime() + durationInMilliseconds); // Imposta l'orario di fine
+        const eventEnd = new Date(
+          eventStart.getTime() + durationInMilliseconds
+        ); // Imposta l'orario di fine
 
         // Crea un oggetto evento e aggiungilo all'array
         events.push({ start: new Date(eventStart), end: new Date(eventEnd) });
@@ -152,7 +178,6 @@ export class HabitService {
 
     return events;
   }
-
 
   public getNewHabitAdded() {
     return this.newHabitAdded.asObservable();
