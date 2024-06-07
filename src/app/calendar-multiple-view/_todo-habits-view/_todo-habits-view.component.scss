@@ -31,3 +31,45 @@ ion-item::part(native) {
 ::ng-deep ion-item .item-inner {
   border: none;
 }
+
+
+.habit-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.icon-container {
+  width: auto;
+  /* Larghezza auto per mantenere il contenuto quadrato */
+  min-width: 50px;
+  /* Imposta una larghezza minima per l'icona */
+  height: 100%;
+  /* Occupa l'intera altezza del contenitore padre */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  /* Rendi circolare il container se preferisci */
+  background-color: var(--primary-color);
+  /* Usa una variabile CSS o un valore fisso */
+  padding: 10px;
+  /* Aggiungi spazio intorno all'icona */
+}
+
+.icon-container::before {
+  content: '';
+  float: left;
+  padding-top: 100%;
+}
+
+
+.category-label,
+.habit-title {
+  display: block;
+}
+
+.material-icons {
+  font-size: 24px;
+  /* Dimensione dell'icona */
+}

@@ -2,7 +2,7 @@ import { EventColor } from 'calendar-utils';
 
 export interface Habit {
   id: number;
-  category: string;
+  category: Category;
   title: string;
   completed: boolean;
   completedAt: string;
@@ -19,4 +19,10 @@ export interface CurrentMonth {
   dayOfWeek: string;
   month: string;
   completeDate: Date; //Data completa con giorno, mese, anno
+}
+
+export interface Category {
+  id: number;
+  icon: string;
+  label: string;
 }

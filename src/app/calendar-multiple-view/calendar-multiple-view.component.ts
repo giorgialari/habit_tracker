@@ -2,13 +2,11 @@ import {
   Component,
   ChangeDetectionStrategy,
   ViewEncapsulation,
-  AfterViewChecked,
   ViewChild,
   ElementRef,
   OnInit,
   ChangeDetectorRef,
   Renderer2,
-  TemplateRef,
 } from '@angular/core';
 import { isSameDay, isSameMonth } from 'date-fns';
 import { Subject } from 'rxjs';
@@ -22,6 +20,7 @@ import { HabitService } from '../_shared/services/habit.service';
 import { Gesture, GestureController } from '@ionic/angular';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { TabUserOrderService } from '../_shared/services/tab-user-order.service';
+import { collapseAnimation } from 'angular-calendar';
 
 export enum CustomCalendarView {
   Month = 'month',
@@ -38,8 +37,9 @@ export enum CustomCalendarView {
     './calendar-multiple-view.component.scss',
     './_month.component.scss',
   ],
+  animations: [collapseAnimation],
 })
-export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
+export class CalendarMultipleViewComponent implements OnInit {
   @ViewChild('swipeContainer', { static: true }) swipeContainer!: ElementRef;
 
   view: CustomCalendarView = CustomCalendarView.Month;
@@ -54,14 +54,6 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
       a11yLabel: 'Edit',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         this.handleEvent('Edited', event);
-      },
-    },
-    {
-      label: '<span class="material-icons">delete</span>',
-      a11yLabel: 'Delete',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
-        this.handleEvent('Deleted', event);
       },
     },
   ];
@@ -91,7 +83,7 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
 
   events: CalendarEvent[] = [];
 
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen: boolean = false;
 
   constructor(
     private habitService: HabitService,
@@ -125,11 +117,6 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
     console.log('tabs', this.tabs);
   }
 
-  ngAfterViewChecked() {
-    this.activeDayIsOpen =
-      this.events.filter((event) => isSameDay(event.start, this.viewDate))
-        .length > 0;
-  }
 
   private async loadHabits() {
     const habits: Habit[] = await this.habitService.getAllHabits();
@@ -156,6 +143,7 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
   };
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    console.log('dayClicked', date, events);
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||

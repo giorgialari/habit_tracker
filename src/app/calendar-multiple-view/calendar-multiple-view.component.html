@@ -65,7 +65,44 @@
           (dayClicked)="dayClicked($event.day)"
           (eventClicked)="handleEvent('Clicked', $event.event)"
           (eventTimesChanged)="eventTimesChanged($event)"
+          [openDayEventsTemplate]="customOpenDayEventsTemplate"
         >
+          <ng-template
+            #customOpenDayEventsTemplate
+            let-events="events"
+            let-isOpen="isOpen"
+          >
+            <div
+              class="cal-open-day-events"
+              *ngIf="isOpen"
+              (click)="handleEvent('isOpen', isOpen)"
+            >
+              <div *ngFor="let event of events" class="event-container">
+                <!-- Icon and background color -->
+                <div
+                  class="event-icon-container border-round-sm"
+                  [style.backgroundColor]="event.color.primary"
+                >
+                  <span class="material-icons">{{ event.category.icon }}</span>
+                </div>
+
+                <!-- Category and title -->
+                <div class="event-details">
+                  <div class="event-category">{{ event.category.label }}</div>
+                  <div class="event-title">{{ event.title }}</div>
+                </div>
+
+                <!-- Edit icon -->
+                <div class="edit-icon">
+                  <span
+                    class="material-icons"
+                    (click)="handleEvent('Edited', event)"
+                    >edit</span
+                  >
+                </div>
+              </div>
+            </div>
+          </ng-template>
         </mwl-calendar-month-view>
       </div>
 
@@ -76,7 +113,7 @@
         [refresh]="refresh"
         (eventClicked)="handleEvent('Clicked', $event.event)"
         (eventTimesChanged)="eventTimesChanged($event)"
-        [eventTemplate]="eventTemplate"
+        [eventTemplate]="eventDayTemplate"
       >
       </mwl-calendar-day-view>
     </div>
@@ -89,8 +126,7 @@
   </div>
 </div>
 
-<!-- eventTemplate -->
-<ng-template #eventTemplate let-event="weekEvent.event">
+<ng-template #eventDayTemplate let-event="weekEvent.event">
   <div
     *ngIf="event"
     class="cal-event"

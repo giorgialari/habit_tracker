@@ -1,20 +1,33 @@
 <div class="mx-3">
   <h5 class="font-bold">My habits</h5>
 
-  <!-- <ion-list> -->
+  <ion-list>
     <div *ngFor="let habit of _myHabits; let i = index">
-      <!-- <ion-item class="mx-auto"> -->
+      <ion-item class="mx-auto">
         <p-card>
-          <div class="flex align-items-center justify-content-between">
-            <div class="flex-grow-1">
-              <div>{{ habit.title }}</div>
-              <div class="text-xs" *ngIf="habit.completed; else notCompleted">
-                Completed at {{ habit.completedAt }}
+          <div
+            class="flex align-items-center justify-content-between habit-container"
+          >
+            <!-- Container per icona e titolo -->
+            <div class="flex align-items-center">
+              <div
+                class="icon-container border-round-sm"
+                [style.backgroundColor]="habit.color.primary"
+              >
+                <span class="material-icons">{{ habit.category.icon }}</span>
               </div>
-              <ng-template #notCompleted>
-                <div class="text-xs">Not completed</div>
-              </ng-template>
+              <div class="flex-grow-1 ml-2">
+                <div class="category-label">{{ habit.category.label }}</div>
+                <div class="habit-title">{{ habit.title }}</div>
+                <div class="text-xs" *ngIf="habit.completed; else notCompleted">
+                  Completed at {{ habit.completedAt }}
+                </div>
+                <ng-template #notCompleted>
+                  <div class="text-xs">Not completed</div>
+                </ng-template>
+              </div>
             </div>
+            <!-- Checkbox a destra -->
             <p-checkbox
               binary="true"
               [(ngModel)]="habit.completed"
@@ -23,7 +36,7 @@
             ></p-checkbox>
           </div>
         </p-card>
-      <!-- </ion-item>
+      </ion-item>
       <ion-item-options side="start">
         <ion-item-option
           color="success"
@@ -32,16 +45,9 @@
         >
           <span class="material-icons"> edit </span>
         </ion-item-option>
-        <ion-item-option
-          color="danger"
-          (click)="deleteHabit(habit); $event.stopPropagation()"
-          class="w-2 text-center"
-        >
-          <span class="material-icons"> delete_outline </span>
-        </ion-item-option>
-      </ion-item-options> -->
+      </ion-item-options>
     </div>
-  <!-- </ion-list> -->
+  </ion-list>
 
   <!-- Se non ci sono elementi mostro un div con un messaggio "Nessun elemento presente" -->
   <div *ngIf="!_myHabits.length" class="text-center mt-3">
