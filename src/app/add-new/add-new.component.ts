@@ -191,18 +191,15 @@ export class AddNewComponent implements OnInit, AfterViewInit {
   }
 
   deleteHabit() {
-    // Conferma la decisione dell'utente prima di eliminare
-    if (
-      confirm(
-        'Sei sicuro di voler eliminare questa abitudine? Questo rimuoverà tutte le statistiche associate.'
-      )
-    ) {
-      // Logica per eliminare l'abitudine
-      console.log('Abitudine eliminata.');
-      // Qui potresti chiamare il servizio per rimuovere l'abitudine dal backend
+    const habitId = this.route.snapshot.params['id'];
+    if (!habitId) {
+      return;
     }
+    this.habitService.removeHabit(habitId).then(() => {
+      this.refreshService.forceRefresh();
+      this.router.navigate(['/tabs/dashboard']);
+    });
   }
-
   saveHabit() {
     if (this.isHabitToEdit) {
       this.editHabit();

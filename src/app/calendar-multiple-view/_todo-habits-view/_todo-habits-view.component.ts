@@ -83,14 +83,6 @@ export class _todoHabitsViewComponent implements OnInit, OnDestroy {
     this.router.navigate(['/tabs/edit-habit', habit.id]);
   }
 
-  // deleteHabit(habit: Habit) {
-  //   // Chiamata al servizio per eliminare l'abitudine
-  //   this.habitService.removeHabit(habit.id).then(() => {
-  //     // Aggiorna l'elenco delle abitudini dopo l'eliminazione
-  //     this.loadHabits();
-  //   });
-  // }
-
   ngOnDestroy() {
     if (this.initSub) {
       this.initSub.unsubscribe();

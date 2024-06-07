@@ -187,10 +187,6 @@ export class CalendarMultipleViewComponent implements OnInit, OnDestroy {
     this.router.navigate(['/tabs/edit-habit', event.id]);
   }
 
-  deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
-  }
-
   setView(view: CustomCalendarView) {
     this.view = view;
     if (view === CustomCalendarView.Day) {
@@ -210,7 +206,7 @@ export class CalendarMultipleViewComponent implements OnInit, OnDestroy {
       default:
         break;
     }
-
+    this.activeDayIsOpen = false;
     this.refreshService.forceRefresh();
   }
 

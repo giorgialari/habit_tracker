@@ -66,7 +66,6 @@
           (eventTimesChanged)="eventTimesChanged($event)"
           [openDayEventsTemplate]="customOpenDayEventsTemplate"
           (beforeViewRender)="beforeMonthViewRender()"
-
         >
           <ng-template
             #customOpenDayEventsTemplate
@@ -74,28 +73,32 @@
             let-isOpen="isOpen"
           >
             <div class="cal-open-day-events" *ngIf="isOpen">
-              <div *ngFor="let event of events" class="event-container">
-                <!-- Icon and background color -->
-                <div
-                  class="event-icon-container border-round-sm"
-                  [style.backgroundColor]="event.color.primary"
-                >
-                  <span class="material-icons">{{ event.category.icon }}</span>
-                </div>
-
-                <!-- Category and title -->
-                <div class="event-details">
-                  <div class="event-category">{{ event.category.label }}</div>
-                  <div class="event-title">{{ event.title }}</div>
-                </div>
-
-                <!-- Edit icon -->
-                <div class="edit-icon">
-                  <span class="material-icons" (click)="handleEvent(event)"
-                    >edit</span
+              <ng-container *ngFor="let event of events" >
+                <div class="event-container">
+                  <!-- Icon and background color -->
+                  <div
+                    class="event-icon-container border-round-sm"
+                    [style.backgroundColor]="event.color.primary"
                   >
+                    <span class="material-icons">{{
+                      event.category.icon
+                    }}</span>
+                  </div>
+
+                  <!-- Category and title -->
+                  <div class="event-details">
+                    <div class="event-category">{{ event.category.label }}</div>
+                    <div class="event-title">{{ event.title }}</div>
+                  </div>
+
+                  <!-- Edit icon -->
+                  <div class="edit-icon">
+                    <span class="material-icons" (click)="handleEvent(event)"
+                      >edit</span
+                    >
+                  </div>
                 </div>
-              </div>
+              </ng-container>
             </div>
           </ng-template>
         </mwl-calendar-month-view>

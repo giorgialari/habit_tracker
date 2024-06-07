@@ -172,7 +172,7 @@
         <span>{{ isHabitToEdit ? "Edit habit" : "Add new habit" }}</span>
       </p-button>
 
-      <p-button *ngIf="isHabitToEdit" size="small" severity="danger">
+      <p-button *ngIf="isHabitToEdit" size="small" severity="danger" (click)="deleteHabit()">
         <span class="material-icons mr-2 text-base"> delete </span>
         <span>Delete</span>
       </p-button>
