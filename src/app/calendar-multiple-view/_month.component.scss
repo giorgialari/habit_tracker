@@ -59,6 +59,17 @@
   text-transform: uppercase;
 }
 
+.cal-month-view .cal-day-badge{
+  margin-left: 0px;
+}
+.cal-month-view .cal-day-number {
+margin-right: 0px;
+}
+.cal-month-view .cal-events{
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
 // TODO: da rivedere
 .cal-open-day-events {
   padding: 10px;
@@ -73,3 +84,5 @@
   text-align: center;
   /* Centra il testo */
 }
+
+

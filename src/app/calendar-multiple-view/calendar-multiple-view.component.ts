@@ -140,6 +140,7 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
   private mapHabitToEvent = (habit: Habit): CalendarEvent => {
     return {
       id: habit.id,
+      category: habit.category,
       start: new Date(habit.startDate),
       end: habit.endDate ? new Date(habit.endDate) : undefined,
       title: habit.title,
@@ -151,7 +152,7 @@ export class CalendarMultipleViewComponent implements OnInit, AfterViewChecked {
         beforeStart: false,
         afterEnd: false,
       },
-    };
+    } as CalendarEvent;
   };
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {

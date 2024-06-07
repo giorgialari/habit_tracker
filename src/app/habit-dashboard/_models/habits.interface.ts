@@ -2,6 +2,7 @@ import { EventColor } from 'calendar-utils';
 
 export interface Habit {
   id: number;
+  category: string;
   title: string;
   completed: boolean;
   completedAt: string;

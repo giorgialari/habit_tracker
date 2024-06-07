@@ -18,9 +18,10 @@
   line-height: 2.2rem;
   border-radius: 50%;
   margin: 0.5rem;
-  border: none;
   font-size: 1.1rem;
   cursor: pointer;
+  background-color: transparent;
+  border: 1px solid $secondary-color !important;
 }
 
 .days button.selected {

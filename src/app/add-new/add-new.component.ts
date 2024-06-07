@@ -40,11 +40,12 @@ export class AddNewComponent implements OnInit, AfterContentInit {
     private fb: FormBuilder
   ) {
     this.newHabitForm = this.fb.group({
+      category: ['', Validators.required],
       title: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: [''],
       frequency: ['', Validators.required],
-      color: [''], // Colore come stringa
+      color: [''],
       remind: [''],
     });
   }
@@ -93,23 +94,6 @@ export class AddNewComponent implements OnInit, AfterContentInit {
     });
   }
 
-  testSalvataggio() {
-    const eventColor = this.getEventColor();
-
-    const newHabit: Habit = {
-      id: this.isHabitToEdit ? this.route.snapshot.params['id'] : Date.now(), // Questo id sarà sostituito in setHabits
-      title: this.newHabitForm.value.title,
-      completed: false,
-      completedAt: '',
-      startDate: this.newHabitForm.value.startDate,
-      endDate: this.newHabitForm.value.endDate,
-      frequency: this.newHabitForm.value.frequency,
-      remind: this.newHabitForm.value.remind,
-      color: eventColor,
-    };
-
-    console.log(newHabit);
-  }
   selectTime(time: string) {
     this.selectedTime = time;
     this.newHabitForm?.get('remind')?.setValue(time);
@@ -143,14 +127,14 @@ export class AddNewComponent implements OnInit, AfterContentInit {
 
   onCategoryChange(categoryId: number) {
     this.selectedCategory = this.categories.find((c) => c.id === categoryId);
+    this.newHabitForm.get('category')?.setValue(this.selectedCategory);
     this.iconSelectedCategory = this.selectedCategory.icon;
   }
 
   getEventColor(): EventColor {
-    const color = this.newHabitForm.get('color')?.value || '';
     return {
-      primary: color,
-      secondary: color,
+      primary: this.selectedColor.hex,
+      secondary: this.selectedColor.textColor,
     };
   }
 
@@ -164,6 +148,7 @@ export class AddNewComponent implements OnInit, AfterContentInit {
 
     const newHabit: Habit = {
       id: this.isHabitToEdit ? this.route.snapshot.params['id'] : Date.now(), // Questo id sarà sostituito in setHabits
+      category: this.newHabitForm.value.category,
       title: this.newHabitForm.value.title,
       completed: false,
       completedAt: '',

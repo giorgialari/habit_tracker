@@ -95,25 +95,23 @@
     *ngIf="event"
     class="cal-event"
     [style.background-color]="event.color.primary"
+    [style.color]="event.color.secondary"
   >
-    <div class="cal-event-content">
-      <div class="cal-event-title">{{ event.title }}</div>
-      <div class="cal-event-actions">
-        <p-checkbox
-          binary="true"
-          [(ngModel)]="event.completed"
-          styleClass="no-blur checkbox-complete"
-        ></p-checkbox>
-        <button class="cal-event-action" (click)="handleEvent('Edited', event)">
-          <span class="material-icons">edit</span>
-        </button>
-        <button
-          class="cal-event-action"
-          (click)="handleEvent('Deleted', event)"
-        >
-          <span class="material-icons">delete</span>
-        </button>
+    <div class="flex flex-column">
+      <div class="cal-event-header flex">
+        <span class="material-icons category-icon mr-2">{{
+          event.category.icon
+        }}</span>
+        <div class="category-label text-sm">{{ event.category.label }}</div>
       </div>
+      <div class="cal-event-content">
+        <div class="cal-event-title text-base">{{ event.title }}</div>
+      </div>
+    </div>
+    <div class="cal-event-actions">
+      <button class="cal-event-action" (click)="handleEvent('Edited', event)">
+        <span class="material-icons">edit</span>
+      </button>
     </div>
   </div>
 </ng-template>

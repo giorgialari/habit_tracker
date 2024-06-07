@@ -1,5 +1,5 @@
-<div class="mx-1">
-  <div class="component-container">
+<div class="mx-1 h-full">
+  <div class="component-container h-full">
     <div>
       <app-navigation-header
         [title]="isHabitToEdit ? 'Edit Habit' : 'Add New Habit'"
@@ -113,6 +113,7 @@
                 styleClass="w-screen"
                 [showTime]="true"
                 [hourFormat]="'24'"
+                [minDate]="newHabitForm.get('startDate')?.value"
               ></p-calendar>
               <label>End date</label>
             </p-floatLabel>
@@ -151,8 +152,8 @@
               <label>
                 {{
                   newHabitForm.get("remind")?.value
-                    ? "Reminder time"
-                    : "No reminder time selected"
+                    ? "Reminder time notification"
+                    : "No reminder time notifications selected"
                 }}
               </label>
             </p-floatLabel>
@@ -161,15 +162,7 @@
       </form>
     </div>
 
-    <div class="mt-5">
-      <p-button
-        [label]="'Test Salvataggio'"
-        size="small"
-        severity="primary"
-        (onClick)="testSalvataggio()"
-        [rounded]="true"
-      />
-
+    <div class="mt-5 mb-3">
       <p-button
         [label]="isHabitToEdit ? 'Edit habit' : 'Add new habit'"
         size="small"
