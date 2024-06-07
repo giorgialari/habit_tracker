@@ -1,21 +1,7 @@
-ion-item {
-  --inner-padding-start: 0;
-  --inner-padding-end: 0;
-  width: 100%;
-  display: block;
-  background-color: transparent;
-}
-
 p-card {
   width: 100%;
   box-sizing: border-box;
 }
-
-
-ion-item::part(native) {
-  padding-left: unset;
-}
-
 
 /* Rimuove il focus visibile specificamente dai p-checkbox */
 .no-blur:focus {
@@ -28,11 +14,6 @@ ion-item::part(native) {
   box-shadow: none;
 }
 
-::ng-deep ion-item .item-inner {
-  border: none;
-}
-
-
 .habit-container {
   display: flex;
   align-items: center;
@@ -42,7 +23,7 @@ ion-item::part(native) {
 .icon-container {
   width: auto;
   /* Larghezza auto per mantenere il contenuto quadrato */
-  min-width: 50px;
+  min-width: 3.5rem;
   /* Imposta una larghezza minima per l'icona */
   height: 100%;
   /* Occupa l'intera altezza del contenitore padre */
@@ -63,13 +44,17 @@ ion-item::part(native) {
   padding-top: 100%;
 }
 
-
 .category-label,
 .habit-title {
   display: block;
 }
 
-.material-icons {
-  font-size: 24px;
-  /* Dimensione dell'icona */
+.remove_inner_bottom {
+  --inner-border-width: 0; // this removes the inner border width
+  --inner-padding-start: 0;
+  --inner-padding-end: 0;
+}
+
+::ng-deep .p-card-body {
+  padding: 0;
 }

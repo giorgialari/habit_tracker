@@ -2,8 +2,8 @@
   <h5 class="font-bold">My habits</h5>
 
   <ion-list>
-    <div *ngFor="let habit of _myHabits; let i = index">
-      <ion-item class="mx-auto">
+    <ion-item-sliding *ngFor="let habit of _myHabits; let i = index">
+      <ion-item class="mx-auto mb-2" lines="none" class="remove_inner_bottom">
         <p-card>
           <div
             class="flex align-items-center justify-content-between habit-container"
@@ -11,12 +11,12 @@
             <!-- Container per icona e titolo -->
             <div class="flex align-items-center">
               <div
-                class="icon-container border-round-sm"
+                class="icon-container border-round-sm mr-3"
                 [style.backgroundColor]="habit.color.primary"
               >
                 <span class="material-icons">{{ habit.category.icon }}</span>
               </div>
-              <div class="flex-grow-1 ml-2">
+              <div class="flex-grow-1">
                 <div class="category-label">{{ habit.category.label }}</div>
                 <div class="habit-title">{{ habit.title }}</div>
                 <div class="text-xs" *ngIf="habit.completed; else notCompleted">
@@ -41,12 +41,11 @@
         <ion-item-option
           color="success"
           (click)="editHabit(habit); $event.stopPropagation()"
-          class="w-2 text-center"
         >
           <span class="material-icons"> edit </span>
         </ion-item-option>
       </ion-item-options>
-    </div>
+    </ion-item-sliding>
   </ion-list>
 
   <!-- Se non ci sono elementi mostro un div con un messaggio "Nessun elemento presente" -->
