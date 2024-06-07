@@ -22,7 +22,7 @@ registerLocaleData(localeIt);
   imports: [
     BrowserModule,
     IonicModule.forRoot({
-      animated: false, // Disabilita tutte le animazioni di navigazione
+      animated: true, // Abilita/Disabilita tutte le animazioni di navigazione
     }),
     IonicStorageModule.forRoot(),
     AppRoutingModule,

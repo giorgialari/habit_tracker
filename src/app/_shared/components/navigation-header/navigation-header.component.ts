@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Location } from '@angular/common';
 
 @Component({
@@ -7,12 +7,15 @@ import { Location } from '@angular/common';
   styleUrls: ['./navigation-header.component.scss'],
 })
 export class NavigationHeaderComponent implements OnInit {
-@Input() title: string = '';
-
-  constructor(private location: Location,
-  ) { }
-  ngOnInit() { }
+  @Input() title: string = '';
+  @Output() back = new EventEmitter();
+  constructor(private location: Location) {}
+  ngOnInit() {}
   goBack() {
     this.location.back();
+  }
+
+  backEmitter() {
+    this.back.emit();
   }
 }

@@ -15,7 +15,14 @@
                 : 'initial'
             }"
           >
-            <span class="material-icons">
+            <span
+              class="material-icons"
+              [ngStyle]="{
+                color: selectedColor?.textColor
+                  ? selectedColor.textColor
+                  : 'initial'
+              }"
+            >
               {{ iconSelectedCategory ? iconSelectedCategory : "category" }}
             </span>
           </div>
@@ -24,6 +31,7 @@
         <div class="col-8 flex align-items-end">
           <p-dropdown
             [options]="categories"
+            [(ngModel)]="selectedCategoryOptValue"
             [checkmark]="true"
             optionLabel="label"
             optionValue="id"
@@ -38,6 +46,7 @@
         <p-floatLabel>
           <p-dropdown
             [options]="colors_categories"
+            [(ngModel)]="selectedColorOptValue"
             optionLabel="name"
             optionValue="hex"
             [showClear]="true"
@@ -45,23 +54,11 @@
             class="w-full-category w-full"
             (onChange)="onColorChange($event.value)"
           >
-            <ng-template pTemplate="selectedItem">
-              <div
-                class="flex align-items-center gap-2"
-                *ngIf="selectedColor && selectedColor.hex"
-              >
-                <div
-                  class="color-circle"
-                  [style.background-color]="selectedColor.hex"
-                ></div>
-                <div>{{ selectedColor.name }}</div>
-              </div>
-              <div *ngIf="!selectedColor || !selectedColor.hex">
-                Select a Color
-              </div>
-            </ng-template>
-
-            <ng-template let-data pTemplate="item">
+            <ng-template
+              let-data
+              pTemplate="item"
+              *ngIf="colors_categories && colors_categories.length > 0"
+            >
               <div class="flex align-items-center gap-2">
                 <div
                   class="color-circle"
@@ -113,7 +110,7 @@
                 styleClass="w-screen"
                 [showTime]="true"
                 [hourFormat]="'24'"
-                [minDate]="newHabitForm.get('startDate')?.value"
+                [minDate]="getMinDate()"
               ></p-calendar>
               <label>End date</label>
             </p-floatLabel>
@@ -164,13 +161,21 @@
 
     <div class="mt-5 mb-3">
       <p-button
-        [label]="isHabitToEdit ? 'Edit habit' : 'Add new habit'"
         size="small"
-        severity="warning"
+        severity="danger"
         (onClick)="submit()"
-        [rounded]="true"
+        [outlined]="true"
         [disabled]="!newHabitForm.valid"
-      />
+        class="mr-2"
+      >
+        <span class="material-icons mr-2 text-base"> save </span>
+        <span>{{ isHabitToEdit ? "Edit habit" : "Add new habit" }}</span>
+      </p-button>
+
+      <p-button *ngIf="isHabitToEdit" size="small" severity="danger">
+        <span class="material-icons mr-2 text-base"> delete </span>
+        <span>Delete</span>
+      </p-button>
     </div>
   </div>
 </div>
