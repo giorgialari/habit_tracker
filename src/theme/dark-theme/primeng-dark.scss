@@ -69,3 +69,14 @@ button:focus {
 .p-datepicker-header {
   background-color: $background-color;
 }
+
+
+// p-inputSwitch
+
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+  background-color: $color-selected;
+}
+
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider:before {
+  background-color: $text-color;
+}

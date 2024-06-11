@@ -81,10 +81,18 @@
             </p-floatLabel>
           </div>
 
-          <!-- Start date</h4> -->
+          <div
+            class="w-screen mx-auto px-3 flex align-items-center justify-content-between mt-3"
+          >
+            <h5>This event during all day?</h5>
+            <p-inputSwitch styleClass="flex" formControlName="allDay" />
+          </div>
+
+          <!-- Start date</h5> -->
           <div class="mt-5 w-screen px-3 mx-auto pb-2">
             <p-floatLabel>
               <p-calendar
+                #startDatePicker
                 [showButtonBar]="true"
                 [touchUI]="true"
                 formControlName="startDate"
@@ -94,7 +102,7 @@
                 [showTime]="true"
                 [hourFormat]="'24'"
               ></p-calendar>
-              <label>Start date</label>
+              <label>Start period</label>
             </p-floatLabel>
           </div>
 
@@ -102,6 +110,7 @@
           <div class="mt-5 w-screen px-3 mx-auto pb-2">
             <p-floatLabel>
               <p-calendar
+                #endDatePicker
                 [showButtonBar]="true"
                 [touchUI]="true"
                 formControlName="endDate"
@@ -112,14 +121,13 @@
                 [hourFormat]="'24'"
                 [minDate]="getMinDate()"
               ></p-calendar>
-              <label>End date</label>
+              <label>End period</label>
             </p-floatLabel>
           </div>
 
-          <!-- colorpicker -->
-
+          <!-- periodicity -->
           <div class="periodicity-container w-screen mx-auto px-3 my-5">
-            <h4>Set periodicity</h4>
+            <h5>Set periodicity</h5>
             <div class="days flex justify-content-center">
               <button
                 *ngFor="let day of days; let i = index"
@@ -172,7 +180,12 @@
         <span>{{ isHabitToEdit ? "Edit habit" : "Add new habit" }}</span>
       </p-button>
 
-      <p-button *ngIf="isHabitToEdit" size="small" severity="danger" (click)="deleteHabit()">
+      <p-button
+        *ngIf="isHabitToEdit"
+        size="small"
+        severity="danger"
+        (click)="deleteHabit()"
+      >
         <span class="material-icons mr-2 text-base"> delete </span>
         <span>Delete</span>
       </p-button>

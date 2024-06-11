@@ -142,7 +142,7 @@ export class CalendarMultipleViewComponent implements OnInit, OnDestroy {
       title: habit.title,
       color: habit.color,
       actions: this.actions,
-      allDay: false,
+      allDay: habit.allDay,
       draggable: false,
       resizable: {
         beforeStart: false,

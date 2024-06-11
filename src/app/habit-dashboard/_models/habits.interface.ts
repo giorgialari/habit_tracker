@@ -7,6 +7,7 @@ export interface Habit {
   completed: boolean;
   completedAt: string;
   frequency: string[];
+  allDay: boolean;
   startDate: string;
   endDate: string;
   remind: string;

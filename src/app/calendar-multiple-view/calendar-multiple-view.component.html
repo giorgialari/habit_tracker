@@ -73,7 +73,7 @@
             let-isOpen="isOpen"
           >
             <div class="cal-open-day-events" *ngIf="isOpen">
-              <ng-container *ngFor="let event of events" >
+              <ng-container *ngFor="let event of events">
                 <div class="event-container">
                   <!-- Icon and background color -->
                   <div
@@ -131,15 +131,29 @@
     [style.color]="event.color.secondary"
     (click)="handleEvent(event)"
   >
-    <div class="flex flex-column">
+    <div class="flex flex-column" [class.py-1]="event.allDay">
       <div class="cal-event-header flex">
-        <span class="material-icons category-icon mr-2">{{
-          event.category.icon
-        }}</span>
-        <div class="category-label text-sm">{{ event.category.label }}</div>
+        <span
+          class="material-icons category-icon mr-2"
+          [class.text-xs]="event.allDay"
+          >{{ event.category.icon }}</span
+        >
+        <div
+          class="category-label"
+          [class.text-sm]="!event.allDay"
+          [class.text-xs]="event.allDay"
+        >
+          {{ event.category.label }}
+        </div>
       </div>
       <div class="cal-event-content">
-        <div class="cal-event-title text-base">{{ event.title }}</div>
+        <div
+          class="cal-event-title"
+          [class.text-base]="!event.allDay"
+          [class.text-xs]="event.allDay"
+        >
+          {{ event.title }}
+        </div>
       </div>
     </div>
   </div>

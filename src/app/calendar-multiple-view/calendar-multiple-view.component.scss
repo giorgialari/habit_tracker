@@ -124,7 +124,7 @@
   align-items: center;
   margin: 5px 0;
   border-radius: 4px;
-  color: white;
+  color: $text-color;
   /* Testo bianco se il background è scuro */
 }
 
@@ -155,4 +155,40 @@
   /* Assicura che tutto sia centrato verticalmente */
   padding: 10px 0;
   /* Aggiunge un po' di spazio sopra e sotto per respirare */
+}
+
+.cal-all-day-events .cal-events-row {
+  min-height: 50px;
+  /* Imposta un'altezza minima appropriata */
+  height: auto;
+  /* Assicurati che l'altezza si adatti al contenuto */
+}
+
+.cal-all-day-events .cal-event-container {
+  height: 100%;
+  /* Usa tutto lo spazio verticale disponibile nel contenitore */
+}
+
+.cal-all-day-events .cal-day-events {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.cal-all-day-events .cal-day-events {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.cal-week-view .cal-all-day-events .cal-event {
+  height: auto;
+  line-height: 100%;
+}
+
+.cal-week-view .cal-all-day-events {
+  border: solid 1px rgba($secondary-color, 0.5);
+  border-top: 0;
+  padding-top: 3px;
+  position: relative;
 }

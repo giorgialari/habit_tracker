@@ -4,6 +4,10 @@ import {
   Input,
   ChangeDetectorRef,
   AfterViewInit,
+  ElementRef,
+  Renderer2,
+  ViewChild,
+  AfterViewChecked,
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -19,10 +23,13 @@ import { RefreshService } from '../_shared/services/refresh-trigger.service';
   templateUrl: './add-new.component.html',
   styleUrls: ['./add-new.component.scss'],
 })
-export class AddNewComponent implements OnInit, AfterViewInit {
+export class AddNewComponent
+  implements OnInit, AfterViewInit, AfterViewChecked
+{
   newHabitForm: FormGroup;
   @Input() isHabitToEdit: boolean = false;
-
+  @ViewChild('startDatePicker') startDatePicker!: ElementRef;
+  @ViewChild('endDatePicker') endDatePicker!: ElementRef;
   days = DAYS;
   selectedDays: string[] = [];
   categories = CATEGORIES;
@@ -35,6 +42,7 @@ export class AddNewComponent implements OnInit, AfterViewInit {
   selectedColorOptValue = '';
 
   selectedTime: string = '';
+  allDay = false;
 
   constructor(
     private habitService: HabitService,
@@ -42,11 +50,13 @@ export class AddNewComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
     private refreshService: RefreshService,
+    private renderer: Renderer2,
     private fb: FormBuilder
   ) {
     this.newHabitForm = this.fb.group({
       category: ['', Validators.required],
       title: ['', Validators.required],
+      allDay: [this.allDay],
       startDate: ['', Validators.required],
       endDate: [''],
       frequency: ['', Validators.required],
@@ -62,7 +72,6 @@ export class AddNewComponent implements OnInit, AfterViewInit {
       if (!(startDate instanceof Date && !isNaN(startDate.getTime()))) {
         return;
       }
-
       // Se la data di inizio cambia, aggiorna la data di fine aggiungendo un'ora
       const endDate = new Date(value);
       endDate.setHours(endDate.getHours() + 1);
@@ -75,6 +84,43 @@ export class AddNewComponent implements OnInit, AfterViewInit {
       this.selectedDays = [dayId];
       this.newHabitForm.get('frequency')?.setValue(this.selectedDays);
     });
+
+    this.resetHourIfAllDay();
+  }
+
+  private resetHourIfAllDay() {
+    this.newHabitForm.get('allDay')?.valueChanges.subscribe((value) => {
+      this.allDay = value;
+      let startDate = this.newHabitForm.value.startDate
+        ? new Date(this.newHabitForm.value.startDate)
+        : new Date();
+      let endDate = this.newHabitForm.value.endDate
+        ? new Date(this.newHabitForm.value.endDate)
+        : new Date();
+
+      if (value) {
+        startDate.setHours(0, 0, 0, 0);
+        endDate.setHours(23, 59, 59, 0);
+
+        this.newHabitForm
+          .get('startDate')
+          ?.setValue(startDate ? startDate : '');
+        this.newHabitForm.get('endDate')?.setValue(endDate ? endDate : '');
+      } else {
+        this.newHabitForm.get('startDate')?.setValue('');
+        this.newHabitForm.get('endDate')?.setValue('');
+      }
+    });
+  }
+
+  ngAfterViewChecked(): void {
+    this.hideIfAllDay();
+  }
+  hideIfAllDay() {
+    const timePicker = document.querySelector('.p-timepicker');
+    if (timePicker && this.allDay) {
+      this.renderer.addClass(timePicker, 'hidden');
+    }
   }
 
   private getDayOfWeek(dateInput: string | Date): string {
@@ -218,6 +264,7 @@ export class AddNewComponent implements OnInit, AfterViewInit {
       title: this.newHabitForm.value.title,
       completed: false,
       completedAt: '',
+      allDay: this.newHabitForm.value.allDay,
       startDate: this.newHabitForm.value.startDate,
       endDate: this.newHabitForm.value.endDate,
       frequency: this.newHabitForm.value.frequency,
@@ -247,6 +294,7 @@ export class AddNewComponent implements OnInit, AfterViewInit {
       title: this.newHabitForm.value.title,
       completed: false,
       completedAt: '',
+      allDay: this.newHabitForm.value.allDay,
       startDate: this.newHabitForm.value.startDate,
       endDate: this.newHabitForm.value.endDate,
       frequency: this.newHabitForm.value.frequency,
