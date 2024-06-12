@@ -10,6 +10,8 @@ export interface Habit {
   allDay: boolean;
   startDate: string;
   endDate: string;
+  goal: number;
+  goalType: string;
   remind: string;
   color: EventColor;
   isHabitToEdit?: boolean;

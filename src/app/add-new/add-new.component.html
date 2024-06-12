@@ -1,173 +1,214 @@
-<div class="mx-1 h-full">
-  <div class="component-container h-full">
-    <div>
-      <app-navigation-header
-        [title]="isHabitToEdit ? 'Edit Habit' : 'Add New Habit'"
-      ></app-navigation-header>
-
-      <div class="grid px-3 mt-5">
-        <div class="col-4">
-          <div
-            class="text-center border-round-sm font-bold icon-container"
+<app-navigation-header
+  class="sticky top-0 z-5"
+  [title]="isHabitToEdit ? 'Edit Habit' : 'Add New Habit'"
+></app-navigation-header>
+<div class="mx-1">
+  <div class="my-5">
+    <div class="grid px-3">
+      <div class="col-4">
+        <div
+          class="text-center border-round-sm font-bold icon-container"
+          [ngStyle]="{
+            'background-color': selectedColor?.hex || defaultIconBackgroundColor,
+          }"
+        >
+          <span
+            class="material-icons"
             [ngStyle]="{
-              'background-color': selectedColor?.hex
-                ? selectedColor.hex
-                : 'initial'
+              color: selectedColor?.textColor || defaultIconTextColor,
             }"
           >
-            <span
-              class="material-icons"
-              [ngStyle]="{
-                color: selectedColor?.textColor
-                  ? selectedColor.textColor
-                  : 'initial'
-              }"
-            >
-              {{ iconSelectedCategory ? iconSelectedCategory : "category" }}
-            </span>
-          </div>
-        </div>
-
-        <div class="col-8 flex align-items-end">
-          <p-dropdown
-            [options]="categories"
-            [(ngModel)]="selectedCategoryOptValue"
-            [checkmark]="true"
-            optionLabel="label"
-            optionValue="id"
-            [showClear]="true"
-            placeholder="Select a Category"
-            class="w-full-category w-full"
-            (onChange)="onCategoryChange($event.value)"
-          />
+            {{ iconSelectedCategory ? iconSelectedCategory : "category" }}
+          </span>
         </div>
       </div>
-      <div class="mt-5 w-screen px-3 mx-auto pb-2">
-        <p-floatLabel>
-          <p-dropdown
-            [options]="colors_categories"
-            [(ngModel)]="selectedColorOptValue"
-            optionLabel="name"
-            optionValue="hex"
-            [showClear]="true"
-            placeholder="Select a Color"
-            class="w-full-category w-full"
-            (onChange)="onColorChange($event.value)"
-          >
-            <ng-template
-              let-data
-              pTemplate="item"
-              *ngIf="colors_categories && colors_categories.length > 0"
-            >
-              <div class="flex align-items-center gap-2">
-                <div
-                  class="color-circle"
-                  [style.background-color]="data.hex"
-                ></div>
-                <div>{{ data.name }}</div>
-              </div>
-            </ng-template>
-          </p-dropdown>
-          <label>Choose a color</label>
-        </p-floatLabel>
+
+      <div class="col-8 flex align-items-end">
+        <p-dropdown
+          [options]="categories"
+          [(ngModel)]="selectedCategoryOptValue"
+          [checkmark]="true"
+          optionLabel="label"
+          optionValue="id"
+          [showClear]="true"
+          placeholder="Select a Category"
+          class="w-full-category w-full"
+          (onChange)="onCategoryChange($event.value)"
+        />
       </div>
-      <form [formGroup]="newHabitForm">
-        <div class="new-habit-container mt-5">
-          <!-- Titolo -->
-          <div class="mt-5 w-screen px-3 mx-auto pb-2">
-            <p-floatLabel>
-              <input pInputText formControlName="title" />
-              <label>Habit name</label>
-            </p-floatLabel>
-          </div>
-
-          <div
-            class="w-screen mx-auto px-3 flex align-items-center justify-content-between mt-3"
-          >
-            <h5>This event during all day?</h5>
-            <p-inputSwitch styleClass="flex" formControlName="allDay" />
-          </div>
-
-          <!-- Start date</h5> -->
-          <div class="mt-5 w-screen px-3 mx-auto pb-2">
-            <p-floatLabel>
-              <p-calendar
-                #startDatePicker
-                [showButtonBar]="true"
-                [touchUI]="true"
-                formControlName="startDate"
-                appendTo="body"
-                dateFormat="dd/mm/yy"
-                styleClass="w-screen"
-                [showTime]="true"
-                [hourFormat]="'24'"
-              ></p-calendar>
-              <label>Start period</label>
-            </p-floatLabel>
-          </div>
-
-          <!-- End date -->
-          <div class="mt-5 w-screen px-3 mx-auto pb-2">
-            <p-floatLabel>
-              <p-calendar
-                #endDatePicker
-                [showButtonBar]="true"
-                [touchUI]="true"
-                formControlName="endDate"
-                appendTo="body"
-                dateFormat="dd/mm/yy"
-                styleClass="w-screen"
-                [showTime]="true"
-                [hourFormat]="'24'"
-                [minDate]="getMinDate()"
-              ></p-calendar>
-              <label>End period</label>
-            </p-floatLabel>
-          </div>
-
-          <!-- periodicity -->
-          <div class="periodicity-container w-screen mx-auto px-3 my-5">
-            <h5>Set periodicity</h5>
-            <div class="days flex justify-content-center">
-              <button
-                *ngFor="let day of days; let i = index"
-                [ngClass]="{ selected: selectedDays.includes(day.id) }"
-                (click)="toggleDay(day.id)"
-              >
-                {{ day.label }}
-              </button>
-            </div>
-          </div>
-
-          <!-- reminder -->
-          <div class="reminder w-screen mx-auto px-3">
-            <p-floatLabel>
-              <p-calendar
-                [showTime]="true"
-                hourFormat="12"
-                [timeOnly]="true"
-                formControlName="remind"
-                [touchUI]="true"
-                appendTo="body"
-                styleClass="w-screen"
-                [showClear]="true"
-                (onClear)="onReminderClear()"
-              ></p-calendar>
-
-              <label>
-                {{
-                  newHabitForm.get("remind")?.value
-                    ? "Reminder time notification"
-                    : "No reminder time notifications selected"
-                }}
-              </label>
-            </p-floatLabel>
-          </div>
-        </div>
-      </form>
     </div>
 
-    <div class="mt-5 mb-3">
+    <!-- Choose a color -->
+    <div class="w-screen px-3 mx-auto padding1">
+      <p-floatLabel>
+        <p-dropdown
+          [options]="colors_categories"
+          [(ngModel)]="selectedColorOptValue"
+          optionLabel="name"
+          optionValue="hex"
+          [showClear]="true"
+          placeholder="Select a Color"
+          class="w-full-category w-full"
+          (onChange)="onColorChange($event.value)"
+        >
+          <ng-template
+            let-data
+            pTemplate="item"
+            *ngIf="colors_categories && colors_categories.length > 0"
+          >
+            <div class="flex align-items-center gap-2">
+              <div
+                class="color-circle"
+                [style.background-color]="data.hex"
+              ></div>
+              <div>{{ data.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+        <label>Choose a color</label>
+      </p-floatLabel>
+    </div>
+
+    <form [formGroup]="newHabitForm">
+      <div class="new-habit-container">
+        <!-- Titolo -->
+        <div class="w-screen px-3 mx-auto padding1">
+          <p-floatLabel>
+            <input pInputText formControlName="title" />
+            <label>Habit name</label>
+          </p-floatLabel>
+        </div>
+
+        <!-- During all day? -->
+        <div
+          class="w-screen mx-auto px-3 flex align-items-center justify-content-between padding1"
+        >
+          <h6>This event during all day?</h6>
+          <p-inputSwitch styleClass="flex" formControlName="allDay" />
+        </div>
+
+        <!-- Start date</h6> -->
+        <div class="w-screen px-3 mx-auto padding1">
+          <p-floatLabel>
+            <p-calendar
+              #startDatePicker
+              [showButtonBar]="true"
+              [touchUI]="true"
+              formControlName="startDate"
+              appendTo="body"
+              dateFormat="dd/mm/yy"
+              styleClass="w-screen"
+              [showTime]="true"
+              [hourFormat]="'24'"
+            ></p-calendar>
+            <label>Start period</label>
+          </p-floatLabel>
+        </div>
+
+        <!-- End date -->
+        <div class="w-screen px-3 mx-auto padding1">
+          <p-floatLabel>
+            <p-calendar
+              #endDatePicker
+              [showButtonBar]="true"
+              [touchUI]="true"
+              formControlName="endDate"
+              appendTo="body"
+              dateFormat="dd/mm/yy"
+              styleClass="w-screen"
+              [showTime]="true"
+              [hourFormat]="'24'"
+              [minDate]="getMinDate()"
+            ></p-calendar>
+            <label>End period</label>
+          </p-floatLabel>
+        </div>
+
+        <!-- periodicity -->
+        <div class="periodicity-container w-screen mx-auto px-3 mt-1 padding1">
+          <h6>Set periodicity</h6>
+          <div class="days flex justify-content-center">
+            <button
+              *ngFor="let day of days; let i = index"
+              [ngClass]="{ selected: selectedDays.includes(day.id) }"
+              (click)="toggleDay(day.id)"
+            >
+              {{ day.label }}
+            </button>
+          </div>
+        </div>
+
+        <div class="info-card mx-auto p-2 border-round-sm flex align-items-center justify-content-center">
+          <small class="text-justify w-full">
+            <span
+              class="material-icons text-sm mr-1 text-orange-400"
+              style="vertical-align: middle"
+            >lightbulb</span>
+            Questo evento si ripeterà ogni
+            <strong>{{ infoMessage.days.join(", ") }}</strong> dalle ore
+            <strong>{{ infoMessage.startHour }}</strong> alle
+            <strong>{{ infoMessage.endHour }}</strong> nel periodo compreso tra
+            <strong>{{ infoMessage.startDateNoHours }}</strong> e
+            <strong>{{ infoMessage.endDateNoHours }}</strong>.
+          </small>
+        </div>
+
+
+
+        <!-- Goal -->
+        <div class="w-screen px-3 mx-auto padding1">
+          <h6>Set goal</h6>
+          <div class="grid">
+            <div class="col-2">
+              <p-floatLabel>
+                <p-inputNumber formControlName="goal" [min]="1">
+                </p-inputNumber>
+              </p-floatLabel>
+            </div>
+            <div class="col-10">
+              <p-dropdown
+                [options]="goalTypes"
+                formControlName="goalType"
+                optionLabel="label"
+                optionValue="value"
+                [showClear]="true"
+                placeholder="Select a goal type"
+                class="w-full-category w-full"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+
+        <!-- reminder -->
+        <div class="reminder w-screen mx-auto px-3 padding1">
+          <p-floatLabel>
+            <p-calendar
+              [showTime]="true"
+              hourFormat="12"
+              [timeOnly]="true"
+              formControlName="remind"
+              [touchUI]="true"
+              appendTo="body"
+              styleClass="w-screen"
+              [showClear]="true"
+              (onClear)="onReminderClear()"
+            ></p-calendar>
+
+            <label>
+              {{
+                newHabitForm.get("remind")?.value
+                  ? "Reminder time notification"
+                  : "No reminder time notifications selected"
+              }}
+            </label>
+          </p-floatLabel>
+        </div>
+      </div>
+    </form>
+
+    <!-- Buttons -->
+    <div class="mt-5 flex justify-content-center">
       <p-button
         size="small"
         severity="danger"

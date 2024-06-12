@@ -17,6 +17,7 @@ import { EventColor } from 'calendar-utils';
 import { CATEGORIES, COLORS_CATEGORIES, DAYS } from './data/data';
 import { parseISO } from 'date-fns';
 import { RefreshService } from '../_shared/services/refresh-trigger.service';
+import { theme } from 'src/theme/dark-theme/dark-config';
 
 @Component({
   selector: 'app-add-new',
@@ -41,9 +42,25 @@ export class AddNewComponent
   selectedColor: any = '';
   selectedColorOptValue = '';
 
+  defaultIconBackgroundColor = theme.backgroundColor;
+  defaultIconTextColor = theme.textColor;
+
   selectedTime: string = '';
   allDay = false;
+  //Es. litri, km, volte,
+  goalTypes = [
+    { label: 'Litri', value: 'litri' },
+    { label: 'Km', value: 'km' },
+    { label: 'Volte', value: 'volte' },
+  ];
 
+  infoMessage = {
+    days: ['Mercoledì', 'Giovedì'],
+    startDateNoHours: '01/09/2021',
+    endDateNoHours: '10/09/2021',
+    startHour: '10:00',
+    endHour: '11:00',
+  };
   constructor(
     private habitService: HabitService,
     private router: Router,
@@ -59,6 +76,8 @@ export class AddNewComponent
       allDay: [this.allDay],
       startDate: ['', Validators.required],
       endDate: [''],
+      goal: [''],
+      goalType: [''],
       frequency: ['', Validators.required],
       color: [''],
       remind: [''],
@@ -86,6 +105,28 @@ export class AddNewComponent
     });
 
     this.resetHourIfAllDay();
+
+    this.newHabitForm.valueChanges.subscribe(() => {
+      this.mapInfoMessage();
+    });
+  }
+  mapInfoMessage() {
+    this.infoMessage.days = this.selectedDays.map((day) => {
+      const dayObj = this.days.find((d) => d.id === day);
+      return dayObj ? dayObj.id : '';
+    });
+    this.infoMessage.startDateNoHours = this.newHabitForm.value.startDate
+      ? new Date(this.newHabitForm.value.startDate).toLocaleDateString()
+      : '';
+    this.infoMessage.endDateNoHours = this.newHabitForm.value.endDate
+      ? new Date(this.newHabitForm.value.endDate).toLocaleDateString()
+      : '';
+    this.infoMessage.startHour = this.newHabitForm.value.startDate
+      ? new Date(this.newHabitForm.value.startDate).toLocaleTimeString()
+      : '';
+    this.infoMessage.endHour = this.newHabitForm.value.endDate
+      ? new Date(this.newHabitForm.value.endDate).toLocaleTimeString()
+      : '';
   }
 
   private resetHourIfAllDay() {
@@ -217,8 +258,8 @@ export class AddNewComponent
 
   getEventColor(): EventColor {
     return {
-      primary: this.selectedColor.hex,
-      secondary: this.selectedColor.textColor,
+      primary: this.selectedColor?.hex || this.defaultIconBackgroundColor,
+      secondary: this.selectedColor?.textColor || this.defaultIconTextColor,
     };
   }
 
@@ -267,6 +308,8 @@ export class AddNewComponent
       allDay: this.newHabitForm.value.allDay,
       startDate: this.newHabitForm.value.startDate,
       endDate: this.newHabitForm.value.endDate,
+      goal: this.newHabitForm.value.goal,
+      goalType: this.newHabitForm.value.goalType,
       frequency: this.newHabitForm.value.frequency,
       remind: this.newHabitForm.value.remind,
       color: eventColor,
@@ -297,6 +340,8 @@ export class AddNewComponent
       allDay: this.newHabitForm.value.allDay,
       startDate: this.newHabitForm.value.startDate,
       endDate: this.newHabitForm.value.endDate,
+      goal: this.newHabitForm.value.goal,
+      goalType: this.newHabitForm.value.goalType,
       frequency: this.newHabitForm.value.frequency,
       remind: this.newHabitForm.value.remind,
       color: eventColor,
