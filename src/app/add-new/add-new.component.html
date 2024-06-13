@@ -23,7 +23,7 @@
         </div>
       </div>
 
-      <div class="col-8 flex align-items-end">
+      <div class="col-8 flex align-items-end" >
         <p-dropdown
           [options]="categories"
           [(ngModel)]="selectedCategoryOptValue"
@@ -74,7 +74,7 @@
         <!-- Titolo -->
         <div class="w-screen px-3 mx-auto padding1">
           <p-floatLabel>
-            <input pInputText formControlName="title" />
+            <input [appShakeIfInvalid]="formSubmitted" pInputText formControlName="title" />
             <label>Habit name</label>
           </p-floatLabel>
         </div>
@@ -218,7 +218,6 @@
         severity="danger"
         (onClick)="saveHabit()"
         [outlined]="true"
-        [disabled]="!newHabitForm.valid"
         class="mr-2"
       >
         <span class="material-icons mr-2 text-base"> save </span>
