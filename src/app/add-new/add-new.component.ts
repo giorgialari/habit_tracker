@@ -49,17 +49,19 @@ export class AddNewComponent
   allDay = false;
   //Es. litri, km, volte,
   goalTypes = [
+    { label: 'Volte', value: 'volte' },
     { label: 'Litri', value: 'litri' },
     { label: 'Km', value: 'km' },
-    { label: 'Volte', value: 'volte' },
   ];
 
   infoMessage = {
-    days: ['Mercoledì', 'Giovedì'],
-    startDateNoHours: '01/09/2021',
-    endDateNoHours: '10/09/2021',
-    startHour: '10:00',
-    endHour: '11:00',
+    days: [''],
+    startDateNoHours: '',
+    endDateNoHours: '',
+    startHour: '',
+    endHour: '',
+    goal: '',
+    goalType: '',
   };
   constructor(
     private habitService: HabitService,
@@ -91,9 +93,13 @@ export class AddNewComponent
       if (!(startDate instanceof Date && !isNaN(startDate.getTime()))) {
         return;
       }
-      // Se la data di inizio cambia, aggiorna la data di fine aggiungendo un'ora
+      // Se la data di inizio cambia, aggiorna la data di fine aggiungendo un'ora se != allDay, altrimenti setta la data di fine a mezzanotte
       const endDate = new Date(value);
-      endDate.setHours(endDate.getHours() + 1);
+      if (!this.allDay) {
+        endDate.setHours(endDate.getHours() + 1);
+      } else {
+        endDate.setHours(23, 59, 59, 0);
+      }
 
       this.newHabitForm.get('endDate')?.setValue(endDate);
 
@@ -113,20 +119,63 @@ export class AddNewComponent
   mapInfoMessage() {
     this.infoMessage.days = this.selectedDays.map((day) => {
       const dayObj = this.days.find((d) => d.id === day);
-      return dayObj ? dayObj.id : '';
+      return dayObj ? dayObj.name : '';
     });
     this.infoMessage.startDateNoHours = this.newHabitForm.value.startDate
-      ? new Date(this.newHabitForm.value.startDate).toLocaleDateString()
+      ? //undefined al posto del locale per evitare problemi di timezone
+        new Date(this.newHabitForm.value.startDate).toLocaleDateString(
+          undefined,
+          {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          }
+        )
       : '';
     this.infoMessage.endDateNoHours = this.newHabitForm.value.endDate
-      ? new Date(this.newHabitForm.value.endDate).toLocaleDateString()
+      ? new Date(this.newHabitForm.value.endDate).toLocaleDateString(
+          undefined,
+          {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          }
+        )
       : '';
+
     this.infoMessage.startHour = this.newHabitForm.value.startDate
-      ? new Date(this.newHabitForm.value.startDate).toLocaleTimeString()
+      ? new Date(this.newHabitForm.value.startDate).toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        })
       : '';
     this.infoMessage.endHour = this.newHabitForm.value.endDate
-      ? new Date(this.newHabitForm.value.endDate).toLocaleTimeString()
+      ? new Date(this.newHabitForm.value.endDate).toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        })
       : '';
+
+    this.infoMessage.goal = this.newHabitForm.value.goal;
+    this.infoMessage.goalType = this.newHabitForm.value.goalType;
+  }
+
+  shouldDisplayMessage(): boolean {
+    return (
+      this.infoMessage.days.length > 0 &&
+      !!this.infoMessage.startDateNoHours &&
+      !!this.infoMessage.endDateNoHours &&
+      !!this.infoMessage.startHour &&
+      !!this.infoMessage.endHour &&
+      !!this.infoMessage.goal &&
+      !!this.infoMessage.goalType
+    );
+  }
+
+  getMessageVerb(): string {
+    const today = new Date();
+    const endDate = new Date(this.infoMessage.endDateNoHours);
+    return endDate < today ? 'si è ripetuto' : 'si ripeterà';
   }
 
   private resetHourIfAllDay() {

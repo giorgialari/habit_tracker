@@ -138,23 +138,6 @@
           </div>
         </div>
 
-        <div class="info-card mx-auto p-2 border-round-sm flex align-items-center justify-content-center">
-          <small class="text-justify w-full">
-            <span
-              class="material-icons text-sm mr-1 text-orange-400"
-              style="vertical-align: middle"
-            >lightbulb</span>
-            Questo evento si ripeterà ogni
-            <strong>{{ infoMessage.days.join(", ") }}</strong> dalle ore
-            <strong>{{ infoMessage.startHour }}</strong> alle
-            <strong>{{ infoMessage.endHour }}</strong> nel periodo compreso tra
-            <strong>{{ infoMessage.startDateNoHours }}</strong> e
-            <strong>{{ infoMessage.endDateNoHours }}</strong>.
-          </small>
-        </div>
-
-
-
         <!-- Goal -->
         <div class="w-screen px-3 mx-auto padding1">
           <h6>Set goal</h6>
@@ -206,6 +189,27 @@
         </div>
       </div>
     </form>
+    <div
+      *ngIf="shouldDisplayMessage()"
+      class="info-card mx-auto p-2 border-round-sm flex align-items-center justify-content-center my-3"
+    >
+      <small class="text-justify w-full">
+        <span
+          class="material-icons text-sm mr-1 text-orange-400"
+          style="vertical-align: middle"
+          >lightbulb</span
+        >
+        Questo evento {{ getMessageVerb() }} ogni
+        <strong>{{ infoMessage.days.join(", ") }}</strong> dalle ore
+        <strong>{{ infoMessage.startHour }}</strong> alle
+        <strong>{{ infoMessage.endHour }}</strong> nel periodo compreso tra
+        <strong>{{ infoMessage.startDateNoHours }}</strong> e
+        <strong>{{ infoMessage.endDateNoHours }}</strong> con un obiettivo di
+        <strong>{{ infoMessage.goal }} </strong>
+        <strong>{{ infoMessage.goalType }}</strong
+        >.
+      </small>
+    </div>
 
     <!-- Buttons -->
     <div class="mt-5 flex justify-content-center">
