@@ -55,10 +55,8 @@ $button-warning-background: $warning-background-color; // Giallo
 $button-warning-text: $text-color-dark; // Nero
 $button-help-background: $hover-background-color; // Grigio bluastro (Placeholder)
 $button-help-text: $text-color; // Bianco (Placeholder)
-
-// Button danger
 $button-danger-background: $highlight-background-color; // Arancione
-$button-danger-text: $text-color; // Bianco
+$button-danger-text: $text-color-dark; // Bianco
 $button-danger-background-outline: lighten($highlight-background-color, 10%); // Arancione più chiaro
 
 // Surfaces

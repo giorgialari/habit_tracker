@@ -8,6 +8,8 @@ import {
   Renderer2,
   ViewChild,
   AfterViewChecked,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -296,7 +298,6 @@ export class AddNewComponent
     this.selectedColor = selectedColor;
   }
 
-
   onCategoryChange(category: any) {
     this.selectedCategory = category;
     this.newHabitForm.get('category')?.setValue(this.selectedCategory);
@@ -375,31 +376,9 @@ export class AddNewComponent
   }
   // #endregion
 
-  // #region Actions CRUD
-  deactivateHabit() {
-    // Conferma la decisione dell'utente prima di disattivare
-    if (confirm('Sei sicuro di voler disattivare questa abitudine?')) {
-      // Logica per disattivare l'abitudine
-      console.log('Abitudine disattivata.');
-      // Qui potresti chiamare il servizio per aggiornare lo stato dell'abitudine nel backend
-    }
-  }
-
-  deleteHabit() {
-    const habitId = this.route.snapshot.params['id'];
-    if (!habitId) {
-      return;
-    }
-    this.habitService.removeHabit(habitId).then(() => {
-      this.refreshService.forceRefresh();
-      this.router.navigate(['/tabs/dashboard']);
-    });
-  }
-
+  // #region Actions SAVE and EDIT
   saveHabit() {
-    console.log(this.newHabitForm.value);
     this.newHabitForm.markAllAsTouched();
-    //Per ogni voce del form markAsDirty
     Object.keys(this.newHabitForm.controls).forEach((key) => {
       this.newHabitForm.get(key)?.markAsDirty();
     });
@@ -410,6 +389,7 @@ export class AddNewComponent
     const eventColor = this.getEventColor();
 
     const habit: Habit = {
+      idMaster: 0,
       id: 0,
       category: this.newHabitForm.value.category,
       title: this.newHabitForm.value.title,
@@ -426,15 +406,19 @@ export class AddNewComponent
     };
 
     if (this.isHabitToEdit) {
-      habit.id = this.route.snapshot.params['id'];
+      habit.id = parseInt(this.route.snapshot.params['id']);
+      habit.idMaster = parseInt(this.route.snapshot.params['idMaster']);
       this.editHabit(habit);
     } else {
-      (habit.id = this.isHabitToEdit
-        ? this.route.snapshot.params['id']
-        : Date.now()),
-        this.submit(habit);
+      habit.id = Date.now(); //Verrà rigenerato poi nel servizio
+      habit.idMaster = this.genereateIdMaster();
+      this.submit(habit);
     }
     this.refreshService.forceRefresh();
+  }
+
+  private genereateIdMaster() {
+    return Date.now() + Math.floor(Math.random() * 1000);
   }
 
   async submit(newHabit: Habit) {
@@ -463,5 +447,59 @@ export class AddNewComponent
     this.selectedDays = [];
     this.router.navigate(['/tabs/dashboard']);
   }
+  // #endregion
+
+  // #region Manage DELETE with Dialog
+  showDialog() {
+    this.visible = true;
+  }
+
+  visible: boolean = false;
+  hideDialog(event: boolean) {
+    this.visible = event;
+  }
+
+  deleteFutureEvents: boolean = false;
+  onDeleteFutureEvents(event: boolean) {
+    this.deleteFutureEvents = event;
+  }
+
+  confirmDelete:  boolean = false;
+  onDeleteEvent(event: boolean) {
+    this.confirmDelete = event;
+    this.manageDelete(this.confirmDelete)
+
+  }
+
+  manageDelete(confirmDelete: boolean){
+    if(confirmDelete && !this.deleteFutureEvents){
+      this.deleteHabit();
+    } else if(confirmDelete && this.deleteFutureEvents){
+      this.deleteFutureHabits();
+    }
+
+  }
+  deleteHabit() {
+    const habitId = this.route.snapshot.params['id'];
+    if (!habitId) {
+      return;
+    }
+    this.habitService.removeHabit(habitId).then(() => {
+      this.refreshService.forceRefresh();
+      this.router.navigate(['/tabs/dashboard']);
+    });
+  }
+
+  deleteFutureHabits() {
+    const habitIdMater = this.route.snapshot.params['idMaster'];
+    if (!habitIdMater) {
+      return;
+    }
+    this.habitService.removeFutureHabits(habitIdMater).then(() => {
+      this.refreshService.forceRefresh();
+      this.router.navigate(['/tabs/dashboard']);
+    });
+  }
+
   // #endregion
 }

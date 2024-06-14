@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 
 import { TabAddNewPageRoutingModule } from './tab-add-new-routing.module';
 import { TabAddNewPage } from './tab-add-new.page';
-import { AddNewomponentModule } from '../add-new/add-new.module';
+import { AddNewComponentModule } from '../add-new/add-new.module';
 
 @NgModule({
   imports: [
@@ -14,7 +14,7 @@ import { AddNewomponentModule } from '../add-new/add-new.module';
     CommonModule,
     FormsModule,
     // ExploreContainerComponentModule,
-    AddNewomponentModule,
+    AddNewComponentModule,
     TabAddNewPageRoutingModule
   ],
   declarations: [TabAddNewPage]

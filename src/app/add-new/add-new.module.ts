@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-
 import { AddNewComponent } from './add-new.component';
 import { BadgeModule } from 'primeng/badge';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -18,6 +17,8 @@ import { NavigationHeaderComponentModule } from '../_shared/components/navigatio
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { DialogModule } from 'primeng/dialog';
+import { ConfirmDeleteModalComponent } from './confirm-delete-modal/confirm-delete-modal.component';
 
 const primeNgModules = [
   CheckboxModule,
@@ -30,12 +31,20 @@ const primeNgModules = [
   DropdownModule,
   ColorPickerModule,
   InputSwitchModule,
-  InputNumberModule
+  InputNumberModule,
+  DialogModule,
 ];
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule, NavigationHeaderComponentModule, ...primeNgModules],
-  declarations: [AddNewComponent ],
-  exports: [AddNewComponent]
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    IonicModule,
+    NavigationHeaderComponentModule,
+    ...primeNgModules,
+  ],
+  declarations: [AddNewComponent, ConfirmDeleteModalComponent],
+  exports: [AddNewComponent],
 })
-export class AddNewomponentModule { }
+export class AddNewComponentModule {}

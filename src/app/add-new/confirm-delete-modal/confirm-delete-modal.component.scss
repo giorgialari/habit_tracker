@@ -1,0 +1,31 @@
+@import '../../../theme/variables.scss';
+
+::ng-deep .p-dialog-confirm-delete {
+
+  .p-dialog-content,
+  .p-dialog-footer {
+    background-color: $background-color;
+    color: $text-color;
+  }
+}
+
+
+.warning-icon {
+  color: lighten($highlight-background-color, 15%);
+}
+
+@keyframes tilt-shake {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25%, 75% {
+    transform: rotate(-10deg);  /* Inclina a sinistra */
+  }
+  50% {
+    transform: rotate(10deg);   /* Inclina a destra */
+  }
+}
+
+.warning-icon.shake {
+  animation: tilt-shake 0.8s cubic-bezier(.36,.07,.19,.97) both;
+}

@@ -225,12 +225,19 @@
           *ngIf="isHabitToEdit"
           size="small"
           severity="danger"
-          (click)="deleteHabit()"
+          (click)="showDialog()"
         >
-          <span class="material-icons mr-2 text-base"> delete </span>
+          <span class="material-icons mr-2 text-base"> delete_forever </span>
           <span>Delete</span>
         </p-button>
       </div>
     </div>
   </div>
 </form>
+
+<app-confirm-delete-modal
+  [visible]="visible"
+  (hide)="hideDialog($event)"
+  (deleteFutureEventsEmitter)="onDeleteFutureEvents($event)"
+  (confirmDeleteEventEmitter)="onDeleteEvent($event)"
+></app-confirm-delete-modal>

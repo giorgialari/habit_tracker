@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import localeIt from '@angular/common/locales/it';
 import { registerLocaleData } from '@angular/common';
 
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 // Registrazione della localizzazione italiana
 registerLocaleData(localeIt);

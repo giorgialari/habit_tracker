@@ -80,7 +80,7 @@ export class _todoHabitsViewComponent implements OnInit, OnDestroy {
   }
 
   editHabit(habit: Habit) {
-    this.router.navigate(['/tabs/edit-habit', habit.id]);
+    this.router.navigate(['/tabs/edit-habit', habit.id, habit.idMaster]);
   }
 
   ngOnDestroy() {

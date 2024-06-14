@@ -136,6 +136,7 @@ export class CalendarMultipleViewComponent implements OnInit, OnDestroy {
   private mapHabitToEvent = (habit: Habit): CalendarEvent => {
     return {
       id: habit.id,
+      idMaster: habit.idMaster,
       category: habit.category,
       start: new Date(habit.startDate),
       end: habit.endDate ? new Date(habit.endDate) : undefined,
@@ -184,7 +185,7 @@ export class CalendarMultipleViewComponent implements OnInit, OnDestroy {
   }
 
   handleEvent(event: CalendarEvent): void {
-    this.router.navigate(['/tabs/edit-habit', event.id]);
+    this.router.navigate(['/tabs/edit-habit', event.id, event.idMaster]);
   }
 
   setView(view: CustomCalendarView) {

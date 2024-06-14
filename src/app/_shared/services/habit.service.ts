@@ -80,7 +80,6 @@ export class HabitService {
     for (const date of dates) {
       const habitToSave: Habit = {
         ...habitToEdit,
-        id: this.generateUniqueId(), // Genera un ID univoco per ogni evento
         startDate: date.start.toISOString(), // Imposta la data di inizio specifica per questo evento
         endDate: date.end.toISOString(), // Imposta la data di fine specifica per questo evento
       };
@@ -104,6 +103,13 @@ export class HabitService {
     await this.waitForStorageReady();
     let habits: Habit[] = await this.getAllHabits();
     habits = habits.filter((h) => +h.id !== +id);
+    await this._storage?.set('user_habits', habits);
+  }
+
+  public async removeFutureHabits(idMaster: number): Promise<void> {
+    await this.waitForStorageReady();
+    let habits: Habit[] = await this.getAllHabits();
+    habits = habits.filter((h) => +h.idMaster !== +idMaster);
     await this._storage?.set('user_habits', habits);
   }
 

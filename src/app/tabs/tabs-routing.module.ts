@@ -23,7 +23,7 @@ const routes: Routes = [
         resolve: { setup: SetupResolver }
       },
       {
-        path: 'edit-habit/:id',
+        path: 'edit-habit/:id/:idMaster',
         loadChildren: () => import('../tab-add-new/tab-add-new.module').then(m => m.TabAddNewPageModule),
         resolve: { setup: SetupResolver }
       },
