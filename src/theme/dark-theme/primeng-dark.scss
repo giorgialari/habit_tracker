@@ -80,3 +80,32 @@ button:focus {
 .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider:before {
   background-color: $text-color;
 }
+
+
+.p-inputtext.ng-dirty.ng-invalid {
+  border-color: $highlight-background-color;
+
+  label {
+    color: $highlight-background-color;
+  }
+}
+
+p-calendar.ng-dirty.ng-invalid>.p-calendar>.p-inputtext {
+  border-color: $highlight-background-color;
+}
+
+p-inputnumber.ng-dirty.ng-invalid>.p-inputnumber>.p-inputtext {
+  border-color: $highlight-background-color;
+}
+
+p-dropdown.ng-dirty.ng-invalid>.p-dropdown {
+  border-color: $highlight-background-color;
+
+  .p-dropdown-label {
+    color: $highlight-background-color;
+  }
+}
+
+.p-float-label:has(.ng-dirty.ng-invalid) label {
+  color: $highlight-background-color;
+}

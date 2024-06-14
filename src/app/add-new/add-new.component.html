@@ -2,79 +2,77 @@
   class="sticky top-0 z-5"
   [title]="isHabitToEdit ? 'Edit Habit' : 'Add New Habit'"
 ></app-navigation-header>
-<div class="mx-1">
-  <div class="my-5">
-    <div class="grid px-3">
-      <div class="col-4">
-        <div
-          class="text-center border-round-sm font-bold icon-container"
-          [ngStyle]="{
+<form [formGroup]="newHabitForm" (ngSubmit)="saveHabit()">
+  <div class="mx-1">
+    <div class="my-5">
+      <div class="grid padding1">
+        <div class="col-4">
+          <div
+            class="text-center border-round-sm font-bold icon-container"
+            [ngStyle]="{
             'background-color': selectedColor?.hex || defaultIconBackgroundColor,
           }"
-        >
-          <span
-            class="material-icons"
-            [ngStyle]="{
+          >
+            <span
+              class="material-icons"
+              [ngStyle]="{
               color: selectedColor?.textColor || defaultIconTextColor,
             }"
-          >
-            {{ iconSelectedCategory ? iconSelectedCategory : "category" }}
-          </span>
+            >
+              {{ iconSelectedCategory ? iconSelectedCategory : "category" }}
+            </span>
+          </div>
+        </div>
+
+        <div class="col-8 flex align-items-end">
+          <p-dropdown
+            [options]="categories"
+            formControlName="category"
+            [checkmark]="true"
+            optionLabel="label"
+            [showClear]="true"
+            placeholder="Select a Category"
+            class="w-full-category w-full"
+            (onChange)="onCategoryChange($event.value)"
+          />
         </div>
       </div>
 
-      <div class="col-8 flex align-items-end" >
-        <p-dropdown
-          [options]="categories"
-          [(ngModel)]="selectedCategoryOptValue"
-          [checkmark]="true"
-          optionLabel="label"
-          optionValue="id"
-          [showClear]="true"
-          placeholder="Select a Category"
-          class="w-full-category w-full"
-          (onChange)="onCategoryChange($event.value)"
-        />
-      </div>
-    </div>
-
-    <!-- Choose a color -->
-    <div class="w-screen px-3 mx-auto padding1">
-      <p-floatLabel>
-        <p-dropdown
-          [options]="colors_categories"
-          [(ngModel)]="selectedColorOptValue"
-          optionLabel="name"
-          optionValue="hex"
-          [showClear]="true"
-          placeholder="Select a Color"
-          class="w-full-category w-full"
-          (onChange)="onColorChange($event.value)"
-        >
-          <ng-template
-            let-data
-            pTemplate="item"
-            *ngIf="colors_categories && colors_categories.length > 0"
+      <!-- Choose a color -->
+      <div class="w-screen px-3 mx-auto padding1">
+        <p-floatLabel>
+          <p-dropdown
+            [options]="colors_categories"
+            formControlName="color"
+            optionLabel="name"
+            [showClear]="true"
+            placeholder="Select a Color"
+            class="w-full-category w-full"
+            (onChange)="onColorChange($event.value)"
           >
-            <div class="flex align-items-center gap-2">
-              <div
-                class="color-circle"
-                [style.background-color]="data.hex"
-              ></div>
-              <div>{{ data.name }}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
-        <label>Choose a color</label>
-      </p-floatLabel>
-    </div>
+            <ng-template
+              let-data
+              pTemplate="item"
+              *ngIf="colors_categories && colors_categories.length > 0"
+            >
+              <div class="flex align-items-center gap-2">
+                <div
+                  class="color-circle"
+                  [style.background-color]="data.hex"
+                ></div>
+                <div>{{ data.name }}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+          <label>Choose a color</label>
+        </p-floatLabel>
+      </div>
 
-    <form [formGroup]="newHabitForm">
       <div class="new-habit-container">
         <!-- Titolo -->
         <div class="w-screen px-3 mx-auto padding1">
           <p-floatLabel>
-            <input [appShakeIfInvalid]="formSubmitted" pInputText formControlName="title" />
+            <input type="text" pInputText formControlName="title" />
             <label>Habit name</label>
           </p-floatLabel>
         </div>
@@ -188,51 +186,51 @@
           </p-floatLabel>
         </div>
       </div>
-    </form>
-    <div
-      *ngIf="shouldDisplayMessage()"
-      class="info-card mx-auto p-2 border-round-sm flex align-items-center justify-content-center my-3"
-    >
-      <small class="text-justify w-full">
-        <span
-          class="material-icons text-sm mr-1 text-orange-400"
-          style="vertical-align: middle"
-          >lightbulb</span
+      <div
+        *ngIf="shouldDisplayMessage()"
+        class="info-card mx-auto p-2 border-round-sm flex align-items-center justify-content-center my-3"
+      >
+        <small class="text-justify w-full">
+          <span
+            class="material-icons text-sm mr-1 text-orange-400"
+            style="vertical-align: middle"
+            >lightbulb</span
+          >
+          Questo evento {{ getMessageVerb() }} ogni
+          <strong>{{ infoMessage.days.join(", ") }}</strong> dalle ore
+          <strong>{{ infoMessage.startHour }}</strong> alle
+          <strong>{{ infoMessage.endHour }}</strong> nel periodo compreso tra
+          <strong>{{ infoMessage.startDateNoHours }}</strong> e
+          <strong>{{ infoMessage.endDateNoHours }}</strong> con un obiettivo di
+          <strong>{{ infoMessage.goal }} </strong>
+          <strong>{{ infoMessage.goalType }}</strong
+          >.
+        </small>
+      </div>
+
+      <!-- Buttons -->
+      <div class="mt-5 flex justify-content-center">
+        <p-button
+          size="small"
+          severity="danger"
+          type="submit"
+          [outlined]="true"
+          class="mr-2"
         >
-        Questo evento {{ getMessageVerb() }} ogni
-        <strong>{{ infoMessage.days.join(", ") }}</strong> dalle ore
-        <strong>{{ infoMessage.startHour }}</strong> alle
-        <strong>{{ infoMessage.endHour }}</strong> nel periodo compreso tra
-        <strong>{{ infoMessage.startDateNoHours }}</strong> e
-        <strong>{{ infoMessage.endDateNoHours }}</strong> con un obiettivo di
-        <strong>{{ infoMessage.goal }} </strong>
-        <strong>{{ infoMessage.goalType }}</strong
-        >.
-      </small>
-    </div>
+          <span class="material-icons mr-2 text-base"> save </span>
+          <span>{{ isHabitToEdit ? "Edit habit" : "Add new habit" }}</span>
+        </p-button>
 
-    <!-- Buttons -->
-    <div class="mt-5 flex justify-content-center">
-      <p-button
-        size="small"
-        severity="danger"
-        (onClick)="saveHabit()"
-        [outlined]="true"
-        class="mr-2"
-      >
-        <span class="material-icons mr-2 text-base"> save </span>
-        <span>{{ isHabitToEdit ? "Edit habit" : "Add new habit" }}</span>
-      </p-button>
-
-      <p-button
-        *ngIf="isHabitToEdit"
-        size="small"
-        severity="danger"
-        (click)="deleteHabit()"
-      >
-        <span class="material-icons mr-2 text-base"> delete </span>
-        <span>Delete</span>
-      </p-button>
+        <p-button
+          *ngIf="isHabitToEdit"
+          size="small"
+          severity="danger"
+          (click)="deleteHabit()"
+        >
+          <span class="material-icons mr-2 text-base"> delete </span>
+          <span>Delete</span>
+        </p-button>
+      </div>
     </div>
   </div>
-</div>
+</form>

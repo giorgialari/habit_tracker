@@ -36,12 +36,12 @@ export class AddNewComponent
   selectedDays: string[] = [];
   categories = CATEGORIES;
   selectedCategory: any;
-  selectedCategoryOptValue = '';
+  // selectedCategoryOptValue = '';
   iconSelectedCategory: string = '';
 
   colors_categories = COLORS_CATEGORIES;
   selectedColor: any = '';
-  selectedColorOptValue = '';
+  // selectedColorOptValue = '';
 
   defaultIconBackgroundColor = theme.backgroundColor;
   defaultIconTextColor = theme.textColor;
@@ -143,12 +143,15 @@ export class AddNewComponent
               (c) => c.id === habit.category.id
             );
             this.iconSelectedCategory = this.selectedCategory.icon;
-            this.selectedCategoryOptValue = this.selectedCategory.id;
+            this.newHabitForm.get('category')?.setValue(this.selectedCategory);
 
             this.selectedColor = this.colors_categories.find(
               (c) => c.hex === habit.color.primary
             );
-            this.selectedColorOptValue = this.selectedColor.hex;
+
+            console.log(this.selectedColor);
+
+            this.newHabitForm.get('color')?.setValue(this.selectedColor);
 
             this.selectedDays = habit.frequency;
             this.selectedTime = habit.remind;
@@ -288,13 +291,14 @@ export class AddNewComponent
   // #endregion
 
   // #region Form Handlers
-  onColorChange(color: any) {
-    this.newHabitForm.get('color')?.setValue(color);
-    this.selectedColor = this.colors_categories.find((c) => c.hex === color);
+  onColorChange(selectedColor: any) {
+    this.newHabitForm.get('color')?.setValue(selectedColor);
+    this.selectedColor = selectedColor;
   }
 
-  onCategoryChange(categoryId: number) {
-    this.selectedCategory = this.categories.find((c) => c.id === categoryId);
+
+  onCategoryChange(category: any) {
+    this.selectedCategory = category;
     this.newHabitForm.get('category')?.setValue(this.selectedCategory);
     this.iconSelectedCategory = this.selectedCategory?.icon;
   }
@@ -391,12 +395,16 @@ export class AddNewComponent
       this.router.navigate(['/tabs/dashboard']);
     });
   }
-  formSubmitted = false;
 
   saveHabit() {
-    this.formSubmitted = false; // Resetta lo stato per garantire che l'animazione possa essere riattivata
-    setTimeout(() => this.formSubmitted = true, 0);
-    if(this.newHabitForm.invalid) {
+    console.log(this.newHabitForm.value);
+    this.newHabitForm.markAllAsTouched();
+    //Per ogni voce del form markAsDirty
+    Object.keys(this.newHabitForm.controls).forEach((key) => {
+      this.newHabitForm.get(key)?.markAsDirty();
+    });
+    this.newHabitForm.updateValueAndValidity();
+    if (this.newHabitForm.invalid) {
       return;
     }
     const eventColor = this.getEventColor();

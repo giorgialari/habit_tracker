@@ -18,7 +18,7 @@ import { NavigationHeaderComponentModule } from '../_shared/components/navigatio
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { ShakeIfInvalidDirective } from '../_shared/directives/shake-if-invalid.directive';
+
 const primeNgModules = [
   CheckboxModule,
   ButtonModule,
@@ -35,7 +35,7 @@ const primeNgModules = [
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule, NavigationHeaderComponentModule, ...primeNgModules],
-  declarations: [AddNewComponent, ShakeIfInvalidDirective ],
+  declarations: [AddNewComponent ],
   exports: [AddNewComponent]
 })
 export class AddNewomponentModule { }
