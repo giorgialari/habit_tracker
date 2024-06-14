@@ -293,7 +293,24 @@ export class CalendarMultipleViewComponent implements OnInit, OnDestroy {
     await this.tabOrderUserService.setTabOrder(this.tabs);
   }
 
+
   ngOnDestroy(): void {
     this.refreshComponentTriggerSubscription.unsubscribe();
+  }
+
+  doSomethingWithCurrentValue(value: any) {
+    console.  log(value);
+  }
+  getOverlayStyle() {
+    const isSemi =true;
+    const transform = (isSemi ? '' : 'translateY(-50%) ') + 'translateX(-50%)';
+
+    return {
+      top: isSemi ? 'auto' : '50%',
+      bottom: isSemi ? '5%' : 'auto',
+      left: '50%',
+      transform,
+      fontSize: 125 / 3.5 + 'px',
+    };
   }
 }

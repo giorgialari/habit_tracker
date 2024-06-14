@@ -4,17 +4,20 @@
   >
     <div class="col my-auto">
       <ng-container *ngIf="view !== CalendarView.Week; else weekTitle">
-        <h3 class="p-text-center m-0">
+        <h4 class="p-text-center m-0">
           {{ viewDate | calendarDate : view + "ViewTitle" : "en" }}
-        </h3>
+        </h4>
       </ng-container>
       <ng-template #weekTitle>
-        <h3 class="p-text-center m-0">
+        <h4 class="p-text-center m-0">
           {{ viewDate | calendarDate : "dayViewTitle" : "en" }}
-        </h3>
+        </h4>
       </ng-template>
     </div>
-    <div class="col flex justify-content-end">
+    <div
+      class="col flex justify-content-end"
+      *ngIf="view === CalendarView.Month || view === CalendarView.Day"
+    >
       <p-button [outlined]="true" severity="danger">
         <span class="material-icons mr-2">today</span>
         <div
@@ -26,6 +29,31 @@
         </div>
       </p-button>
     </div>
+
+    <div class="col-2" *ngIf="view === CalendarView.Week">
+      <div style="position: relative; width: 100%; height: 100%;">
+        <round-progress
+          [current]="50"
+          [max]="100"
+          [color]="'#45ccce'"
+          [background]="'#eaeaea'"
+          [radius]="125"
+          [stroke]="20"
+          [semicircle]="false"
+          [rounded]="true"
+          [clockwise]="true"
+          [responsive]="true"
+          [duration]="800"
+          [animation]="'easeInOutQuart'"
+          [animationDelay]="300"
+          (onRender)="doSomethingWithCurrentValue($event)"
+        ></round-progress>
+        <span class="progress-text text-xs">
+          {{ 50 }}%
+        </span>
+      </div>
+    </div>
+
   </div>
 
   <div

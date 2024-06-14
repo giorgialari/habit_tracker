@@ -196,3 +196,14 @@
   padding-top: 3px;
   position: relative;
 }
+
+
+
+
+.progress-text {
+  position: absolute;
+  top: 50%;  /* Allinea al bordo inferiore del div contenitore */
+  left: 50%;  /* Centra orizzontalmente */
+  transform: translate(-50%, -50%); /* Ajusta verticalmente per posizionare sotto il semicerchio */
+  color: white; /* Colore del testo */
+}
