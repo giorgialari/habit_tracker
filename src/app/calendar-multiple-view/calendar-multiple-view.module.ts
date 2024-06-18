@@ -18,8 +18,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop'; // Importa il modulo Dr
 
 import { InputTextModule } from 'primeng/inputtext';
 import { _todoHabitsViewComponent } from './_todo-habits-view/_todo-habits-view.component';
-import {RoundProgressModule} from 'angular-svg-round-progressbar';
-
+import { KnobModule } from 'primeng/knob';
 
 const angularModules = [
   CommonModule,
@@ -35,13 +34,13 @@ const primeNgModules = [
   BadgeModule,
   InputTextModule,
   FloatLabelModule,
-  CardModule
+  CardModule,
+  KnobModule
 ];
 
 @NgModule({
   imports: [...angularModules,
     IonicModule,
-    RoundProgressModule,
     NavigationHeaderComponentModule,
   CalendarModule.forRoot({
     provide: DateAdapter,

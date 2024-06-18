@@ -1,7 +1,5 @@
 <div id="calendar-header" class="flex flex-column">
-  <div
-    class="grid border-none border-bottom-1 border-600 border-solid py-3 px-3"
-  >
+  <div class="grid border-none border-bottom-1 border-600 border-solid px-3">
     <div class="col my-auto">
       <ng-container *ngIf="view !== CalendarView.Week; else weekTitle">
         <h4 class="p-text-center m-0">
@@ -30,30 +28,12 @@
       </p-button>
     </div>
 
-    <div class="col-2" *ngIf="view === CalendarView.Week">
-      <div style="position: relative; width: 100%; height: 100%;">
-        <round-progress
-          [current]="50"
-          [max]="100"
-          [color]="'#45ccce'"
-          [background]="'#eaeaea'"
-          [radius]="125"
-          [stroke]="20"
-          [semicircle]="false"
-          [rounded]="true"
-          [clockwise]="true"
-          [responsive]="true"
-          [duration]="800"
-          [animation]="'easeInOutQuart'"
-          [animationDelay]="300"
-          (onRender)="doSomethingWithCurrentValue($event)"
-        ></round-progress>
-        <span class="progress-text text-xs">
-          {{ 50 }}%
-        </span>
-      </div>
+    <div
+      class="col-2 flex justify-content-end"
+      *ngIf="view === CalendarView.Week"
+    >
+      <p-knob [(ngModel)]="currentKnobValue" [size]="70" [readonly]="true" [max]="100" />
     </div>
-
   </div>
 
   <div
@@ -146,6 +126,7 @@
     <!-- N.B. Viene usata Week perché la libreria non riconosce altri valori -->
     <app-todo-habits-view
       class="mb-3"
+      (updatedHabits)="updateHabits($event)"
       *ngSwitchCase="CalendarView.Week"
     ></app-todo-habits-view>
   </div>

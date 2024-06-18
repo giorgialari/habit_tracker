@@ -27,13 +27,17 @@
                 </ng-template>
               </div>
             </div>
+            <p-button (onClick)="updateActualGoal(habit)">+</p-button>
+            <p-button (onClick)="resetActualGoal(habit)">R</p-button>
+
+            <p>{{habit.actualGoal}}</p>
             <!-- Checkbox a destra -->
-            <p-checkbox
+            <!-- <p-checkbox
               binary="true"
               [(ngModel)]="habit.completed"
               (onChange)="toggleCompletion(habit)"
               styleClass="no-blur"
-            ></p-checkbox>
+            ></p-checkbox> -->
           </div>
         </p-card>
       </ion-item>

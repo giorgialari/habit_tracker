@@ -11,6 +11,7 @@ export interface Habit {
   allDay: boolean;
   startDate: string;
   endDate: string;
+  actualGoal: number
   goal: number;
   goalType: string;
   remind: string;

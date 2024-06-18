@@ -16,7 +16,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HabitService } from '../_shared/services/habit.service';
 import { Habit } from '../habit-dashboard/_models/habits.interface';
 import { EventColor } from 'calendar-utils';
-import { CATEGORIES, COLORS_CATEGORIES, DAYS } from './data/data';
+import { CATEGORIES, COLORS_CATEGORIES, DAYS } from '../_shared/data/data';
 import { parseISO } from 'date-fns';
 import { RefreshService } from '../_shared/services/refresh-trigger.service';
 import { theme } from 'src/theme/dark-theme/dark-config';
@@ -85,6 +85,7 @@ export class AddNewComponent
       allDay: [this.allDay],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
+      actualGoal: [0],
       goal: ['', Validators.required],
       goalType: ['', Validators.required],
       frequency: ['', Validators.required],
@@ -398,6 +399,7 @@ export class AddNewComponent
       allDay: this.newHabitForm.value.allDay,
       startDate: this.newHabitForm.value.startDate,
       endDate: this.newHabitForm.value.endDate,
+      actualGoal:  this.newHabitForm.value.actualGoal,
       goal: this.newHabitForm.value.goal,
       goalType: this.newHabitForm.value.goalType,
       frequency: this.newHabitForm.value.frequency,
@@ -501,5 +503,15 @@ export class AddNewComponent
     });
   }
 
+  // #endregion
+
+  // #region Progress Round Bar
+
+
+  currentValueProgressBar: number = 0;
+    calculateCurrentValue() {
+
+
+    }
   // #endregion
 }

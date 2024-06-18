@@ -1,3 +1,5 @@
+import { CustomCalendarView } from "../models/enum";
+
 export const DAYS = [
   { id: 'mon', label: 'M', name: 'Lunedì' },
   { id: 'tue', label: 'T', name: 'Martedì' },
@@ -26,4 +28,26 @@ export const COLORS_CATEGORIES = [
   { id: 8, hex: '#e9c46a', name: 'Giallo Sole', textColor: '#1a1a1a' }, // quasi nero su giallo
   { id: 9, hex: '#f4a261', name: 'Arancio Sabbia', textColor: '#1a1a1a' }, // quasi nero su arancione chiaro
   { id: 10, hex: '#e76f51', name: 'Rosso Vulcano', textColor: '#f2f2f2' }, // grigio chiaro su rosso
+];
+
+
+export const TABS = [
+  {
+    id: 1,
+    label: 'Day',
+    view: CustomCalendarView.Day,
+    icon: 'today',
+  },
+  {
+    id: 2,
+    label: 'Month',
+    view: CustomCalendarView.Month,
+    icon: 'calendar_month',
+  },
+  {
+    id: 3,
+    label: 'ToDo',
+    view: CustomCalendarView.Week,
+    icon: 'check',
+  },
 ];

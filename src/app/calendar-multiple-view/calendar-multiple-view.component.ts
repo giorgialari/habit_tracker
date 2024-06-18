@@ -8,6 +8,7 @@ import {
   ChangeDetectorRef,
   Renderer2,
   OnDestroy,
+  AfterViewChecked,
 } from '@angular/core';
 import { isSameDay, isSameMonth } from 'date-fns';
 import { Subject, Subscription } from 'rxjs';
@@ -24,12 +25,9 @@ import { TabUserOrderService } from '../_shared/services/tab-user-order.service'
 import { collapseAnimation } from 'angular-calendar';
 import { Router } from '@angular/router';
 import { RefreshService } from '../_shared/services/refresh-trigger.service';
-
-export enum CustomCalendarView {
-  Month = 'month',
-  Week = 'week',
-  Day = 'day',
-}
+import { CustomCalendarView } from '../_shared/models/enum';
+import { TABS } from '../_shared/data/data';
+import { CustomCalendarEvent } from '../_shared/models/common.interfaces';
 
 @Component({
   selector: 'app-calendar-multiple-view',
@@ -42,7 +40,9 @@ export enum CustomCalendarView {
   ],
   animations: [collapseAnimation],
 })
-export class CalendarMultipleViewComponent implements OnInit, OnDestroy {
+export class CalendarMultipleViewComponent
+  implements OnInit, AfterViewChecked, OnDestroy
+{
   @ViewChild('swipeContainer', { static: true }) swipeContainer!: ElementRef;
 
   view: CustomCalendarView = CustomCalendarView.Month;
@@ -61,31 +61,12 @@ export class CalendarMultipleViewComponent implements OnInit, OnDestroy {
     },
   ];
 
-  tabs = [
-    {
-      id: 1,
-      label: 'Day',
-      view: CustomCalendarView.Day,
-      icon: 'today',
-    },
-    {
-      id: 2,
-      label: 'Month',
-      view: CustomCalendarView.Month,
-      icon: 'calendar_month',
-    },
-    {
-      id: 3,
-      label: 'ToDo',
-      view: CustomCalendarView.Week,
-      icon: 'check',
-    },
-  ];
+  tabs = TABS;
 
   refresh: Subject<any> = new Subject();
   refreshComponentTriggerSubscription = new Subscription();
-  events: CalendarEvent[] = [];
-
+  events: CustomCalendarEvent[] = [];
+  currentKnobValue = 0;
   activeDayIsOpen: boolean = false;
 
   constructor(
@@ -97,6 +78,7 @@ export class CalendarMultipleViewComponent implements OnInit, OnDestroy {
     private router: Router,
     private cd: ChangeDetectorRef
   ) {}
+
   async ngOnInit() {
     await this.loadTabs();
 
@@ -110,10 +92,16 @@ export class CalendarMultipleViewComponent implements OnInit, OnDestroy {
         this.cd.detectChanges();
       });
   }
+
+  ngAfterViewChecked() {
+    this.calculateKnobValue();
+  }
+
   async beforeMonthViewRender() {
     await this.loadHabits();
     this.cd.detectChanges();
   }
+
   private async loadTabs() {
     await this.tabOrderUserService.ready();
     const savedTabs = await this.tabOrderUserService.getTabOrder();
@@ -132,14 +120,18 @@ export class CalendarMultipleViewComponent implements OnInit, OnDestroy {
   private async loadHabits() {
     const habits: Habit[] = await this.habitService.getAllHabits();
     this.events = habits.map((habit) => this.mapHabitToEvent(habit));
+    this.calculateKnobValue();
   }
-  private mapHabitToEvent = (habit: Habit): CalendarEvent => {
+
+  private mapHabitToEvent = (habit: Habit) => {
     return {
       id: habit.id,
       idMaster: habit.idMaster,
       category: habit.category,
       start: new Date(habit.startDate),
       end: habit.endDate ? new Date(habit.endDate) : undefined,
+      goal: habit.goal,
+      actualGoal: habit.actualGoal,
       title: habit.title,
       color: habit.color,
       actions: this.actions,
@@ -149,7 +141,7 @@ export class CalendarMultipleViewComponent implements OnInit, OnDestroy {
         beforeStart: false,
         afterEnd: false,
       },
-    } as CalendarEvent;
+    };
   };
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -181,7 +173,7 @@ export class CalendarMultipleViewComponent implements OnInit, OnDestroy {
         };
       }
       return iEvent;
-    });
+    }) as CustomCalendarEvent[];
   }
 
   handleEvent(event: CalendarEvent): void {
@@ -293,24 +285,36 @@ export class CalendarMultipleViewComponent implements OnInit, OnDestroy {
     await this.tabOrderUserService.setTabOrder(this.tabs);
   }
 
+  updateHabits(event: Habit[]) {
+    this.events = event.map((habit) => this.mapHabitToEvent(habit));
+    this.cd.detectChanges();
+  }
+  private  calculateKnobValue() {
+    //il valore del knob è una percentuale da 0 a 100 che indica in percentuale quanto gli eventi sono completati
+    //prendendo di riferimento "actualGoal" e "goal" di tutti gli eventi della giornata selezionata
+
+    //prendo tutti gli eventi della giornata selezionata
+    const eventsOfDay = this.events.filter((event) =>
+      isSameDay(event.start, this.viewDate)
+    );
+
+    //calcolo la somma di tutti gli goal
+    const sumGoal = eventsOfDay.reduce((acc, event) => acc + event.goal, 0);
+    //calcolo la somma di tutti gli actualGoal
+    const sumActualGoal = eventsOfDay.reduce(
+      (acc, event) => acc + event.actualGoal,
+      0
+    );
+    //calcolo la percentuale
+    const percentage = (sumActualGoal / sumGoal) * 100;
+
+    let rounded = Math.round(parseFloat(percentage.toFixed(2)));
+
+    this.currentKnobValue = rounded || 0;
+    this.cd.detectChanges();
+  }
 
   ngOnDestroy(): void {
     this.refreshComponentTriggerSubscription.unsubscribe();
-  }
-
-  doSomethingWithCurrentValue(value: any) {
-    console.  log(value);
-  }
-  getOverlayStyle() {
-    const isSemi =true;
-    const transform = (isSemi ? '' : 'translateY(-50%) ') + 'translateX(-50%)';
-
-    return {
-      top: isSemi ? 'auto' : '50%',
-      bottom: isSemi ? '5%' : 'auto',
-      left: '50%',
-      transform,
-      fontSize: 125 / 3.5 + 'px',
-    };
   }
 }
