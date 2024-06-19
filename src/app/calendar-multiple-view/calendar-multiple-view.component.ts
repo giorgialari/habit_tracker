@@ -67,6 +67,9 @@ export class CalendarMultipleViewComponent
   refreshComponentTriggerSubscription = new Subscription();
   events: CustomCalendarEvent[] = [];
   currentKnobValue = 0;
+  get displayKnobValue(): number {
+    return Math.min(this.currentKnobValue, 100);
+  }
   activeDayIsOpen: boolean = false;
 
   constructor(
@@ -289,7 +292,7 @@ export class CalendarMultipleViewComponent
     this.events = event.map((habit) => this.mapHabitToEvent(habit));
     this.cd.detectChanges();
   }
-  private  calculateKnobValue() {
+  private calculateKnobValue() {
     //il valore del knob è una percentuale da 0 a 100 che indica in percentuale quanto gli eventi sono completati
     //prendendo di riferimento "actualGoal" e "goal" di tutti gli eventi della giornata selezionata
 

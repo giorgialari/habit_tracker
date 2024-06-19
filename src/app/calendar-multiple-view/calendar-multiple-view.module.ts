@@ -19,12 +19,14 @@ import { DragDropModule } from '@angular/cdk/drag-drop'; // Importa il modulo Dr
 import { InputTextModule } from 'primeng/inputtext';
 import { _todoHabitsViewComponent } from './_todo-habits-view/_todo-habits-view.component';
 import { KnobModule } from 'primeng/knob';
+import { DialogModule } from 'primeng/dialog';
+import { ActualGoalModalComponent } from './_todo-habits-view/actual-goal-modal/actual-goal-modal..component';
 
 const angularModules = [
   CommonModule,
   FormsModule,
   ReactiveFormsModule,
-  DragDropModule
+  DragDropModule,
 ];
 
 const primeNgModules = [
@@ -35,19 +37,30 @@ const primeNgModules = [
   InputTextModule,
   FloatLabelModule,
   CardModule,
-  KnobModule
+  KnobModule,
+  DialogModule,
 ];
 
 @NgModule({
-  imports: [...angularModules,
+  imports: [
+    ...angularModules,
     IonicModule,
     NavigationHeaderComponentModule,
-  CalendarModule.forRoot({
-    provide: DateAdapter,
-    useFactory: adapterFactory
-  }),
-  ...primeNgModules],
-  declarations: [CalendarMultipleViewComponent, _todoHabitsViewComponent],
-  exports: [CalendarMultipleViewComponent, _todoHabitsViewComponent]
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
+    ...primeNgModules,
+  ],
+  declarations: [
+    CalendarMultipleViewComponent,
+    _todoHabitsViewComponent,
+    ActualGoalModalComponent,
+  ],
+  exports: [
+    CalendarMultipleViewComponent,
+    _todoHabitsViewComponent,
+    ActualGoalModalComponent,
+  ],
 })
-export class CalendarMultipleViewComponentModule { }
+export class CalendarMultipleViewComponentModule {}

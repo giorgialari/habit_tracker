@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import * as moment from 'moment';
 import { Subject, Subscription, filter, find } from 'rxjs';
@@ -22,7 +29,13 @@ export class _todoHabitsViewComponent implements OnInit, OnDestroy {
   _myHabits: Habit[] = [];
   startDate: Date = new Date();
   refresh: Subject<any> = new Subject();
+  currentKnobValue = 0;
+  visible: boolean = false;
+  currentHabit: Habit = {} as Habit;
 
+  hideDialog(event: boolean) {
+    this.visible = event;
+  }
   constructor(
     private habitService: HabitService,
     private router: Router,
@@ -71,18 +84,19 @@ export class _todoHabitsViewComponent implements OnInit, OnDestroy {
     this.cdr.detectChanges();
   }
 
-  updateActualGoal(habit: Habit){
+  updateActualGoal(habit: Habit) {
     const findHabit = this._myHabits.find((h) => h.id === habit.id);
     if (findHabit) {
-      habit.actualGoal = habit.actualGoal + 1;
+      findHabit.actualGoal = habit.actualGoal;
+      this.updatedHabits.emit(this._myHabits);
+      this.checkIfCompleted(findHabit);
     }
-    this.updatedHabits.emit(this._myHabits);
-    this.checkIfCompleted(habit);
   }
 
-  checkIfCompleted(habit: Habit){
-    if(habit.actualGoal === habit.goal){
+  checkIfCompleted(habit: Habit) {
+    if (habit.actualGoal === habit.goal) {
       habit.completed = true;
+      console.log('isCompleted', habit);
     }
     this.toggleCompletion(habit);
   }
@@ -93,11 +107,14 @@ export class _todoHabitsViewComponent implements OnInit, OnDestroy {
       habit.completedAt = habit.completed
         ? new Date().toLocaleTimeString()
         : '';
+
+        console.log('isCompleted', findHabit);
+
       this.habitService.setHabit(findHabit);
     }
   }
 
-  resetActualGoal(habit: Habit){
+  resetActualGoal(habit: Habit) {
     const findHabit = this._myHabits.find((h) => h.id === habit.id);
     if (findHabit) {
       habit.actualGoal = 0;
@@ -106,7 +123,10 @@ export class _todoHabitsViewComponent implements OnInit, OnDestroy {
       this.habitService.setHabit(findHabit);
     }
     this.updatedHabits.emit(this._myHabits);
-
+  }
+  showDialog(habit: Habit) {
+    this.visible = true;
+    this.currentHabit = habit;
   }
 
   editHabit(habit: Habit) {

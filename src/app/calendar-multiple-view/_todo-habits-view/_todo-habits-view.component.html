@@ -27,10 +27,20 @@
                 </ng-template>
               </div>
             </div>
-            <p-button (onClick)="updateActualGoal(habit)">+</p-button>
+            <p-knob
+              [(ngModel)]="habit.actualGoal"
+              [size]="60"
+              [readonly]="true"
+              [max]="
+                habit.actualGoal > habit.goal ? habit.actualGoal : habit.goal
+              "
+              (click)="showDialog(habit)"
+            ></p-knob>
+
+            <!-- <p-button (onClick)="updateActualGoal(habit)">+</p-button>
             <p-button (onClick)="resetActualGoal(habit)">R</p-button>
 
-            <p>{{habit.actualGoal}}</p>
+            <p>{{habit.actualGoal}}</p> -->
             <!-- Checkbox a destra -->
             <!-- <p-checkbox
               binary="true"
@@ -57,3 +67,10 @@
     <p>No elements present</p>
   </div>
 </div>
+
+<app-actual-goal-modal
+  [visible]="visible"
+  (hide)="hideDialog($event)"
+  [currentHabit]="currentHabit"
+  (confirmEventEmitter)="updateActualGoal($event)"
+></app-actual-goal-modal>

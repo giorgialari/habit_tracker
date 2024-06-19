@@ -2,20 +2,15 @@
 
 ion-tab-bar {
   height: 5rem;
-  /* Altezza della barra */
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-top-left-radius: 3rem;
-  /* Arrotonda l'angolo in alto a sinistra */
   border-top-right-radius: 3rem;
-  /* Arrotonda l'angolo in alto a destra */
   overflow: hidden;
-  /* Per garantire che il contenuto non trabocchi */
   position: relative;
-  /* Necessario per z-index */
   z-index: 1;
-  /* Assicurati che sia sopra altri elementi */
+  background-color: $background-color;
 }
 
 ion-tab-button {

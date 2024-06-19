@@ -151,9 +151,6 @@ export class AddNewComponent
             this.selectedColor = this.colors_categories.find(
               (c) => c.hex === habit.color.primary
             );
-
-            console.log(this.selectedColor);
-
             this.newHabitForm.get('color')?.setValue(this.selectedColor);
 
             this.selectedDays = habit.frequency;
@@ -445,6 +442,7 @@ export class AddNewComponent
     );
 
     await this.habitService.editHabit(editedHabit, repetitionDates);
+    this.habitService.notifyNewHabitAdded();
     this.newHabitForm.reset();
     this.selectedDays = [];
     this.router.navigate(['/tabs/dashboard']);
@@ -503,15 +501,5 @@ export class AddNewComponent
     });
   }
 
-  // #endregion
-
-  // #region Progress Round Bar
-
-
-  currentValueProgressBar: number = 0;
-    calculateCurrentValue() {
-
-
-    }
   // #endregion
 }
