@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { ColorService } from 'src/app/_shared/services/color.service';
-import { Habit } from 'src/app/habit-dashboard/_models/habits.interface';
+import { Habit } from 'src/app/_shared/models/habits.interface';
 
 @Component({
   selector: 'app-actual-goal-modal',
@@ -59,6 +59,11 @@ export class ActualGoalModalComponent implements OnInit, OnChanges {
   decreaseKnobValue(amount: number): void {
     const newValue = this.currentKnobValue - amount;
     this.currentKnobValue = Math.max(newValue, 0);
+    this.onConfirm();
+  }
+
+  resetKnobValue(): void {
+    this.currentKnobValue = 0;
     this.onConfirm();
   }
 

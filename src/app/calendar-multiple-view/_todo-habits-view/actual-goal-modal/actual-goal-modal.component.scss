@@ -16,3 +16,18 @@
   justify-content: center;
   align-items: center;
 }
+
+
+.daily-goal {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  background-color: $secondary-color;
+}
+.daily-goal .font-semibold {
+  font-weight: 600;
+  font-size: 1.2em;
+}
+.daily-goal div {
+  font-size: 1em;
+  line-height: 1.4;
+}

@@ -17,7 +17,7 @@ import {
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
 } from 'angular-calendar';
-import { Habit } from '../habit-dashboard/_models/habits.interface';
+import { Habit } from '../_shared/models/habits.interface';
 import { HabitService } from '../_shared/services/habit.service';
 import { Gesture, GestureController } from '@ionic/angular';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -140,6 +140,8 @@ export class CalendarMultipleViewComponent
       end: habit.endDate ? new Date(habit.endDate) : undefined,
       goal: habit.goal,
       actualGoal: habit.actualGoal,
+      goalType: habit.goalType,
+      customGoalType: habit.customGoalType,
       title: habit.title,
       color: habit.color,
       actions: this.actions,

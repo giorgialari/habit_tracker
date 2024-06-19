@@ -24,6 +24,8 @@ export interface CustomCalendarEvent<MetaType = any> {
   color?: EventColor;
   actions?: EventAction[];
   goal: number;
+  goalType: string;
+  customGoalType: string;
   actualGoal: number;
   allDay?: boolean;
   cssClass?: string;

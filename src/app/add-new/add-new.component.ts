@@ -8,13 +8,11 @@ import {
   Renderer2,
   ViewChild,
   AfterViewChecked,
-  Output,
-  EventEmitter,
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HabitService } from '../_shared/services/habit.service';
-import { Habit } from '../habit-dashboard/_models/habits.interface';
+import { Habit } from '../_shared/models/habits.interface';
 import { EventColor } from 'calendar-utils';
 import { CATEGORIES, COLORS_CATEGORIES, DAYS } from '../_shared/data/data';
 import { parseISO } from 'date-fns';
@@ -50,11 +48,9 @@ export class AddNewComponent
 
   selectedTime: string = '';
   allDay = false;
-  //Es. litri, km, volte,
   goalTypes = [
     { id: 1, label: 'Volta/e', value: 'volte' },
-    { id: 2, label: 'Lt', value: 'litri' },
-    { id: 3, label: 'Km', value: 'km' },
+    { id: 2, label: 'Custom', value: 'custom' },
   ];
 
   infoMessage = {
@@ -88,9 +84,23 @@ export class AddNewComponent
       actualGoal: [0],
       goal: ['', Validators.required],
       goalType: ['', Validators.required],
+      customGoalType: [''],
       frequency: ['', Validators.required],
       color: [''],
       remind: [''],
+    });
+
+    this.newHabitForm.get('goalType')?.valueChanges.subscribe((value) => {
+      if (value === 'custom') {
+        this.newHabitForm
+          .get('customGoalType')
+          ?.setValidators([Validators.required]);
+        this.newHabitForm.get('customGoalType')?.updateValueAndValidity();
+        this.newHabitForm.get('customGoalType')?.markAsDirty();
+      } else {
+        this.newHabitForm.get('customGoalType')?.clearValidators();
+        this.newHabitForm.get('customGoalType')?.updateValueAndValidity();
+      }
     });
   }
   // #endregion
@@ -266,12 +276,22 @@ export class AddNewComponent
         })
       : '';
 
-    this.infoMessage.goal = this.newHabitForm.value.goal;
+    this.infoMessage.goal = this.formatNumber(this.newHabitForm.value.goal);
     const findGoalTypeLabel = this.goalTypes.find((goal) => {
       return goal.value === this.newHabitForm.value.goalType;
     });
-    this.infoMessage.goalType = findGoalTypeLabel?.label || '';
+    this.infoMessage.goalType =
+      findGoalTypeLabel?.label === 'Custom'
+        ? this.newHabitForm.value.customGoalType
+        : findGoalTypeLabel?.label || '';
   }
+
+  formatNumber(number: any): string {
+    return Number(number).toLocaleString(undefined, {
+      maximumFractionDigits: 0,
+    });
+  }
+
   shouldDisplayMessage(): boolean {
     return (
       this.infoMessage.days.length > 0 &&
@@ -396,9 +416,10 @@ export class AddNewComponent
       allDay: this.newHabitForm.value.allDay,
       startDate: this.newHabitForm.value.startDate,
       endDate: this.newHabitForm.value.endDate,
-      actualGoal:  this.newHabitForm.value.actualGoal,
+      actualGoal: this.newHabitForm.value.actualGoal,
       goal: this.newHabitForm.value.goal,
       goalType: this.newHabitForm.value.goalType,
+      customGoalType: this.newHabitForm.value.customGoalType,
       frequency: this.newHabitForm.value.frequency,
       remind: this.newHabitForm.value.remind,
       color: eventColor,
@@ -464,20 +485,18 @@ export class AddNewComponent
     this.deleteFutureEvents = event;
   }
 
-  confirmDelete:  boolean = false;
+  confirmDelete: boolean = false;
   onDeleteEvent(event: boolean) {
     this.confirmDelete = event;
-    this.manageDelete(this.confirmDelete)
-
+    this.manageDelete(this.confirmDelete);
   }
 
-  manageDelete(confirmDelete: boolean){
-    if(confirmDelete && !this.deleteFutureEvents){
+  manageDelete(confirmDelete: boolean) {
+    if (confirmDelete && !this.deleteFutureEvents) {
       this.deleteHabit();
-    } else if(confirmDelete && this.deleteFutureEvents){
+    } else if (confirmDelete && this.deleteFutureEvents) {
       this.deleteFutureHabits();
     }
-
   }
   deleteHabit() {
     const habitId = this.route.snapshot.params['id'];

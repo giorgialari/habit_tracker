@@ -13,7 +13,7 @@ import { CalendarService } from 'src/app/_shared/services/calendar.service';
 import { ColorService } from 'src/app/_shared/services/color.service';
 import { HabitService } from 'src/app/_shared/services/habit.service';
 import { RefreshService } from 'src/app/_shared/services/refresh-trigger.service';
-import { Habit } from 'src/app/habit-dashboard/_models/habits.interface';
+import { Habit } from 'src/app/_shared/models/habits.interface';
 
 @Component({
   selector: 'app-todo-habits-view',

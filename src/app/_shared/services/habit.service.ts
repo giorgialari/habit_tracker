@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
-import { Habit } from '../../habit-dashboard/_models/habits.interface';
+import { Habit } from '../models/habits.interface';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import * as moment from 'moment';

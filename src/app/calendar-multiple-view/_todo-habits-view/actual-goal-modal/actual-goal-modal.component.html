@@ -12,10 +12,26 @@
   [dismissableMask]="true"
 >
   <ng-template pTemplate="content">
-    <div class="knob-container flex justify-content-between align-items-center">
+    <!-- Daily goal -->
+    <div
+      class="daily-goal flex flex-column justify-content-center align-items-center py-2"
+    >
+      <div class="font-semibold">Daily Goal:</div>
+      <div>
+        {{ currentHabit.goal }}
+        {{
+          currentHabit.goalType === "custom"
+            ? currentHabit.customGoalType
+            : currentHabit.goalType
+        }}
+      </div>
+    </div>
+    <div
+      class="knob-container flex justify-content-between align-items-center my-4"
+    >
       <div class="button-group left">
         <p-button
-          styleClass="mb-2 button-standard font-semibold	"
+          styleClass="mb-2 button-standard font-semibold text-xs	"
           [rounded]="true"
           severity="danger"
           [outlined]="true"
@@ -24,8 +40,8 @@
           -
         </p-button>
         <p-button
-          *ngIf="currentHabit.goal > 10"
-          styleClass="mb-2 button-standard font-semibold	"
+          *ngIf="currentHabit.goal > 10 && currentHabit.goal < 2000"
+          styleClass="mb-2 button-standard font-semibold	text-xs"
           [rounded]="true"
           severity="danger"
           [outlined]="true"
@@ -35,7 +51,7 @@
         </p-button>
         <p-button
           *ngIf="currentHabit.goal > 100"
-          styleClass="mb-2 button-standard font-semibold	"
+          styleClass="mb-2 button-standard font-semibold	text-xs"
           [rounded]="true"
           severity="danger"
           [outlined]="true"
@@ -43,24 +59,47 @@
         >
           -100
         </p-button>
+        <p-button
+          *ngIf="currentHabit.goal > 1000"
+          styleClass="mb-2 button-standard font-semibold	text-xs"
+          [rounded]="true"
+          severity="danger"
+          [outlined]="true"
+          (click)="decreaseKnobValue(1000)"
+        >
+          -1000
+        </p-button>
       </div>
-      <p-knob
-        *ngIf="currentHabit"
-        [(ngModel)]="currentKnobValue"
-        (onChange)="onKnobChange($event)"
-        [valueColor]="knobColor"
-        [size]="150"
-        [max]="
-          currentKnobValue > currentHabit.goal
-            ? currentKnobValue
-            : currentHabit.goal
-        "
-      >
-      </p-knob>
+      <div class="flex flex-column align-items-center">
+        <p-knob
+          *ngIf="currentHabit"
+          [(ngModel)]="currentKnobValue"
+          (onChange)="onKnobChange($event)"
+          [valueColor]="knobColor"
+          [size]="150"
+          [max]="
+            currentKnobValue > currentHabit.goal
+              ? currentKnobValue
+              : currentHabit.goal
+          "
+        >
+        </p-knob>
+
+        <!-- reset -->
+        <p-button
+          styleClass="button-standard font-semibold	text-xs"
+          [rounded]="true"
+          severity="danger"
+          [outlined]="true"
+          (click)="resetKnobValue()"
+        >
+          <span class="material-icons">clear</span>
+        </p-button>
+      </div>
 
       <div class="button-group right">
         <p-button
-          styleClass="mb-2 button-standard font-semibold	"
+          styleClass="mb-2 button-standard font-semibold	text-xs"
           [rounded]="true"
           severity="danger"
           [outlined]="true"
@@ -69,8 +108,8 @@
           +
         </p-button>
         <p-button
-          *ngIf="currentHabit.goal > 10"
-          styleClass="mb-2 button-standard font-semibold	"
+          *ngIf="currentHabit.goal > 10 && currentHabit.goal < 2000"
+          styleClass="mb-2 button-standard font-semibold	text-xs"
           [rounded]="true"
           severity="danger"
           [outlined]="true"
@@ -80,13 +119,23 @@
         </p-button>
         <p-button
           *ngIf="currentHabit.goal > 100"
-          styleClass="mb-2 button-standard font-semibold	"
+          styleClass="mb-2 button-standard font-semibold	text-xs"
           [rounded]="true"
           severity="danger"
           [outlined]="true"
           (click)="increaseKnobValue(100)"
         >
           +100
+        </p-button>
+        <p-button
+          *ngIf="currentHabit.goal > 1000"
+          styleClass="mb-2 button-standard font-semibold	text-xs"
+          [rounded]="true"
+          severity="danger"
+          [outlined]="true"
+          (click)="increaseKnobValue(1000)"
+        >
+          +1000
         </p-button>
       </div>
     </div>

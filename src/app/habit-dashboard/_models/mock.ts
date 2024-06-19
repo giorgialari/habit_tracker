@@ -1,4 +1,4 @@
-import { Habit } from "./habits.interface";
+import { Habit } from "../../_shared/models/habits.interface";
 
 export const myHabitsMock: Habit[] = [{
   id: 1,

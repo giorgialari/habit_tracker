@@ -14,6 +14,7 @@ export interface Habit {
   actualGoal: number
   goal: number;
   goalType: string;
+  customGoalType: string;
   remind: string;
   color: EventColor;
   isHabitToEdit?: boolean;
