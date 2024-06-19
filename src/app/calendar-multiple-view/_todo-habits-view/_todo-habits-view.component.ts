@@ -10,6 +10,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import * as moment from 'moment';
 import { Subject, Subscription, filter, find } from 'rxjs';
 import { CalendarService } from 'src/app/_shared/services/calendar.service';
+import { ColorService } from 'src/app/_shared/services/color.service';
 import { HabitService } from 'src/app/_shared/services/habit.service';
 import { RefreshService } from 'src/app/_shared/services/refresh-trigger.service';
 import { Habit } from 'src/app/habit-dashboard/_models/habits.interface';
@@ -41,7 +42,8 @@ export class _todoHabitsViewComponent implements OnInit, OnDestroy {
     private router: Router,
     private cdr: ChangeDetectorRef,
     private calendarService: CalendarService,
-    private refreshService: RefreshService
+    private refreshService: RefreshService,
+    private colorService: ColorService
   ) {
     this.initSub = this.habitService.getStorageReady().subscribe((ready) => {
       if (ready) {
@@ -94,22 +96,25 @@ export class _todoHabitsViewComponent implements OnInit, OnDestroy {
   }
 
   checkIfCompleted(habit: Habit) {
-    if (habit.actualGoal === habit.goal) {
-      habit.completed = true;
-      console.log('isCompleted', habit);
-    }
-    this.toggleCompletion(habit);
+    const wasCompleted = habit.completed;
+    habit.completed = habit.actualGoal >= habit.goal;
+
+    // Passa l'informazione se l'habit è stato appena completato
+    this.toggleCompletion(
+      habit,
+      wasCompleted !== habit.completed && habit.completed
+    );
   }
 
-  toggleCompletion(habit: Habit): void {
+  toggleCompletion(habit: Habit, justCompleted: boolean): void {
     const findHabit = this._myHabits.find((h) => h.id === habit.id);
     if (findHabit) {
-      habit.completedAt = habit.completed
-        ? new Date().toLocaleTimeString()
-        : '';
+      // Aggiorna `completedAt` solo se `justCompleted` è true
+      if (justCompleted) {
+        habit.completedAt = new Date().toLocaleTimeString();
+      }
 
-        console.log('isCompleted', findHabit);
-
+      // Potresti voler aggiornare l'oggetto in un servizio o stato globale
       this.habitService.setHabit(findHabit);
     }
   }
@@ -133,6 +138,9 @@ export class _todoHabitsViewComponent implements OnInit, OnDestroy {
     this.router.navigate(['/tabs/edit-habit', habit.id, habit.idMaster]);
   }
 
+  calculateColor(actualGoal: number, goal: number) {
+    return this.colorService.calculateColor(actualGoal, goal);
+  }
   ngOnDestroy() {
     if (this.initSub) {
       this.initSub.unsubscribe();

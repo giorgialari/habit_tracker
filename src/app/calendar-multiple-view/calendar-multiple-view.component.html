@@ -32,8 +32,14 @@
       class="col-2 flex justify-content-end"
       *ngIf="view === CalendarView.Week"
     >
-    <p-knob [(ngModel)]="displayKnobValue" [size]="70" [readonly]="true" [max]="100" />
-  </div>
+      <p-knob
+        [(ngModel)]="displayKnobValue"
+        [size]="70"
+        [readonly]="true"
+        [max]="100"
+        [valueColor]="knobColor"
+      />
+    </div>
   </div>
 
   <div

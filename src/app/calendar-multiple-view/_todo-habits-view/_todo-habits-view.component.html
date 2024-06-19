@@ -13,6 +13,7 @@
               <div
                 class="icon-container border-round-sm mr-3"
                 [style.backgroundColor]="habit.color.primary"
+                [style.color]="habit.color.secondary"
               >
                 <span class="material-icons">{{ habit.category.icon }}</span>
               </div>
@@ -31,23 +32,12 @@
               [(ngModel)]="habit.actualGoal"
               [size]="60"
               [readonly]="true"
+              [valueColor]="calculateColor(habit.actualGoal, habit.goal)"
               [max]="
                 habit.actualGoal > habit.goal ? habit.actualGoal : habit.goal
               "
               (click)="showDialog(habit)"
             ></p-knob>
-
-            <!-- <p-button (onClick)="updateActualGoal(habit)">+</p-button>
-            <p-button (onClick)="resetActualGoal(habit)">R</p-button>
-
-            <p>{{habit.actualGoal}}</p> -->
-            <!-- Checkbox a destra -->
-            <!-- <p-checkbox
-              binary="true"
-              [(ngModel)]="habit.completed"
-              (onChange)="toggleCompletion(habit)"
-              styleClass="no-blur"
-            ></p-checkbox> -->
           </div>
         </p-card>
       </ion-item>

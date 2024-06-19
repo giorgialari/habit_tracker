@@ -28,6 +28,7 @@ import { RefreshService } from '../_shared/services/refresh-trigger.service';
 import { CustomCalendarView } from '../_shared/models/enum';
 import { TABS } from '../_shared/data/data';
 import { CustomCalendarEvent } from '../_shared/models/common.interfaces';
+import { ColorService } from '../_shared/services/color.service';
 
 @Component({
   selector: 'app-calendar-multiple-view',
@@ -67,6 +68,9 @@ export class CalendarMultipleViewComponent
   refreshComponentTriggerSubscription = new Subscription();
   events: CustomCalendarEvent[] = [];
   currentKnobValue = 0;
+  get knobColor(): string {
+    return this.colorService.calculateColor(this.currentKnobValue, 100);
+  }
   get displayKnobValue(): number {
     return Math.min(this.currentKnobValue, 100);
   }
@@ -79,7 +83,8 @@ export class CalendarMultipleViewComponent
     private tabOrderUserService: TabUserOrderService,
     private refreshService: RefreshService,
     private router: Router,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private colorService: ColorService
   ) {}
 
   async ngOnInit() {
