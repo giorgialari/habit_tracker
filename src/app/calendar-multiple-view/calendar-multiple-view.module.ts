@@ -21,6 +21,7 @@ import { _todoHabitsViewComponent } from './_todo-habits-view/_todo-habits-view.
 import { KnobModule } from 'primeng/knob';
 import { DialogModule } from 'primeng/dialog';
 import { ActualGoalModalComponent } from './_todo-habits-view/actual-goal-modal/actual-goal-modal..component';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 const angularModules = [
   CommonModule,
@@ -39,6 +40,7 @@ const primeNgModules = [
   CardModule,
   KnobModule,
   DialogModule,
+  InputSwitchModule
 ];
 
 @NgModule({

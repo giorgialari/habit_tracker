@@ -14,7 +14,10 @@
     </div>
     <div
       class="col flex justify-content-end"
-      *ngIf="view === CalendarView.Month || view === CalendarView.Day"
+      *ngIf="
+        (view === CalendarView.Month || view === CalendarView.Day) &&
+        switchDayView
+      "
     >
       <p-button [outlined]="true" severity="danger">
         <span class="material-icons mr-2">today</span>
@@ -30,7 +33,7 @@
 
     <div
       class="col-2 flex justify-content-end"
-      *ngIf="view === CalendarView.Week"
+      *ngIf="view === CalendarView.Day && !switchDayView"
     >
       <p-knob
         [(ngModel)]="displayKnobValue"
@@ -63,6 +66,19 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div
+    class="flex justify-content-between align-items-center mx-3 mt-1"
+    *ngIf="view === CalendarView.Day"
+  >
+    <h5 class="font-bold">My habits</h5>
+    <!-- switch che passa alla view Day o ToDo -->
+    <p-inputSwitch
+      styleClass="flex"
+      [(ngModel)]="switchDayView"
+      (onChange)="setView(CalendarView.Day)"
+    />
   </div>
 </div>
 
@@ -118,23 +134,29 @@
         </mwl-calendar-month-view>
       </div>
 
-      <mwl-calendar-day-view
-        *ngSwitchCase="CalendarView.Day"
-        [viewDate]="viewDate"
-        [events]="events"
-        [refresh]="refresh"
-        (eventTimesChanged)="eventTimesChanged($event)"
-        [eventTemplate]="eventDayTemplate"
-      >
-      </mwl-calendar-day-view>
-    </div>
+      <div *ngSwitchCase="CalendarView.Day">
+        <mwl-calendar-day-view
+          *ngIf="viewDate && events && switchDayView"
+          [viewDate]="viewDate"
+          [events]="events"
+          [refresh]="refresh"
+          (eventTimesChanged)="eventTimesChanged($event)"
+          [eventTemplate]="eventDayTemplate"
+        >
+        </mwl-calendar-day-view>
 
-    <!-- N.B. Viene usata Week perché la libreria non riconosce altri valori -->
-    <app-todo-habits-view
-      class="mb-3"
-      (updatedHabits)="updateHabits($event)"
-      *ngSwitchCase="CalendarView.Week"
-    ></app-todo-habits-view>
+        <app-todo-habits-view
+          *ngIf="!switchDayView"
+          class="mb-3"
+          (updatedHabits)="updateHabits($event)"
+          (touchstart)="$event.stopPropagation()"
+          (touchmove)="$event.stopPropagation()"
+          (touchend)="$event.stopPropagation()"
+        >
+          ></app-todo-habits-view
+        >
+      </div>
+    </div>
   </div>
 </div>
 
@@ -170,6 +192,16 @@
           {{ event.title }}
         </div>
       </div>
+    </div>
+    <!-- knob -->
+    <div class="cal-event-knob">
+      <p-knob
+        [(ngModel)]="event.actualGoal"
+        [size]="40"
+        [readonly]="true"
+        [max]="event.actualGoal > event.goal ? event.actualGoal : event.goal"
+        [valueColor]="knobColor"
+      />
     </div>
   </div>
 </ng-template>

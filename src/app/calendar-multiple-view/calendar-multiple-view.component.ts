@@ -9,6 +9,8 @@ import {
   Renderer2,
   OnDestroy,
   AfterViewChecked,
+  AfterViewInit,
+  NgZone,
 } from '@angular/core';
 import { isSameDay, isSameMonth } from 'date-fns';
 import { Subject, Subscription } from 'rxjs';
@@ -66,6 +68,7 @@ export class CalendarMultipleViewComponent
 
   refresh: Subject<any> = new Subject();
   refreshComponentTriggerSubscription = new Subscription();
+  switchDayView = false;
   events: CustomCalendarEvent[] = [];
   currentKnobValue = 0;
   get knobColor(): string {
@@ -96,7 +99,7 @@ export class CalendarMultipleViewComponent
       .getRefreshTrigger()
       .subscribe(async () => {
         await this.loadHabits();
-        this.refreshView();
+        this.refresh.next(Math.random());
         this.cd.detectChanges();
       });
   }
@@ -129,6 +132,7 @@ export class CalendarMultipleViewComponent
     const habits: Habit[] = await this.habitService.getAllHabits();
     this.events = habits.map((habit) => this.mapHabitToEvent(habit));
     this.calculateKnobValue();
+    this.cd.detectChanges();
   }
 
   private mapHabitToEvent = (habit: Habit) => {
@@ -203,9 +207,6 @@ export class CalendarMultipleViewComponent
       case CustomCalendarView.Month:
         // this.viewDate = new Date();
         break;
-      case CustomCalendarView.Week:
-        this.viewDate = new Date();
-        break;
       default:
         break;
     }
@@ -247,7 +248,7 @@ export class CalendarMultipleViewComponent
       this.viewDate = this.addMonths(this.viewDate, 1);
     }
     this.closeOpenMonthViewDay();
-    this.refreshView();
+    this.refresh.next(Math.random());
   }
 
   goToPreviousView() {
@@ -258,7 +259,7 @@ export class CalendarMultipleViewComponent
       this.viewDate = this.addMonths(this.viewDate, -1);
     }
     this.closeOpenMonthViewDay();
-    this.refreshView();
+    this.refresh.next(Math.random());
   }
 
   addMonths(date: Date, months: number): Date {
@@ -271,11 +272,6 @@ export class CalendarMultipleViewComponent
     const d = new Date(date);
     d.setDate(d.getDate() + days);
     return d;
-  }
-
-  refreshView() {
-    this.refresh.next({});
-    this.cd.detectChanges();
   }
 
   addSwipeClass(direction: string) {

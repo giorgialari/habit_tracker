@@ -1,4 +1,4 @@
-import { CustomCalendarView } from "../models/enum";
+import { CustomCalendarView } from '../models/enum';
 
 export const DAYS = [
   { id: 'mon', label: 'M', name: 'Lunedì' },
@@ -30,7 +30,6 @@ export const COLORS_CATEGORIES = [
   { id: 10, hex: '#e76f51', name: 'Rosso Vulcano', textColor: '#f2f2f2' }, // grigio chiaro su rosso
 ];
 
-
 export const TABS = [
   {
     id: 1,
@@ -43,11 +42,5 @@ export const TABS = [
     label: 'Month',
     view: CustomCalendarView.Month,
     icon: 'calendar_month',
-  },
-  {
-    id: 3,
-    label: 'ToDo',
-    view: CustomCalendarView.Week,
-    icon: 'check',
   },
 ];

@@ -1,6 +1,4 @@
 <div class="mx-3" *ngIf="refresh | async">
-  <h5 class="font-bold">My habits</h5>
-
   <ion-list>
     <ion-item-sliding *ngFor="let habit of _myHabits; let i = index">
       <ion-item class="mx-auto mb-2" lines="none" class="remove_inner_bottom">

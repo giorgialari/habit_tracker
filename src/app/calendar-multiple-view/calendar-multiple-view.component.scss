@@ -202,8 +202,46 @@
 
 .progress-text {
   position: absolute;
-  top: 50%;  /* Allinea al bordo inferiore del div contenitore */
-  left: 50%;  /* Centra orizzontalmente */
-  transform: translate(-50%, -50%); /* Ajusta verticalmente per posizionare sotto il semicerchio */
-  color: white; /* Colore del testo */
+  top: 50%;
+  /* Allinea al bordo inferiore del div contenitore */
+  left: 50%;
+  /* Centra orizzontalmente */
+  transform: translate(-50%, -50%);
+  /* Ajusta verticalmente per posizionare sotto il semicerchio */
+  fill: white;
+  /* Colore del testo */
+}
+
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider:before {
+  background-image: url('./././../../assets/icon/calendar_today.svg');
+  /* Percorso dell'icona */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-color: $secondary-color;
+  /* o 'contain' a seconda delle dimensioni dell'icona */
+}
+
+.p-inputswitch .p-inputswitch-slider:before {
+  background-image: url('./././../../assets/icon/check_circle.svg');
+  /* Percorso dell'icona */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-color: $secondary-color;
+}
+
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+  background-color: $background-color;
+  border: 1px solid $secondary-color;
+}
+
+.p-inputswitch .p-inputswitch-slider {
+  background-color: $background-color;
+  border: 1px solid $secondary-color;
+}
+
+.cal-event-knob svg {
+  background-color: lighten($secondary-color, 20%);
+  border-radius: 50%;
 }
