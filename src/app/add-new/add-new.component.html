@@ -129,6 +129,7 @@
             <button
               *ngFor="let day of days; let i = index"
               [ngClass]="{ selected: selectedDays.includes(day.id) }"
+              type="button"
               (click)="toggleDay(day.id)"
             >
               {{ day.label }}

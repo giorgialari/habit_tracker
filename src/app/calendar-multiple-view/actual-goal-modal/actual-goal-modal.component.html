@@ -12,6 +12,14 @@
   [dismissableMask]="true"
 >
   <ng-template pTemplate="content">
+    <!-- Edit button -->
+    <div class="flex justify-content-end">
+      <p-button severity="secondary" styleClass="editButton"
+      (onClick)="editHabit()"
+
+      > Edit </p-button>
+    </div>
+
     <!-- Daily goal -->
     <div
       class="daily-goal flex flex-column justify-content-center align-items-center py-2"

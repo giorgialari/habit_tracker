@@ -1,24 +1,14 @@
 <div id="calendar-header" class="flex flex-column">
   <div class="grid border-none border-bottom-1 border-600 border-solid px-3">
     <div class="col my-auto">
-      <ng-container *ngIf="view !== CalendarView.Week; else weekTitle">
+      <ng-container>
         <h4 class="p-text-center m-0">
           {{ viewDate | calendarDate : view + "ViewTitle" : "en" }}
         </h4>
       </ng-container>
-      <ng-template #weekTitle>
-        <h4 class="p-text-center m-0">
-          {{ viewDate | calendarDate : "dayViewTitle" : "en" }}
-        </h4>
-      </ng-template>
     </div>
-    <div
-      class="col flex justify-content-end"
-      *ngIf="
-        (view === CalendarView.Month || view === CalendarView.Day) &&
-        switchDayView
-      "
-    >
+    @if (view === CalendarView.Month){
+    <div class="col flex justify-content-end">
       <p-button [outlined]="true" severity="danger">
         <span class="material-icons mr-2">today</span>
         <div
@@ -31,10 +21,8 @@
       </p-button>
     </div>
 
-    <div
-      class="col-2 flex justify-content-end"
-      *ngIf="view === CalendarView.Day && !switchDayView"
-    >
+    } @else {
+    <div class="col-2 flex justify-content-end">
       <p-knob
         [(ngModel)]="displayKnobValue"
         [size]="70"
@@ -43,6 +31,7 @@
         [valueColor]="knobColor"
       />
     </div>
+    }
   </div>
 
   <div
@@ -51,9 +40,9 @@
     (cdkDropListDropped)="drop($event)"
   >
     <div class="tab-group p-1">
+      @for (tab of tabs; track tab){
       <div
         class="tab pt-2 pb-1"
-        *ngFor="let tab of tabs; let i = index"
         cdkDrag
         (click)="setView(tab.view)"
         [class.active]="view === tab.view"
@@ -65,6 +54,7 @@
           <div>{{ tab.label }}</div>
         </div>
       </div>
+      }
     </div>
   </div>
 
@@ -75,7 +65,7 @@
     <h5 class="font-bold">My habits</h5>
     <!-- switch che passa alla view Day o ToDo -->
     <p-inputSwitch
-      styleClass="flex"
+      styleClass="flex input-switch-day-todo"
       [(ngModel)]="switchDayView"
       (onChange)="setView(CalendarView.Day)"
     />
@@ -102,8 +92,10 @@
             let-events="events"
             let-isOpen="isOpen"
           >
-            <div class="cal-open-day-events" *ngIf="isOpen">
-              <ng-container *ngFor="let event of events">
+            @if (isOpen){
+            <div class="cal-open-day-events">
+              <ng-container>
+                @for (event of events; track event){
                 <div class="event-container">
                   <!-- Icon and background color -->
                   <div
@@ -128,45 +120,40 @@
                     >
                   </div>
                 </div>
+                }
               </ng-container>
             </div>
+            }
           </ng-template>
         </mwl-calendar-month-view>
       </div>
-
-      <div *ngSwitchCase="CalendarView.Day">
-        <mwl-calendar-day-view
-          *ngIf="viewDate && events && switchDayView"
-          [viewDate]="viewDate"
-          [events]="events"
-          [refresh]="refresh"
-          (eventTimesChanged)="eventTimesChanged($event)"
-          [eventTemplate]="eventDayTemplate"
-        >
-        </mwl-calendar-day-view>
-
-        <app-todo-habits-view
-          *ngIf="!switchDayView"
-          class="mb-3"
-          (updatedHabits)="updateHabits($event)"
-          (touchstart)="$event.stopPropagation()"
-          (touchmove)="$event.stopPropagation()"
-          (touchend)="$event.stopPropagation()"
-        >
-          ></app-todo-habits-view
-        >
-      </div>
+    </div>
+    <div *ngSwitchCase="CalendarView.Day">
+      @if (viewDate && events && switchDayView){
+      <mwl-calendar-day-view
+        [viewDate]="viewDate"
+        [events]="events"
+        [refresh]="refresh"
+        (eventTimesChanged)="eventTimesChanged($event)"
+        [eventTemplate]="eventDayTemplate"
+      >
+      </mwl-calendar-day-view>
+      } @else if (!switchDayView) {
+      <app-todo-habits-view class="mb-3" (updatedHabits)="updateHabits($event)">
+        ></app-todo-habits-view
+      >
+      }
     </div>
   </div>
 </div>
 
 <ng-template #eventDayTemplate let-event="weekEvent.event">
+  @if (event){
   <div
-    *ngIf="event"
     class="cal-event"
     [style.background-color]="event.color.primary"
     [style.color]="event.color.secondary"
-    (click)="handleEvent(event)"
+    (click)="showDialog(event)"
   >
     <div class="flex flex-column" [class.py-1]="event.allDay">
       <div class="cal-event-header flex">
@@ -204,4 +191,15 @@
       />
     </div>
   </div>
+  }
 </ng-template>
+
+@defer{
+  <app-actual-goal-modal
+    [visible]="visible"
+    (hide)="hideDialog($event)"
+    [currentHabit]="currentHabit"
+    (confirmEventEmitter)="updateActualGoal($event)"
+    (editHabitEmitter)="handleEvent($event)"
+  ></app-actual-goal-modal>
+  }

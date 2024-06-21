@@ -212,31 +212,20 @@
   /* Colore del testo */
 }
 
-.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider:before {
+.input-switch-day-todo.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider:before {
   background-image: url('./././../../assets/icon/calendar_today.svg');
-  /* Percorso dell'icona */
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  background-color: $secondary-color;
-  /* o 'contain' a seconda delle dimensioni dell'icona */
 }
 
-.p-inputswitch .p-inputswitch-slider:before {
+.input-switch-day-todo.p-inputswitch .p-inputswitch-slider:before {
   background-image: url('./././../../assets/icon/check_circle.svg');
-  /* Percorso dell'icona */
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  background-color: $secondary-color;
 }
 
-.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+.input-switch-day-todo.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
   background-color: $background-color;
   border: 1px solid $secondary-color;
 }
 
-.p-inputswitch .p-inputswitch-slider {
+.input-switch-day-todo.p-inputswitch .p-inputswitch-slider {
   background-color: $background-color;
   border: 1px solid $secondary-color;
 }

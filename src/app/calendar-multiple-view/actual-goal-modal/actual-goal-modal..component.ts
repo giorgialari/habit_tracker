@@ -19,6 +19,7 @@ export class ActualGoalModalComponent implements OnInit, OnChanges {
   @Output() hide = new EventEmitter();
   confirm: boolean = false;
   @Output() confirmEventEmitter = new EventEmitter();
+  @Output() editHabitEmitter = new EventEmitter();
   currentKnobValue = 0;
   get knobColor(): string {
     return this.colorService.calculateColor(this.currentKnobValue, this.currentHabit.goal);
@@ -30,6 +31,7 @@ export class ActualGoalModalComponent implements OnInit, OnChanges {
   ngOnInit() {}
 
   ngOnChanges() {
+    console.log('currentHabit', this.currentHabit);
     this.currentKnobValue = this.currentHabit?.actualGoal || 0;
   }
 
@@ -67,5 +69,9 @@ export class ActualGoalModalComponent implements OnInit, OnChanges {
     this.onConfirm();
   }
 
+  editHabit(): void {
+    this.onHide();
+    this.editHabitEmitter.emit(this.currentHabit);
+  }
 
 }

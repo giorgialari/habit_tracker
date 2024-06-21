@@ -1,64 +1,53 @@
 <div class="mx-3" *ngIf="refresh | async">
-  <ion-list>
-    <ion-item-sliding *ngFor="let habit of _myHabits; let i = index">
-      <ion-item class="mx-auto mb-2" lines="none" class="remove_inner_bottom">
-        <p-card>
-          <div
-            class="flex align-items-center justify-content-between habit-container"
-          >
-            <!-- Container per icona e titolo -->
-            <div class="flex align-items-center">
-              <div
-                class="icon-container border-round-sm mr-3"
-                [style.backgroundColor]="habit.color.primary"
-                [style.color]="habit.color.secondary"
-              >
-                <span class="material-icons">{{ habit.category.icon }}</span>
-              </div>
-              <div class="flex-grow-1">
-                <div class="category-label">{{ habit.category.label }}</div>
-                <div class="habit-title">{{ habit.title }}</div>
-                <div class="text-xs" *ngIf="habit.completed; else notCompleted">
-                  Completed at {{ habit.completedAt }}
-                </div>
-                <ng-template #notCompleted>
-                  <div class="text-xs">Not completed</div>
-                </ng-template>
-              </div>
-            </div>
-            <p-knob
-              [(ngModel)]="habit.actualGoal"
-              [size]="60"
-              [readonly]="true"
-              [valueColor]="calculateColor(habit.actualGoal, habit.goal)"
-              [max]="
-                habit.actualGoal > habit.goal ? habit.actualGoal : habit.goal
-              "
-              (click)="showDialog(habit)"
-            ></p-knob>
-          </div>
-        </p-card>
-      </ion-item>
-      <ion-item-options side="start">
-        <ion-item-option
-          color="success"
-          (click)="editHabit(habit); $event.stopPropagation()"
+  @for(habit of _myHabits; track habit){
+  <p-card>
+    <div
+      class="flex align-items-center justify-content-between habit-container"
+    >
+      <!-- Container per icona e titolo -->
+      <div class="flex align-items-center">
+        <div
+          class="icon-container border-round-sm mr-3"
+          [style.backgroundColor]="habit.color.primary"
+          [style.color]="habit.color.secondary"
         >
-          <span class="material-icons"> edit </span>
-        </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
-
+          <span class="material-icons">{{ habit.category.icon }}</span>
+        </div>
+        <div class="flex-grow-1">
+          <div class="category-label">{{ habit.category.label }}</div>
+          <div class="habit-title">{{ habit.title }}</div>
+          <div class="text-xs" *ngIf="habit.completed; else notCompleted">
+            Completed at {{ habit.completedAt }}
+          </div>
+          <ng-template #notCompleted>
+            <div class="text-xs">Not completed</div>
+          </ng-template>
+        </div>
+      </div>
+      <p-knob
+        [(ngModel)]="habit.actualGoal"
+        [size]="60"
+        [readonly]="true"
+        [valueColor]="calculateColor(habit.actualGoal, habit.goal)"
+        [max]="habit.actualGoal > habit.goal ? habit.actualGoal : habit.goal"
+        (click)="showDialog(habit)"
+      ></p-knob>
+    </div>
+  </p-card>
+  }
   <!-- Se non ci sono elementi mostro un div con un messaggio "Nessun elemento presente" -->
-  <div *ngIf="!_myHabits.length" class="text-center mt-3">
+  @if(!_myHabits.length){
+  <div class="text-center mt-3">
     <p>No elements present</p>
   </div>
+  }
 </div>
-
+@defer{
 <app-actual-goal-modal
   [visible]="visible"
   (hide)="hideDialog($event)"
   [currentHabit]="currentHabit"
   (confirmEventEmitter)="updateActualGoal($event)"
+  (editHabitEmitter)="editHabit($event)"
 ></app-actual-goal-modal>
+}

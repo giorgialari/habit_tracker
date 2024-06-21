@@ -9,8 +9,8 @@ import {
   Renderer2,
   OnDestroy,
   AfterViewChecked,
-  AfterViewInit,
-  NgZone,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { isSameDay, isSameMonth } from 'date-fns';
 import { Subject, Subscription } from 'rxjs';
@@ -53,6 +53,12 @@ export class CalendarMultipleViewComponent
   CalendarView = CustomCalendarView;
 
   viewDate: Date = new Date();
+
+  visible: boolean = false;
+
+  currentHabit: Habit = {} as Habit;
+
+  @Output() updatedHabits = new EventEmitter<Habit[]>();
 
   actions: CalendarEventAction[] = [
     {
@@ -99,7 +105,7 @@ export class CalendarMultipleViewComponent
       .getRefreshTrigger()
       .subscribe(async () => {
         await this.loadHabits();
-        this.refresh.next(Math.random());
+        this.refresh.next({});
         this.cd.detectChanges();
       });
   }
@@ -111,6 +117,26 @@ export class CalendarMultipleViewComponent
   async beforeMonthViewRender() {
     await this.loadHabits();
     this.cd.detectChanges();
+  }
+  hideDialog(event: boolean) {
+    this.visible = event;
+  }
+
+  showDialog(habit: Habit) {
+    this.visible = true;
+    this.currentHabit = habit;
+  }
+
+  async updateActualGoal(habit: Habit) {
+    const habits: Habit[] = await this.habitService.getAllHabits();
+    const findHabit = habits.find((h) => h.id === habit.id);
+
+    if (findHabit) {
+      findHabit.actualGoal = habit.actualGoal;
+
+      await this.habitService.setHabit(findHabit);
+      this.refreshService.forceRefresh();
+    }
   }
 
   private async loadTabs() {
@@ -205,7 +231,6 @@ export class CalendarMultipleViewComponent
         this.scrollToCurrentHour();
         break;
       case CustomCalendarView.Month:
-        // this.viewDate = new Date();
         break;
       default:
         break;

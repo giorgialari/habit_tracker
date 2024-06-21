@@ -1,4 +1,4 @@
-@import '../../../../theme/variables.scss';
+@import '../../../theme/variables.scss';
 
 ::ng-deep .p-dialog-confirm-delete {
 
@@ -30,4 +30,8 @@
 .daily-goal div {
   font-size: 1em;
   line-height: 1.4;
+}
+
+::ng-deep .editButton.p-button-secondary {
+  padding: 0;
 }

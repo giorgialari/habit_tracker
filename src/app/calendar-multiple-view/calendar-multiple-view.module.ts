@@ -20,7 +20,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { _todoHabitsViewComponent } from './_todo-habits-view/_todo-habits-view.component';
 import { KnobModule } from 'primeng/knob';
 import { DialogModule } from 'primeng/dialog';
-import { ActualGoalModalComponent } from './_todo-habits-view/actual-goal-modal/actual-goal-modal..component';
+import { ActualGoalModalComponent } from './actual-goal-modal/actual-goal-modal..component';
 import { InputSwitchModule } from 'primeng/inputswitch';
 
 const angularModules = [

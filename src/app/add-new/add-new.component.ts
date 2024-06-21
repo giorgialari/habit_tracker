@@ -434,7 +434,6 @@ export class AddNewComponent
       habit.idMaster = this.genereateIdMaster();
       this.submit(habit);
     }
-    this.refreshService.forceRefresh();
   }
 
   private genereateIdMaster() {
@@ -452,6 +451,7 @@ export class AddNewComponent
     this.habitService.notifyNewHabitAdded();
     this.newHabitForm.reset();
     this.selectedDays = [];
+    this.refreshService.forceRefresh();
     this.router.navigate(['/tabs/dashboard']);
   }
 
@@ -466,6 +466,7 @@ export class AddNewComponent
     this.habitService.notifyNewHabitAdded();
     this.newHabitForm.reset();
     this.selectedDays = [];
+    this.refreshService.forceRefresh();
     this.router.navigate(['/tabs/dashboard']);
   }
   // #endregion
