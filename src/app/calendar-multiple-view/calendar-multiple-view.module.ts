@@ -22,6 +22,8 @@ import { KnobModule } from 'primeng/knob';
 import { DialogModule } from 'primeng/dialog';
 import { ActualGoalModalComponent } from './actual-goal-modal/actual-goal-modal..component';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { CalculateKnobValuePipe } from '../_shared/pipes/calculate-knob-value.pipe';
+import { CalculateKnobColorPipe } from '../_shared/pipes/calculate-knob-color.pipe';
 
 const angularModules = [
   CommonModule,
@@ -58,6 +60,8 @@ const primeNgModules = [
     CalendarMultipleViewComponent,
     _todoHabitsViewComponent,
     ActualGoalModalComponent,
+    CalculateKnobValuePipe,
+    CalculateKnobColorPipe
   ],
   exports: [
     CalendarMultipleViewComponent,

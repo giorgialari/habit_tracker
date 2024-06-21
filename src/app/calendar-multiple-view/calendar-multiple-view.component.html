@@ -86,6 +86,7 @@
           (eventTimesChanged)="eventTimesChanged($event)"
           [openDayEventsTemplate]="customOpenDayEventsTemplate"
           (beforeViewRender)="beforeMonthViewRender()"
+          [cellTemplate]="customCellTemplate"
         >
           <ng-template
             #customOpenDayEventsTemplate
@@ -125,6 +126,34 @@
             </div>
             }
           </ng-template>
+
+          <ng-template #customCellTemplate let-day="day" let-locale="locale">
+            @if (day){
+            <div
+              class="cal-cell-top flex flex-column align-items-center justify-content-between"
+            >
+              <div class="cal-day-number text-center flex align-items-center">
+                <span
+                  class="cal-day-badge mt-0 mr-1"
+                  *ngIf="day.badgeTotal > 0"
+                >
+                  {{ day.badgeTotal }}
+                </span>
+                {{ day.date | calendarDate : "monthViewDayNumber" : locale }}
+              </div>
+              <div>
+                <p-knob
+                  [ngModel]="day.events | calculateKnobValue"
+                  [size]="40"
+                  [readonly]="true"
+                  [max]="100"
+                  [valueColor]="day.events | calculateKnobColor"
+                />
+              </div>
+            </div>
+
+            }
+          </ng-template>
         </mwl-calendar-month-view>
       </div>
     </div>
@@ -150,15 +179,16 @@
 <ng-template #eventDayTemplate let-event="weekEvent.event">
   @if (event){
   <div
-    class="cal-event"
+    class="cal-event grid overflow-scroll"
     [style.background-color]="event.color.primary"
     [style.color]="event.color.secondary"
     (click)="showDialog(event)"
   >
-    <div class="flex flex-column" [class.py-1]="event.allDay">
+    <div class="col" [class.py-1]="event.allDay">
       <div class="cal-event-header flex">
         <span
           class="material-icons category-icon mr-2"
+          [class.text-base]="!event.allDay"
           [class.text-xs]="event.allDay"
           >{{ event.category.icon }}</span
         >
@@ -180,14 +210,25 @@
         </div>
       </div>
     </div>
+    <!-- Goal -->
+    <div class="habit-goal col">
+      <span class="habit-goal"
+        >Goal: {{ event.goal }}
+        {{
+          event.goalType === "custom"
+            ? event.customGoalType
+            : event.goalType
+        }}</span
+      >
+    </div>
     <!-- knob -->
-    <div class="cal-event-knob">
+    <div class="cal-event-knob p-0 col flex justify-content-end">
       <p-knob
         [(ngModel)]="event.actualGoal"
-        [size]="40"
+        [size]="event.allDay ? 30 : 40"
         [readonly]="true"
         [max]="event.actualGoal > event.goal ? event.actualGoal : event.goal"
-        [valueColor]="knobColor"
+        [valueColor]="event | calculateKnobColor"
       />
     </div>
   </div>
@@ -195,11 +236,11 @@
 </ng-template>
 
 @defer{
-  <app-actual-goal-modal
-    [visible]="visible"
-    (hide)="hideDialog($event)"
-    [currentHabit]="currentHabit"
-    (confirmEventEmitter)="updateActualGoal($event)"
-    (editHabitEmitter)="handleEvent($event)"
-  ></app-actual-goal-modal>
-  }
+<app-actual-goal-modal
+  [visible]="visible"
+  (hide)="hideDialog($event)"
+  [currentHabit]="currentHabit"
+  (confirmEventEmitter)="updateActualGoal($event)"
+  (editHabitEmitter)="handleEvent($event)"
+></app-actual-goal-modal>
+}

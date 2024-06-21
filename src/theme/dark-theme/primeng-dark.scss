@@ -136,3 +136,7 @@ p-dropdown.ng-dirty.ng-invalid>.p-dropdown {
 .p-float-label:has(.ng-dirty.ng-invalid) label {
   color: $highlight-background-color;
 }
+
+svg {
+  pointer-events: none;
+}

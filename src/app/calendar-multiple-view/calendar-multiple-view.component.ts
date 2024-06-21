@@ -220,6 +220,8 @@ export class CalendarMultipleViewComponent
     this.router.navigate(['/tabs/edit-habit', event.id, event.idMaster]);
   }
 
+
+
   setView(view: CustomCalendarView) {
     this.view = view;
     if (view === CustomCalendarView.Day) {
@@ -321,29 +323,38 @@ export class CalendarMultipleViewComponent
     this.cd.detectChanges();
   }
   private calculateKnobValue() {
-    //il valore del knob è una percentuale da 0 a 100 che indica in percentuale quanto gli eventi sono completati
-    //prendendo di riferimento "actualGoal" e "goal" di tutti gli eventi della giornata selezionata
-
-    //prendo tutti gli eventi della giornata selezionata
+    // Prendo tutti gli eventi della giornata selezionata
     const eventsOfDay = this.events.filter((event) =>
       isSameDay(event.start, this.viewDate)
     );
 
-    //calcolo la somma di tutti gli goal
-    const sumGoal = eventsOfDay.reduce((acc, event) => acc + event.goal, 0);
-    //calcolo la somma di tutti gli actualGoal
-    const sumActualGoal = eventsOfDay.reduce(
-      (acc, event) => acc + event.actualGoal,
-      0
-    );
-    //calcolo la percentuale
-    const percentage = (sumActualGoal / sumGoal) * 100;
+    // Se non ci sono eventi, imposta il valore a 0 e termina la funzione
+    if (eventsOfDay.length === 0) {
+      this.currentKnobValue = 0;
+      this.cd.detectChanges();
+      return;
+    }
 
-    let rounded = Math.round(parseFloat(percentage.toFixed(2)));
+    let weightedCompleted = 0; // Somma ponderata dei completamenti
+    let totalGoal = 0; // Somma totale dei goal
 
-    this.currentKnobValue = rounded || 0;
+    eventsOfDay.forEach(event => {
+      const actualGoalNormalized = Math.min(event.actualGoal, event.goal); // Normalizza actualGoal a non superare goal
+      weightedCompleted += actualGoalNormalized; // Usa il valore normalizzato
+      totalGoal += event.goal;
+    });
+
+    // Calcola la percentuale finale ponderata
+    let finalPercentage = (weightedCompleted / totalGoal) * 100;
+    let rounded = Math.round(finalPercentage);
+
+    // Imposta il valore del knob al valore arrotondato
+    this.currentKnobValue = rounded;
     this.cd.detectChanges();
   }
+
+
+
 
   ngOnDestroy(): void {
     this.refreshComponentTriggerSubscription.unsubscribe();

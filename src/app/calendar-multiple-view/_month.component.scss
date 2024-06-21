@@ -108,3 +108,12 @@
     pointer-events: none !important; //Blocca l'evento di click sui pallini colorati
   }
 }
+
+
+.cal-month-view .cal-day-cell.cal-today .cal-day-number {
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin-top: 15px;
+  float: right;
+  margin-bottom: 10px;
+}

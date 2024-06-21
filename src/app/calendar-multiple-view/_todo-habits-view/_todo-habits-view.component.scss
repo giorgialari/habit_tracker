@@ -1,6 +1,11 @@
 p-card {
   width: 100%;
   box-sizing: border-box;
+
+}
+
+::ng-deep .p-card-content {
+  padding: 1rem;
 }
 
 /* Rimuove il focus visibile specificamente dai p-checkbox */
@@ -49,11 +54,11 @@ p-card {
   display: block;
 }
 
-.remove_inner_bottom {
-  --inner-border-width: 0; // this removes the inner border width
-  --inner-padding-start: 0;
-  --inner-padding-end: 0;
-}
+// .remove_inner_bottom {
+//   --inner-border-width: 0; // this removes the inner border width
+//   --inner-padding-start: 0;
+//   --inner-padding-end: 0;
+// }
 
 ::ng-deep .p-card-body {
   padding: 0;
