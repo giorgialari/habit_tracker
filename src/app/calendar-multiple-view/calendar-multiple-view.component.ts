@@ -65,7 +65,7 @@ export class CalendarMultipleViewComponent
       label: '<span class="material-icons">edit</span>',
       a11yLabel: 'Edit',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent(event);
+        this.handleEvent(event as CustomCalendarEvent);
       },
     },
   ];
@@ -216,7 +216,7 @@ export class CalendarMultipleViewComponent
     }) as CustomCalendarEvent[];
   }
 
-  handleEvent(event: CalendarEvent): void {
+  handleEvent(event: CustomCalendarEvent): void {
     this.router.navigate(['/tabs/edit-habit', event.id, event.idMaster]);
   }
 

@@ -25,8 +25,7 @@ import { theme } from 'src/theme/dark-theme/dark-config';
   styleUrls: ['./add-new.component.scss'],
 })
 export class AddNewComponent
-  implements OnInit, AfterViewInit, AfterViewChecked
-{
+  implements OnInit, AfterViewInit, AfterViewChecked {
   // #region Properties
   newHabitForm: FormGroup;
   @Input() isHabitToEdit: boolean = false;
@@ -36,12 +35,10 @@ export class AddNewComponent
   selectedDays: string[] = [];
   categories = CATEGORIES;
   selectedCategory: any;
-  // selectedCategoryOptValue = '';
   iconSelectedCategory: string = '';
 
   colors_categories = COLORS_CATEGORIES;
   selectedColor: any = '';
-  // selectedColorOptValue = '';
 
   defaultIconBackgroundColor = theme.backgroundColor;
   defaultIconTextColor = theme.textColor;
@@ -81,6 +78,8 @@ export class AddNewComponent
       allDay: [this.allDay],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
+      startDailyHour: ['', Validators.required],
+      endDailyHour: ['', Validators.required],
       actualGoal: [0],
       goal: ['', Validators.required],
       goalType: ['', Validators.required],
@@ -102,6 +101,49 @@ export class AddNewComponent
         this.newHabitForm.get('customGoalType')?.updateValueAndValidity();
       }
     });
+
+    this.newHabitForm.get('allDay')?.valueChanges.subscribe((value) => {
+      this.allDay = value;
+      if (value) {
+        this.newHabitForm.get('startDailyHour')?.clearValidators();
+        this.newHabitForm.get('endDailyHour')?.clearValidators();
+        this.newHabitForm.get('startDailyHour')?.updateValueAndValidity();
+        this.newHabitForm.get('endDailyHour')?.updateValueAndValidity();
+      } else {
+        this.newHabitForm
+          .get('startDailyHour')
+          ?.setValidators([Validators.required]);
+        this.newHabitForm
+          .get('endDailyHour')
+          ?.setValidators([Validators.required]);
+        this.newHabitForm.get('startDailyHour')?.updateValueAndValidity();
+        this.newHabitForm.get('endDailyHour')?.updateValueAndValidity();
+      }
+    });
+
+    this.newHabitForm.get('startDailyHour')?.valueChanges.subscribe(value => {
+      if (!value) {
+        return;
+      }
+      this.updateStartDateTime(value);
+    });
+
+    this.newHabitForm.get('endDailyHour')?.valueChanges.subscribe(value => {
+      if (!value) {
+        return;
+      }
+      this.updateEndDateTime(value);
+    });
+
+  }
+
+
+  updateStartDateTime(time: Date) {
+    const date = new Date(this.newHabitForm.value.startDate);
+    const timeParts = new Date(time);  // Assicurati che `time` sia un Date object
+
+    date.setHours(timeParts.getHours(), timeParts.getMinutes());
+    this.newHabitForm.get('startDate')?.setValue(date);
   }
   // #endregion
 
@@ -151,6 +193,8 @@ export class AddNewComponent
             habit.endDate = parseISO(habit.endDate) as any;
             this.newHabitForm.patchValue({
               ...habit,
+              startDailyHour: habit.startDate,
+              endDailyHour: habit.endDate,
             });
             this.selectedCategory = this.categories.find(
               (c) => c.id === habit.category.id
@@ -168,9 +212,20 @@ export class AddNewComponent
             this.cdRef.detectChanges();
           }
         });
+
+        this.habitService.getHabitsByIdMaster(params['idMaster']).then((habit) => {
+          if (habit.length > 0) {
+            //raccolgo l'ultimo habit per settare la data di inizio e fine
+            const lastHabit = habit[habit.length - 1];
+            lastHabit.endDate = parseISO(lastHabit.endDate) as any;
+            this.newHabitForm.get('endDate')?.setValue(lastHabit.endDate);
+          }
+        });
       }
     });
   }
+
+
   ngAfterViewChecked(): void {
     this.hideIfAllDay();
   }
@@ -243,37 +298,37 @@ export class AddNewComponent
 
     this.infoMessage.startDateNoHours = this.newHabitForm.value.startDate
       ? //undefined al posto del locale per evitare problemi di timezone
-        new Date(this.newHabitForm.value.startDate).toLocaleDateString(
-          undefined,
-          {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-          }
-        )
+      new Date(this.newHabitForm.value.startDate).toLocaleDateString(
+        undefined,
+        {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+        }
+      )
       : '';
     this.infoMessage.endDateNoHours = this.newHabitForm.value.endDate
       ? new Date(this.newHabitForm.value.endDate).toLocaleDateString(
-          undefined,
-          {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-          }
-        )
+        undefined,
+        {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+        }
+      )
       : '';
 
     this.infoMessage.startHour = this.newHabitForm.value.startDate
       ? new Date(this.newHabitForm.value.startDate).toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-        })
+        hour: '2-digit',
+        minute: '2-digit',
+      })
       : '';
     this.infoMessage.endHour = this.newHabitForm.value.endDate
       ? new Date(this.newHabitForm.value.endDate).toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-        })
+        hour: '2-digit',
+        minute: '2-digit',
+      })
       : '';
 
     this.infoMessage.goal = this.formatNumber(this.newHabitForm.value.goal);
@@ -391,6 +446,14 @@ export class AddNewComponent
       primary: this.selectedColor?.hex || this.defaultIconBackgroundColor,
       secondary: this.selectedColor?.textColor || this.defaultIconTextColor,
     };
+  }
+
+  updateEndDateTime(time: Date) {
+    const date = new Date(this.newHabitForm.value.endDate);
+    const timeParts = new Date(time);
+
+    date.setHours(timeParts.getHours(), timeParts.getMinutes());
+    this.newHabitForm.get('endDate')?.setValue(date);
   }
   // #endregion
 

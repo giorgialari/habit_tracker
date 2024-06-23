@@ -96,7 +96,7 @@
               appendTo="body"
               dateFormat="dd/mm/yy"
               styleClass="w-screen"
-              [showTime]="true"
+              [showTime]="false"
               [hourFormat]="'24'"
             ></p-calendar>
             <label>Start period</label>
@@ -114,7 +114,7 @@
               appendTo="body"
               dateFormat="dd/mm/yy"
               styleClass="w-screen"
-              [showTime]="true"
+              [showTime]="false"
               [hourFormat]="'24'"
               [minDate]="getMinDate()"
             ></p-calendar>
@@ -122,6 +122,36 @@
           </p-floatLabel>
         </div>
 
+        <!-- Start and end daily hour -->
+        @if(!allDay){
+        <div class="flex">
+          <div class="w-screen px-3 mx-auto padding1">
+            <p-floatLabel>
+              <p-calendar
+                [touchUI]="true"
+                appendTo="body"
+                [timeOnly]="true"
+                formControlName="startDailyHour"
+              >
+              </p-calendar>
+              <label>Start daily hour</label>
+            </p-floatLabel>
+          </div>
+
+          <div class="w-screen px-3 mx-auto padding1">
+            <p-floatLabel>
+              <p-calendar
+                [touchUI]="true"
+                appendTo="body"
+                [timeOnly]="true"
+                formControlName="endDailyHour"
+              >
+              </p-calendar>
+              <label>End daily hour</label>
+            </p-floatLabel>
+          </div>
+        </div>
+        }
         <!-- periodicity -->
         <div class="periodicity-container w-screen mx-auto px-3 mt-1 padding1">
           <h6>Set periodicity</h6>
@@ -168,8 +198,11 @@
           *ngIf="newHabitForm.get('goalType')?.value === 'custom'"
         >
           <p-floatLabel>
-            <input type="text" pInputText placeholder="e.g. glass, pages..."
-            formControlName="customGoalType"
+            <input
+              type="text"
+              pInputText
+              placeholder="e.g. glass, pages..."
+              formControlName="customGoalType"
             />
             <label>Choose your goal type</label>
           </p-floatLabel>

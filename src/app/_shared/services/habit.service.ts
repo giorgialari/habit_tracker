@@ -99,6 +99,12 @@ export class HabitService {
     return habits.find((h) => +h.id === +id) || null;
   }
 
+  public async getHabitsByIdMaster(idMaster: number): Promise<Habit[]> {
+    await this.waitForStorageReady();
+    const habits: Habit[] = await this.getAllHabits();
+    return habits.filter((h) => +h.idMaster === +idMaster);
+  }
+
   public async removeHabit(id: number): Promise<void> {
     await this.waitForStorageReady();
     let habits: Habit[] = await this.getAllHabits();
