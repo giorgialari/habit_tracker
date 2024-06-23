@@ -98,6 +98,9 @@
               styleClass="w-screen"
               [showTime]="false"
               [hourFormat]="'24'"
+              [focusTrap]="true"
+              [showTransitionOptions]="'200ms'"
+              [hideTransitionOptions]="'200ms'"
             ></p-calendar>
             <label>Start period</label>
           </p-floatLabel>
@@ -116,7 +119,10 @@
               styleClass="w-screen"
               [showTime]="false"
               [hourFormat]="'24'"
+              [focusTrap]="true"
               [minDate]="getMinDate()"
+              [showTransitionOptions]="'200ms'"
+              [hideTransitionOptions]="'200ms'"
             ></p-calendar>
             <label>End period</label>
           </p-floatLabel>
@@ -132,6 +138,9 @@
                 appendTo="body"
                 [timeOnly]="true"
                 formControlName="startDailyHour"
+                [showTransitionOptions]="'200ms'"
+                [hideTransitionOptions]="'200ms'"
+
               >
               </p-calendar>
               <label>Start daily hour</label>
@@ -145,11 +154,20 @@
                 appendTo="body"
                 [timeOnly]="true"
                 formControlName="endDailyHour"
+                [minDate]="newHabitForm.get('startDailyHour')?.value"
+                [showTransitionOptions]="'200ms'"
+                [hideTransitionOptions]="'200ms'"
               >
               </p-calendar>
               <label>End daily hour</label>
             </p-floatLabel>
           </div>
+          @if (newHabitForm.get('endDailyHour')?.value <
+          newHabitForm.get('startDailyHour')?.value){
+          <small class="text-danger">
+            The end daily hour must be greater than the start daily hour
+          </small>
+          }
         </div>
         }
         <!-- periodicity -->
