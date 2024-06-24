@@ -31,8 +31,8 @@ export class ActualGoalModalComponent implements OnInit, OnChanges {
   ngOnInit() {}
 
   ngOnChanges() {
-    console.log('currentHabit', this.currentHabit);
     this.currentKnobValue = this.currentHabit?.actualGoal || 0;
+    console.log(this.currentHabit);
   }
 
   onKnobChange(event: any) {

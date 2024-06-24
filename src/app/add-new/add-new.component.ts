@@ -46,7 +46,6 @@ export class AddNewComponent
   defaultIconTextColor = theme.textColor;
 
   selectedTime: string = '';
-  allDay = false;
   goalTypes = [
     { id: 1, label: 'Volta/e', value: 'volte' },
     { id: 2, label: 'Custom', value: 'custom' },
@@ -78,7 +77,7 @@ export class AddNewComponent
     this.newHabitForm = this.fb.group({
       category: ['', Validators.required],
       title: ['', Validators.required],
-      allDay: [this.allDay],
+      allDay: [false],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       startDailyHour: ['', Validators.required],
@@ -130,9 +129,8 @@ export class AddNewComponent
   ngOnInit() {
     this.newHabitForm.get('startDate')?.valueChanges.subscribe((value) => {
       if (!value) return;
-
       const endDate = new Date(value);
-      if (this.allDay) {
+      if (this.newHabitForm.value.allDay) {
         endDate.setHours(23, 59, 59, 0);
       }
 
@@ -162,21 +160,18 @@ export class AddNewComponent
 
     this.newHabitForm.get('allDay')?.valueChanges.subscribe((value) => {
       if (value) {
-        const startHour = new Date(this.newHabitForm.value.startDailyHour);
-        const endHour = new Date(this.newHabitForm.value.endDailyHour);
+        this.newHabitForm.get('startDate')?.setValue(new Date());
+        this.newHabitForm.value.startDate.setHours(0, 0, 0, 0);
 
-        // Imposta le ore, i minuti e i secondi
-        startHour.setHours(0, 0, 0, 0);
-        endHour.setHours(23, 59, 59, 0);
+        this.newHabitForm.get('endDate')?.setValue(new Date());
+        this.newHabitForm.value.endDate.setHours(23, 59, 59, 0);
 
-        // Aggiorna i valori nel form
-        this.newHabitForm.get('startDailyHour')?.setValue(startHour);
-        this.newHabitForm.get('endDailyHour')?.setValue(endHour);
+        this.newHabitForm.get('startDailyHour')?.setValue(new Date());
+        this.newHabitForm.value.startDailyHour.setHours(0, 0, 0, 0);
+
+        this.newHabitForm.get('endDailyHour')?.setValue(new Date());
+        this.newHabitForm.value.endDailyHour.setHours(23, 59, 59, 0);
       }
-    });
-
-    this.newHabitForm.valueChanges.subscribe(() => {
-      this.mapInfoMessage();
     });
   }
 
@@ -236,116 +231,9 @@ export class AddNewComponent
   }
 
   ngAfterViewChecked(): void {
-    this.hideIfAllDay();
   }
   // #endregion
 
-  // #region Info message
-  mapInfoMessage() {
-    //Se vengono selezionati tutti i giorni, allora mostro "Tutti i giorni",
-    //se sono selezionati solo sabato e domenica allora mostro "Weekend",
-    // se sono selezionati solo i giorni lavorativi allora mostro "Lun-Ven"
-    // altrimenti mostro i giorni selezionati
-
-    if (this.selectedDays.length === 7) {
-      this.infoMessage.days = ['giorno']; //ogni giorno
-    } else if (
-      this.selectedDays.length === 2 &&
-      this.selectedDays.includes('sat') &&
-      this.selectedDays.includes('sun')
-    ) {
-      this.infoMessage.days = ['Weekend'];
-    } else if (
-      this.selectedDays.length === 5 &&
-      this.selectedDays.includes('mon') &&
-      this.selectedDays.includes('tue') &&
-      this.selectedDays.includes('wed') &&
-      this.selectedDays.includes('thu') &&
-      this.selectedDays.includes('fri')
-    ) {
-      this.infoMessage.days = ['Lun-Ven'];
-    } else {
-      this.infoMessage.days = this.selectedDays
-        .map((day) => {
-          const dayObj = this.days.find((d) => d.id === day);
-          return dayObj ? dayObj.name : '';
-        })
-        .sort((a, b) => {
-          return (
-            this.days.findIndex((d) => d.name === a) -
-            this.days.findIndex((d) => d.name === b)
-          );
-        });
-    }
-
-    this.infoMessage.startDateNoHours = this.newHabitForm.value.startDate
-      ? //undefined al posto del locale per evitare problemi di timezone
-        new Date(this.newHabitForm.value.startDate).toLocaleDateString(
-          undefined,
-          {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-          }
-        )
-      : '';
-    this.infoMessage.endDateNoHours = this.newHabitForm.value.endDate
-      ? new Date(this.newHabitForm.value.endDate).toLocaleDateString(
-          undefined,
-          {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-          }
-        )
-      : '';
-
-    this.infoMessage.startHour = this.newHabitForm.value.startDate
-      ? new Date(this.newHabitForm.value.startDate).toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-        })
-      : '';
-    this.infoMessage.endHour = this.newHabitForm.value.endDate
-      ? new Date(this.newHabitForm.value.endDate).toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-        })
-      : '';
-
-    this.infoMessage.goal = this.formatNumber(this.newHabitForm.value.goal);
-    const findGoalTypeLabel = this.goalTypes.find((goal) => {
-      return goal.value === this.newHabitForm.value.goalType;
-    });
-    this.infoMessage.goalType =
-      findGoalTypeLabel?.label === 'Custom'
-        ? this.newHabitForm.value.customGoalType
-        : findGoalTypeLabel?.label || '';
-  }
-
-  formatNumber(number: any): string {
-    return Number(number).toLocaleString(undefined, {
-      maximumFractionDigits: 0,
-    });
-  }
-
-  shouldDisplayMessage(): boolean {
-    return (
-      this.infoMessage.days.length > 0 &&
-      !!this.infoMessage.startDateNoHours &&
-      !!this.infoMessage.endDateNoHours &&
-      !!this.infoMessage.startHour &&
-      !!this.infoMessage.endHour &&
-      !!this.infoMessage.goal &&
-      !!this.infoMessage.goalType
-    );
-  }
-  getMessageVerb(): string {
-    const today = new Date();
-    const endDate = new Date(this.infoMessage.endDateNoHours);
-    return endDate < today ? 'si è ripetuto' : 'si ripeterà';
-  }
-  // #endregion
 
   // #region Form Handlers
   onColorChange(selectedColor: any) {
@@ -399,12 +287,6 @@ export class AddNewComponent
   // #endregion
 
   // #region Helper Methods
-  hideIfAllDay() {
-    const timePicker = document.querySelector('.p-timepicker');
-    if (timePicker && this.allDay) {
-      this.renderer.addClass(timePicker, 'hidden');
-    }
-  }
 
   private getDayOfWeek(dateInput: string | Date): string {
     // Creazione di un oggetto Date. Se 'dateInput' è già un Date, lo usa direttamente.
@@ -452,7 +334,7 @@ export class AddNewComponent
   // #endregion
 
   // #region Actions SAVE and EDIT
-  saveHabit() {
+ async saveHabit() {
     this.newHabitForm.markAllAsTouched();
     Object.keys(this.newHabitForm.controls).forEach((key) => {
       this.newHabitForm.get(key)?.markAsDirty();
@@ -483,6 +365,8 @@ export class AddNewComponent
       remind: this.newHabitForm.value.remind,
       color: eventColor,
     };
+
+    await this.submitNotificationForm(this.newHabitForm.value.remind);
 
     if (this.isHabitToEdit) {
       habit.id = parseInt(this.route.snapshot.params['id']);

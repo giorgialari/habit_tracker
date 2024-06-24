@@ -72,7 +72,12 @@
         <!-- Titolo -->
         <div class="w-screen px-3 mx-auto padding1">
           <p-floatLabel>
-            <input type="text" pInputText formControlName="title" />
+            <input
+              type="text"
+              pInputText
+              formControlName="title"
+              maxlength="30"
+            />
             <label>Habit name</label>
           </p-floatLabel>
         </div>
@@ -194,7 +199,7 @@
           <div class="grid">
             <div class="col-3">
               <p-floatLabel>
-                <p-inputNumber formControlName="goal" [min]="1">
+                <p-inputNumber formControlName="goal" [min]="1" [max]="1000000">
                 </p-inputNumber>
               </p-floatLabel>
             </div>
@@ -223,6 +228,7 @@
               type="text"
               pInputText
               placeholder="e.g. glass, pages..."
+              maxlength="10"
               formControlName="customGoalType"
             />
             <label>Choose your goal type</label>
@@ -259,30 +265,6 @@
           </p-floatLabel>
         </div>
       </div>
-
-      <!-- TODO: RIMUOVERE A FINE PROGETTO -->
-      <!-- <div
-        *ngIf="shouldDisplayMessage()"
-        class="info-card mx-auto p-2 border-round-sm flex align-items-center justify-content-center my-3"
-      >
-        <small class="text-justify w-full">
-          <span
-            class="material-icons text-sm mr-1 text-orange-400"
-            style="vertical-align: middle"
-            >lightbulb</span
-          >
-          Questo evento {{ getMessageVerb() }} ogni
-          <strong>{{ infoMessage.days.join(", ") }}</strong> dalle ore
-          <strong>{{ infoMessage.startHour }}</strong> alle
-          <strong>{{ infoMessage.endHour }}</strong> nel periodo compreso tra
-          <strong>{{ infoMessage.startDateNoHours }}</strong> e
-          <strong>{{ infoMessage.endDateNoHours }}</strong> con un obiettivo di
-          <strong>{{ infoMessage.goal }} </strong>
-          <strong>{{ infoMessage.goalType }}</strong
-          >.
-        </small>
-      </div> -->
-
       <!-- Buttons -->
       <div class="mt-5 flex justify-content-center">
         <p-button

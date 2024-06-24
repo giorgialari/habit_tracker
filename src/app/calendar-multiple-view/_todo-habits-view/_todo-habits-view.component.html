@@ -20,11 +20,11 @@
           <!-- Goal -->
           <div class="habit-goal">
             <span class="habit-goal"
-              >Goal: {{ habit.goal }}
+              >Goal: {{ habit.goal | formatNumber }}
               {{
-                currentHabit.goalType === "custom"
-                  ? currentHabit.customGoalType
-                  : currentHabit.goalType
+                habit.goalType === "custom"
+                  ? habit.customGoalType
+                  : habit.goalType
               }}</span
             >
           </div>

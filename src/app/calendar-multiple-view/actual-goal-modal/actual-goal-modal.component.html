@@ -24,18 +24,45 @@
 
     <!-- Daily goal -->
     <div
-      class="daily-goal flex flex-column justify-content-center align-items-center py-2"
+      class="daily-goal flex flex-column justify-content-center align-items-center py-2 gap-2"
     >
-      <div class="font-semibold">Daily Goal:</div>
-      <div>
-        {{ currentHabit.goal }}
-        {{
-          currentHabit.goalType === "custom"
-            ? currentHabit.customGoalType
-            : currentHabit.goalType
-        }}
+      <!-- Header con icona e informazioni dell'abitudine -->
+      <div class="flex align-items-center justify-content-center px-3">
+        <div
+          class="icon-container border-round flex align-items-center justify-content-center mr-2"
+          style="width: 2rem; height: 2rem"
+          [style.background-color]="currentHabit.color.primary"
+          [style.color]="currentHabit.color.secondary"
+        >
+          <span class="material-icons text-base">{{
+            currentHabit.category.icon
+          }}</span>
+        </div>
+        <div class="flex-grow-1 flex flex-column justify-content-center">
+          <div class="text-sm font-medium">
+            {{ currentHabit.category.label }}
+          </div>
+          <div class="text-xs">{{ currentHabit.title }}</div>
+        </div>
+      </div>
+
+      <!-- Sezione Daily Goal con icona e numero in un cerchio -->
+      <div class="flex align-items-center justify-content-center w-full px-3">
+        <span class="material-icons text-secondary mr-2">today</span>
+        <div class="font-medium text-sm">Daily Goal:</div>
+        <div class="ml-2">
+          {{ currentHabit.goal | formatNumber }}
+        </div>
+        <div class="text-xs ml-2">
+          {{
+            currentHabit.goalType === "custom"
+              ? currentHabit.customGoalType
+              : currentHabit.goalType
+          }}
+        </div>
       </div>
     </div>
+
     <div
       class="knob-container flex justify-content-between align-items-center my-4"
     >
