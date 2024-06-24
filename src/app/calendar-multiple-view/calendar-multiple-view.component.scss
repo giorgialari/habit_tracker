@@ -23,37 +23,6 @@
   /* Aggiunge una rotazione per l'effetto curvo */
 }
 
-/** STILE DELLE TAB */
-.tab-group {
-  display: flex;
-  justify-content: center;
-}
-
-.tab {
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-  margin: 0 5px;
-  border-bottom: 2px solid $secondary-color;
-  text-align: center;
-  flex: 1;
-}
-
-.tab:hover {
-  background-color: transparent;
-}
-
-.tab.active {
-  color: $text-color;
-  border-bottom: 2px solid $highlight-background-color;
-  font-weight: bold;
-}
-
-.cdk-drag-preview {
-  background-color: rgba(255, 255, 255, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); // Aggiungi un'ombra leggera
-}
-
 
 /** STILE DELLE CELLE DEL CALENDARIO */
 
@@ -64,139 +33,6 @@
   padding: 1rem 0;
   background-color: $background-color; // Sostituito con variabile
 }
-
-.cal-week-view {
-  background-color: transparent;
-}
-
-.cal-week-view .cal-hour-odd {
-  background-color: inherit;
-}
-
-.cal-week-view .cal-time-events .cal-day-columns:not(.cal-resize-active) .cal-hour-segment:hover {
-  background-color: $highlight-background-color; // Sostituito con variabile
-}
-
-.cal-cell-top span[aria-hidden="true"] {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.cal-day-badge {
-  margin-bottom: 0.1rem; // Spazio tra il badge e il numero del giorno
-}
-
-
-.cal-month-view .cal-days {
-  border-color: $secondary-color;
-}
-
-.cal-month-view .cal-day-cell:not(:last-child) {
-  border-color: $secondary-color;
-}
-
-.cal-month-view .cal-days .cal-cell-row {
-  border-color: $secondary-color;
-
-}
-
-.cal-week-view .cal-hour:not(:last-child) .cal-hour-segment,
-.cal-week-view .cal-hour:last-child :not(:last-child) .cal-hour-segment {
-  border-color: $secondary-color;
-}
-
-.cal-week-view .cal-time-events {
-  border-color: $secondary-color;
-}
-
-.cal-week-view {
-  border-top: solid 1px $secondary-color;
-}
-
-.cal-week-view .cal-event {
-  border-color: transparent;
-}
-
-
-
-
-//Stili dell'evento singolo DayView
-.cal-event {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 5px 0;
-  border-radius: 4px;
-  color: $text-color;
-  /* Testo bianco se il background è scuro */
-}
-
-.cal-event-content {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-.cal-event-title {
-  flex-grow: 1;
-}
-
-.cal-event-actions {
-  display: flex;
-  align-items: center;
-}
-
-.cal-event-action {
-  background: none;
-  border: none;
-  color: inherit;
-  /* Prende il colore del testo dal parent */
-  cursor: pointer;
-  margin-left: 10px;
-  display: flex;
-  align-items: center;
-  /* Assicura che tutto sia centrato verticalmente */
-  padding: 10px 0;
-  /* Aggiunge un po' di spazio sopra e sotto per respirare */
-}
-
-.cal-all-day-events .cal-events-row {
-  min-height: 50px;
-  /* Imposta un'altezza minima appropriata */
-  height: auto;
-  /* Assicurati che l'altezza si adatti al contenuto */
-}
-
-.cal-all-day-events .cal-event-container {
-  height: 100%;
-  /* Usa tutto lo spazio verticale disponibile nel contenitore */
-}
-
-.cal-all-day-events .cal-day-events {
-  display: flex;
-  flex-direction: column;
-
-}
-
-.cal-all-day-events .cal-day-events {
-  display: flex;
-  flex-direction: column;
-
-}
-
-.cal-week-view .cal-all-day-events .cal-event {
-  height: auto;
-  line-height: 100%;
-}
-
-.cal-week-view .cal-all-day-events {
-  border: solid 1px rgba($secondary-color, 0.5);
-  border-top: 0;
-  padding-top: 3px;
-  position: relative;
-}
-
 
 
 
@@ -233,4 +69,10 @@
 .cal-event-knob svg {
   background-color: lighten($secondary-color, 20%);
   border-radius: 50%;
+}
+
+.header {
+  height: 6rem;
+  display: flex;
+  align-items: center;
 }

@@ -32,7 +32,6 @@ import { TABS } from '../_shared/data/data';
 import { CustomCalendarEvent } from '../_shared/models/common.interfaces';
 import { ColorService } from '../_shared/services/color.service';
 import { CalendarService } from '../_shared/services/calendar.service';
-import { NotificationService } from '../_shared/services/notification.service';
 
 @Component({
   selector: 'app-calendar-multiple-view',
@@ -41,13 +40,17 @@ import { NotificationService } from '../_shared/services/notification.service';
   templateUrl: './calendar-multiple-view.component.html',
   styleUrls: [
     './calendar-multiple-view.component.scss',
+    './_day.component.scss',
     './_month.component.scss',
+    './_tabs.component.scss',
+    './_week.component.scss',
   ],
   animations: [collapseAnimation],
 })
 export class CalendarMultipleViewComponent
   implements OnInit, AfterViewChecked, OnDestroy
 {
+  //#region Properties
   @ViewChild('swipeContainer', { static: true }) swipeContainer!: ElementRef;
 
   view: CustomCalendarView = CustomCalendarView.Month;
@@ -87,6 +90,9 @@ export class CalendarMultipleViewComponent
   }
   activeDayIsOpen: boolean = false;
 
+  //#endregion
+
+  //#region Lifecycle Hooks
   constructor(
     private habitService: HabitService,
     private calendarService: CalendarService,
@@ -118,27 +124,18 @@ export class CalendarMultipleViewComponent
     this.calculateKnobValue();
   }
 
-  async beforeMonthViewRender() {
-    await this.loadHabits();
+  ngOnDestroy(): void {
+    this.refreshComponentTriggerSubscription.unsubscribe();
+  }
+  //#endregion
+
+  //#region Habit Handling
+  private async loadHabits() {
+    const habits: Habit[] = await this.habitService.getAllHabits();
+    this.events = habits.map((habit) => this.mapHabitToEvent(habit));
+    this.calculateKnobValue();
     this.cd.detectChanges();
   }
-  hideDialog(event: boolean) {
-    this.visible = event;
-  }
-
-  showDialog(habit: Habit) {
-    this.visible = true;
-    this.currentHabit = habit;
-  }
-
-  async loadDayViewState() {
-    const state = await this.calendarService.getDayView();
-    if (state) {
-      this.switchDayView = state;
-      this.scrollToCurrentHour();
-    }
-  }
-
   async updateActualGoal(habit: Habit) {
     const habits: Habit[] = await this.habitService.getAllHabits();
     const findHabit = habits.find((h) => h.id === habit.id);
@@ -149,184 +146,6 @@ export class CalendarMultipleViewComponent
       await this.habitService.setHabit(findHabit);
       this.refreshService.forceRefresh();
     }
-  }
-
-  private async loadTabs() {
-    await this.tabOrderUserService.ready();
-    const savedTabs = await this.tabOrderUserService.getTabOrder();
-    if (savedTabs) {
-      this.tabs = savedTabs;
-    } else {
-      await this.tabOrderUserService.setTabOrder(this.tabs);
-    }
-
-    this.view = this.tabs[0]?.view;
-    if (this.view === CustomCalendarView.Day) {
-      this.scrollToCurrentHour();
-    }
-  }
-
-  private async loadHabits() {
-    const habits: Habit[] = await this.habitService.getAllHabits();
-    this.events = habits.map((habit) => this.mapHabitToEvent(habit));
-    this.calculateKnobValue();
-    this.cd.detectChanges();
-  }
-
-  private mapHabitToEvent = (habit: Habit) => {
-    return {
-      id: habit.id,
-      idMaster: habit.idMaster,
-      category: habit.category,
-      start: new Date(habit.startDate),
-      end: habit.endDate ? new Date(habit.endDate) : undefined,
-      goal: habit.goal,
-      actualGoal: habit.actualGoal,
-      goalType: habit.goalType,
-      customGoalType: habit.customGoalType,
-      title: habit.title,
-      color: habit.color,
-      actions: this.actions,
-      allDay: habit.allDay,
-      draggable: false,
-      resizable: {
-        beforeStart: false,
-        afterEnd: false,
-      },
-    };
-  };
-
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    if (isSameMonth(date, this.viewDate)) {
-      if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        events.length === 0
-      ) {
-        this.activeDayIsOpen = false;
-      } else {
-        this.activeDayIsOpen = true;
-      }
-      this.viewDate = date;
-      this.cd.detectChanges();
-    }
-  }
-
-  eventTimesChanged({
-    event,
-    newStart,
-    newEnd,
-  }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map((iEvent) => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd,
-        };
-      }
-      return iEvent;
-    }) as CustomCalendarEvent[];
-  }
-
-  handleEvent(event: CustomCalendarEvent): void {
-    this.router.navigate(['/tabs/edit-habit', event.id, event.idMaster]);
-  }
-
-  setView(view: CustomCalendarView) {
-    this.view = view;
-    if (view === CustomCalendarView.Day) {
-      setTimeout(() => this.scrollToCurrentHour(), 0);
-    }
-
-    switch (view) {
-      case CustomCalendarView.Day:
-        this.scrollToCurrentHour();
-        this.calendarService.setDayView(this.switchDayView);
-        break;
-      case CustomCalendarView.Month:
-        break;
-      default:
-        break;
-    }
-    this.activeDayIsOpen = false;
-    this.refreshService.forceRefresh();
-  }
-
-  scrollToCurrentHour(): void {
-    this.viewDate = new Date();
-    this.cd.detectChanges();
-    const hourElement = document.querySelector(`.cal-current-time-marker`);
-    if (hourElement) {
-      hourElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }
-
-  setupSwipeGesture() {
-    const gesture: Gesture = this.gestureCtrl.create({
-      el: this.swipeContainer.nativeElement,
-      gestureName: 'swipe',
-      onMove: (detail) => {},
-      onEnd: (detail) => {
-        if (detail.velocityX > 0.3) {
-          this.goToPreviousView(); // Swipe right
-        } else if (detail.velocityX < -0.3) {
-          this.goToNextView(); // Swipe left
-        }
-      },
-    });
-
-    gesture.enable(true);
-  }
-
-  goToNextView() {
-    this.addSwipeClass('left');
-    if (this.view === CustomCalendarView.Day) {
-      this.viewDate = this.addOneDay(this.viewDate, 1);
-    } else if (this.view === CustomCalendarView.Month) {
-      this.viewDate = this.addMonths(this.viewDate, 1);
-    }
-    this.closeOpenMonthViewDay();
-    this.refresh.next(Math.random());
-  }
-
-  goToPreviousView() {
-    this.addSwipeClass('right');
-    if (this.view === CustomCalendarView.Day) {
-      this.viewDate = this.addOneDay(this.viewDate, -1);
-    } else if (this.view === CustomCalendarView.Month) {
-      this.viewDate = this.addMonths(this.viewDate, -1);
-    }
-    this.closeOpenMonthViewDay();
-    this.refresh.next(Math.random());
-  }
-
-  addMonths(date: Date, months: number): Date {
-    const d = new Date(date);
-    d.setMonth(d.getMonth() + months);
-    return d;
-  }
-
-  addOneDay(date: Date, days: number): Date {
-    const d = new Date(date);
-    d.setDate(d.getDate() + days);
-    return d;
-  }
-
-  addSwipeClass(direction: string) {
-    const element = this.swipeContainer.nativeElement;
-    this.renderer.addClass(element, `swipe-${direction}`);
-    setTimeout(() => {
-      this.renderer.removeClass(element, `swipe-${direction}`);
-    }, 300); // La durata dell'animazione deve corrispondere a quella definita in CSS
-  }
-
-  closeOpenMonthViewDay() {
-    this.activeDayIsOpen = false;
-  }
-
-  async drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.tabs, event.previousIndex, event.currentIndex);
-    await this.tabOrderUserService.setTabOrder(this.tabs);
   }
 
   updateHabits(event: Habit[]) {
@@ -363,8 +182,206 @@ export class CalendarMultipleViewComponent
     this.currentKnobValue = rounded;
     this.cd.detectChanges();
   }
+  private mapHabitToEvent = (habit: Habit) => {
+    return {
+      id: habit.id,
+      idMaster: habit.idMaster,
+      category: habit.category,
+      start: new Date(habit.startDate),
+      end: habit.endDate ? new Date(habit.endDate) : undefined,
+      goal: habit.goal,
+      actualGoal: habit.actualGoal,
+      goalType: habit.goalType,
+      customGoalType: habit.customGoalType,
+      title: habit.title,
+      color: habit.color,
+      actions: this.actions,
+      allDay: habit.allDay,
+      draggable: false,
+      resizable: {
+        beforeStart: false,
+        afterEnd: false,
+      },
+    };
+  };
+  private async loadTabs() {
+    await this.tabOrderUserService.ready();
+    const savedTabs = await this.tabOrderUserService.getTabOrder();
+    if (savedTabs) {
+      this.tabs = savedTabs;
+    } else {
+      await this.tabOrderUserService.setTabOrder(this.tabs);
+    }
 
-  ngOnDestroy(): void {
-    this.refreshComponentTriggerSubscription.unsubscribe();
+    this.view = this.tabs[0]?.view;
+    if (this.view === CustomCalendarView.Day) {
+      this.scrollToCurrentHour();
+    }
   }
+
+  //#endregion
+
+  //#region Event Handling
+  handleEvent(event: CustomCalendarEvent): void {
+    this.router.navigate(['/tabs/edit-habit', event.id, event.idMaster]);
+  }
+
+  eventTimesChanged({
+    event,
+    newStart,
+    newEnd,
+  }: CalendarEventTimesChangedEvent): void {
+    this.events = this.events.map((iEvent) => {
+      if (iEvent === event) {
+        return {
+          ...event,
+          start: newStart,
+          end: newEnd,
+        };
+      }
+      return iEvent;
+    }) as CustomCalendarEvent[];
+  }
+
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    if (isSameMonth(date, this.viewDate)) {
+      if (
+        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
+        events.length === 0
+      ) {
+        this.activeDayIsOpen = false;
+      } else {
+        this.activeDayIsOpen = true;
+      }
+      this.viewDate = date;
+      this.cd.detectChanges();
+    }
+  }
+  //#endregion
+
+  //#region Navigation & View Management
+  setView(view: CustomCalendarView) {
+    this.view = view;
+    if (view === CustomCalendarView.Day) {
+      setTimeout(() => this.scrollToCurrentHour(), 0);
+    }
+
+    switch (view) {
+      case CustomCalendarView.Day:
+        this.scrollToCurrentHour();
+        this.calendarService.setDayView(this.switchDayView);
+        break;
+      case CustomCalendarView.Month:
+        break;
+      default:
+        break;
+    }
+    this.activeDayIsOpen = false;
+    this.refreshService.forceRefresh();
+  }
+
+  scrollToCurrentHour(): void {
+    this.viewDate = new Date();
+    this.cd.detectChanges();
+    const hourElement = document.querySelector(`.cal-current-time-marker`);
+    if (hourElement) {
+      hourElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  goToNextView() {
+    this.addSwipeClass('left');
+    if (this.view === CustomCalendarView.Day) {
+      this.viewDate = this.addOneDay(this.viewDate, 1);
+    } else if (this.view === CustomCalendarView.Month) {
+      this.viewDate = this.addMonths(this.viewDate, 1);
+    }
+    this.closeOpenMonthViewDay();
+    this.refresh.next(Math.random());
+  }
+
+  goToPreviousView() {
+    this.addSwipeClass('right');
+    if (this.view === CustomCalendarView.Day) {
+      this.viewDate = this.addOneDay(this.viewDate, -1);
+    } else if (this.view === CustomCalendarView.Month) {
+      this.viewDate = this.addMonths(this.viewDate, -1);
+    }
+    this.closeOpenMonthViewDay();
+    this.refresh.next(Math.random());
+  }
+
+  addSwipeClass(direction: string) {
+    const element = this.swipeContainer.nativeElement;
+    this.renderer.addClass(element, `swipe-${direction}`);
+    setTimeout(() => {
+      this.renderer.removeClass(element, `swipe-${direction}`);
+    }, 300); // La durata dell'animazione deve corrispondere a quella definita in CSS
+  }
+
+  closeOpenMonthViewDay() {
+    this.activeDayIsOpen = false;
+  }
+
+  async beforeMonthViewRender() {
+    await this.loadHabits();
+    this.cd.detectChanges();
+  }
+
+  async loadDayViewState() {
+    const state = await this.calendarService.getDayView();
+    if (state) {
+      this.switchDayView = state;
+      this.scrollToCurrentHour();
+    }
+  }
+  //#endregion
+
+  //#region Swipe Gesture
+  setupSwipeGesture() {
+    const gesture: Gesture = this.gestureCtrl.create({
+      el: this.swipeContainer.nativeElement,
+      gestureName: 'swipe',
+      onMove: (detail) => {},
+      onEnd: (detail) => {
+        if (detail.velocityX > 0.3) {
+          this.goToPreviousView(); // Swipe right
+        } else if (detail.velocityX < -0.3) {
+          this.goToNextView(); // Swipe left
+        }
+      },
+    });
+
+    gesture.enable(true);
+  }
+  async drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.tabs, event.previousIndex, event.currentIndex);
+    await this.tabOrderUserService.setTabOrder(this.tabs);
+  }
+
+  //#endregion
+
+  //#region Utility Methods
+  addMonths(date: Date, months: number): Date {
+    const d = new Date(date);
+    d.setMonth(d.getMonth() + months);
+    return d;
+  }
+
+  addOneDay(date: Date, days: number): Date {
+    const d = new Date(date);
+    d.setDate(d.getDate() + days);
+    return d;
+  }
+
+  hideDialog(event: boolean) {
+    this.visible = event;
+  }
+
+  showDialog(habit: Habit) {
+    this.visible = true;
+    this.currentHabit = habit;
+  }
+
+  //#endregion
 }

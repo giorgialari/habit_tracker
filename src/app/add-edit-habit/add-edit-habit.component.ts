@@ -234,7 +234,6 @@ export class AddEditHabitComponent
   }
   // #endregion
 
-
   // #region Form Handlers
   onColorChange(selectedColor: any) {
     this.newHabitForm.get('color')?.setValue(selectedColor);
@@ -287,7 +286,6 @@ export class AddEditHabitComponent
   // #endregion
 
   // #region Helper Methods
-
   private getDayOfWeek(dateInput: string | Date): string {
     // Creazione di un oggetto Date. Se 'dateInput' è già un Date, lo usa direttamente.
     let date = dateInput instanceof Date ? dateInput : new Date(dateInput);

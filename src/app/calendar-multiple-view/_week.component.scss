@@ -1,0 +1,43 @@
+@import '../../theme/variables.scss';
+
+.cal-week-view .cal-hour:not(:last-child) .cal-hour-segment,
+.cal-week-view .cal-hour:last-child :not(:last-child) .cal-hour-segment {
+  border-color: $secondary-color;
+}
+
+.cal-week-view .cal-time-events {
+  border-color: $secondary-color;
+}
+
+.cal-week-view {
+  border-top: solid 1px $secondary-color;
+}
+
+.cal-week-view .cal-event {
+  border-color: transparent;
+}
+
+.cal-week-view .cal-all-day-events .cal-event {
+  height: auto;
+  line-height: 100%;
+}
+
+.cal-week-view .cal-all-day-events {
+  border: solid 1px rgba($secondary-color, 0.5);
+  border-top: 0;
+  padding-top: 3px;
+  position: relative;
+}
+
+
+.cal-week-view {
+  background-color: transparent;
+}
+
+.cal-week-view .cal-hour-odd {
+  background-color: inherit;
+}
+
+.cal-week-view .cal-time-events .cal-day-columns:not(.cal-resize-active) .cal-hour-segment:hover {
+  background-color: $highlight-background-color; // Sostituito con variabile
+}

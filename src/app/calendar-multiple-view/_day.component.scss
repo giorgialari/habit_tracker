@@ -1,0 +1,79 @@
+
+@import '../../theme/variables.scss';
+
+//Stili dell'evento singolo DayView
+.cal-event {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+  border-radius: 4px;
+  color: $text-color;
+  /* Testo bianco se il background è scuro */
+}
+
+.cal-event-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.cal-event-title {
+  flex-grow: 1;
+}
+
+.cal-event-actions {
+  display: flex;
+  align-items: center;
+}
+
+.cal-event-action {
+  background: none;
+  border: none;
+  color: inherit;
+  /* Prende il colore del testo dal parent */
+  cursor: pointer;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  /* Assicura che tutto sia centrato verticalmente */
+  padding: 10px 0;
+  /* Aggiunge un po' di spazio sopra e sotto per respirare */
+}
+
+.cal-all-day-events .cal-events-row {
+  min-height: 50px;
+  /* Imposta un'altezza minima appropriata */
+  height: auto;
+  /* Assicurati che l'altezza si adatti al contenuto */
+}
+
+.cal-all-day-events .cal-event-container {
+  height: 100%;
+  /* Usa tutto lo spazio verticale disponibile nel contenitore */
+}
+
+.cal-all-day-events .cal-day-events {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.cal-all-day-events .cal-day-events {
+  display: flex;
+  flex-direction: column;
+
+}
+
+
+
+
+.cal-cell-top span[aria-hidden="true"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cal-day-badge {
+  margin-bottom: 0.1rem; // Spazio tra il badge e il numero del giorno
+}

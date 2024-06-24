@@ -118,3 +118,16 @@
   float: right;
   margin-bottom: 10px;
 }
+
+.cal-month-view .cal-days {
+  border-color: $secondary-color;
+}
+
+.cal-month-view .cal-day-cell:not(:last-child) {
+  border-color: $secondary-color;
+}
+
+.cal-month-view .cal-days .cal-cell-row {
+  border-color: $secondary-color;
+
+}
