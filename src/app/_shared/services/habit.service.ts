@@ -3,7 +3,6 @@ import { Storage } from '@ionic/storage-angular';
 import { Habit } from '../models/habits.interface';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
-import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root',

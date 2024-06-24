@@ -18,6 +18,7 @@ import { CATEGORIES, COLORS_CATEGORIES, DAYS } from '../_shared/data/data';
 import { parseISO } from 'date-fns';
 import { RefreshService } from '../_shared/services/refresh-trigger.service';
 import { theme } from 'src/theme/dark-theme/dark-config';
+import { NotificationService } from '../_shared/services/notification.service';
 
 @Component({
   selector: 'app-add-new',
@@ -71,7 +72,8 @@ export class AddNewComponent
     private cdRef: ChangeDetectorRef,
     private refreshService: RefreshService,
     private renderer: Renderer2,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private notificationService: NotificationService
   ) {
     this.newHabitForm = this.fb.group({
       category: ['', Validators.required],
@@ -104,7 +106,6 @@ export class AddNewComponent
     });
 
     this.newHabitForm.get('allDay')?.valueChanges.subscribe((value) => {
-      this.allDay = value;
       if (value) {
         this.newHabitForm.get('startDailyHour')?.clearValidators();
         this.newHabitForm.get('endDailyHour')?.clearValidators();
@@ -128,6 +129,8 @@ export class AddNewComponent
   // #region Lifecycle Hooks
   ngOnInit() {
     this.newHabitForm.get('startDate')?.valueChanges.subscribe((value) => {
+      if (!value) return;
+
       const endDate = new Date(value);
       if (this.allDay) {
         endDate.setHours(23, 59, 59, 0);
@@ -150,6 +153,8 @@ export class AddNewComponent
     });
 
     this.newHabitForm.get('startDailyHour')?.valueChanges.subscribe((value) => {
+      if (!value) return;
+
       const endDate = new Date(value);
       endDate.setHours(endDate.getHours() + 1);
       this.newHabitForm.get('endDailyHour')?.setValue(endDate);
@@ -157,12 +162,18 @@ export class AddNewComponent
 
     this.newHabitForm.get('allDay')?.valueChanges.subscribe((value) => {
       if (value) {
-        this.newHabitForm.value.startDailyHour?.setHours(0, 0, 0, 0);
-        this.newHabitForm.value.endDailyHour?.setHours(23, 59, 59, 0);
+        const startHour = new Date(this.newHabitForm.value.startDailyHour);
+        const endHour = new Date(this.newHabitForm.value.endDailyHour);
+
+        // Imposta le ore, i minuti e i secondi
+        startHour.setHours(0, 0, 0, 0);
+        endHour.setHours(23, 59, 59, 0);
+
+        // Aggiorna i valori nel form
+        this.newHabitForm.get('startDailyHour')?.setValue(startHour);
+        this.newHabitForm.get('endDailyHour')?.setValue(endHour);
       }
     });
-
-    this.resetHourIfAllDay();
 
     this.newHabitForm.valueChanges.subscribe(() => {
       this.mapInfoMessage();
@@ -226,31 +237,6 @@ export class AddNewComponent
 
   ngAfterViewChecked(): void {
     this.hideIfAllDay();
-  }
-  // #endregion
-
-  // #region Form Methods
-  private resetHourIfAllDay() {
-    this.newHabitForm.get('allDay')?.valueChanges.subscribe((value) => {
-      this.allDay = value;
-      let startDate = this.newHabitForm.value.startDate
-        ? new Date(this.newHabitForm.value.startDate)
-        : new Date();
-      let endDate = this.newHabitForm.value.endDate
-        ? new Date(this.newHabitForm.value.endDate)
-        : new Date();
-      if (value) {
-        startDate.setHours(0, 0, 0, 0);
-        endDate.setHours(23, 59, 59, 0);
-        this.newHabitForm
-          .get('startDate')
-          ?.setValue(startDate ? startDate : '');
-        this.newHabitForm.get('endDate')?.setValue(endDate ? endDate : '');
-      } else {
-        this.newHabitForm.get('startDate')?.setValue('');
-        this.newHabitForm.get('endDate')?.setValue('');
-      }
-    });
   }
   // #endregion
 
@@ -395,11 +381,21 @@ export class AddNewComponent
     }
     this.newHabitForm?.get('frequency')?.setValue(this.selectedDays);
   }
-  // Gestisci l'evento di cancellazione del valore del calendario
+
   onReminderClear() {
     this.newHabitForm.get('remind')?.setValue(null);
-    this.cdRef.detectChanges(); // Aggiorna la vista
+    this.cdRef.detectChanges();
   }
+
+  onReminderShow() {
+    document.querySelectorAll('.p-button-label').forEach((span) => {
+      const spanElement = span as HTMLElement;
+      if (spanElement?.textContent?.trim() === 'Today') {
+        spanElement.style.display = 'none';
+      }
+    });
+  }
+
   // #endregion
 
   // #region Helper Methods
@@ -444,17 +440,15 @@ export class AddNewComponent
     };
   }
 
-  updateEndDateTime(time: Date) {
-    const date = new Date(this.newHabitForm.value.endDate);
-    const timeParts = new Date(time);
-
-    date.setHours(timeParts.getHours(), timeParts.getMinutes());
-    const isDateValid = date instanceof Date && !isNaN(date.getTime());
-    if (!isDateValid) {
-      return;
-    }
-    this.newHabitForm.get('endDate')?.setValue(date);
+  async submitNotificationForm(date: Date) {
+    await this.notificationService.handleNewNotification(
+      date,
+      1,
+      'New Event',
+      "Don't forget your event!"
+    );
   }
+
   // #endregion
 
   // #region Actions SAVE and EDIT

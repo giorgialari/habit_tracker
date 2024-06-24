@@ -76,6 +76,7 @@ p-floatlabel input {
 h6 {
   margin-top: 0;
 }
+
 .info-card {
   background-color: $secondary-color;
   /* Colore di sfondo leggero */
@@ -139,5 +140,14 @@ h6 {
 
 
 .invalid-field {
-  border-color: orange !important;  /* Usa !important per sovrascrivere eventuali altri stili */
+  border-color: orange !important;
+  /* Usa !important per sovrascrivere eventuali altri stili */
+}
+
+::ng-deep .input-switch-all-day.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider:before {
+  background-image: url('./././../../assets/icon/calendar_today.svg');
+}
+
+::ng-deep .input-switch-all-day.p-inputswitch .p-inputswitch-slider:before {
+  background-image: url('./././../../assets/icon/schedule_icon.svg');
 }

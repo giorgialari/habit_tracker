@@ -82,7 +82,10 @@
           class="w-screen mx-auto px-3 flex align-items-center justify-content-between padding1"
         >
           <h6>This event during all day?</h6>
-          <p-inputSwitch styleClass="flex" formControlName="allDay" />
+          <p-inputSwitch
+            styleClass="flex input-switch-all-day"
+            formControlName="allDay"
+          />
         </div>
 
         <!-- Start date</h6> -->
@@ -129,7 +132,7 @@
         </div>
 
         <!-- Start and end daily hour -->
-        @if(!allDay){
+        @if(!newHabitForm.get('allDay')?.value){
         <div class="flex">
           <div class="w-screen px-3 mx-auto padding1">
             <p-floatLabel>
@@ -231,14 +234,19 @@
           <p-floatLabel>
             <p-calendar
               [showTime]="true"
-              hourFormat="12"
+              hourFormat="24"
               [timeOnly]="true"
               formControlName="remind"
               [touchUI]="true"
               appendTo="body"
-              styleClass="w-screen"
+              styleClass="w-screen reminder-switch-day"
               [showClear]="true"
+              (onShow)="onReminderShow()"
               (onClear)="onReminderClear()"
+              [focusTrap]="true"
+              [showTransitionOptions]="'200ms'"
+              [hideTransitionOptions]="'200ms'"
+              [showButtonBar]="true"
             ></p-calendar>
 
             <label>

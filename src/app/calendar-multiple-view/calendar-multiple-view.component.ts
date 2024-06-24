@@ -31,6 +31,8 @@ import { CustomCalendarView } from '../_shared/models/enum';
 import { TABS } from '../_shared/data/data';
 import { CustomCalendarEvent } from '../_shared/models/common.interfaces';
 import { ColorService } from '../_shared/services/color.service';
+import { CalendarService } from '../_shared/services/calendar.service';
+import { NotificationService } from '../_shared/services/notification.service';
 
 @Component({
   selector: 'app-calendar-multiple-view',
@@ -87,6 +89,7 @@ export class CalendarMultipleViewComponent
 
   constructor(
     private habitService: HabitService,
+    private calendarService: CalendarService,
     private gestureCtrl: GestureController,
     private renderer: Renderer2,
     private tabOrderUserService: TabUserOrderService,
@@ -98,6 +101,7 @@ export class CalendarMultipleViewComponent
 
   async ngOnInit() {
     await this.loadTabs();
+    await this.loadDayViewState();
 
     this.setupSwipeGesture();
 
@@ -125,6 +129,14 @@ export class CalendarMultipleViewComponent
   showDialog(habit: Habit) {
     this.visible = true;
     this.currentHabit = habit;
+  }
+
+  async loadDayViewState() {
+    const state = await this.calendarService.getDayView();
+    if (state) {
+      this.switchDayView = state;
+      this.scrollToCurrentHour();
+    }
   }
 
   async updateActualGoal(habit: Habit) {
@@ -220,8 +232,6 @@ export class CalendarMultipleViewComponent
     this.router.navigate(['/tabs/edit-habit', event.id, event.idMaster]);
   }
 
-
-
   setView(view: CustomCalendarView) {
     this.view = view;
     if (view === CustomCalendarView.Day) {
@@ -231,6 +241,7 @@ export class CalendarMultipleViewComponent
     switch (view) {
       case CustomCalendarView.Day:
         this.scrollToCurrentHour();
+        this.calendarService.setDayView(this.switchDayView);
         break;
       case CustomCalendarView.Month:
         break;
@@ -338,7 +349,7 @@ export class CalendarMultipleViewComponent
     let weightedCompleted = 0; // Somma ponderata dei completamenti
     let totalGoal = 0; // Somma totale dei goal
 
-    eventsOfDay.forEach(event => {
+    eventsOfDay.forEach((event) => {
       const actualGoalNormalized = Math.min(event.actualGoal, event.goal); // Normalizza actualGoal a non superare goal
       weightedCompleted += actualGoalNormalized; // Usa il valore normalizzato
       totalGoal += event.goal;
@@ -352,9 +363,6 @@ export class CalendarMultipleViewComponent
     this.currentKnobValue = rounded;
     this.cd.detectChanges();
   }
-
-
-
 
   ngOnDestroy(): void {
     this.refreshComponentTriggerSubscription.unsubscribe();

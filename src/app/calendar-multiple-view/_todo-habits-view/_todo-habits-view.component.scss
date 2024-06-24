@@ -54,12 +54,6 @@ p-card {
   display: block;
 }
 
-// .remove_inner_bottom {
-//   --inner-border-width: 0; // this removes the inner border width
-//   --inner-padding-start: 0;
-//   --inner-padding-end: 0;
-// }
-
 ::ng-deep .p-card-body {
   padding: 0;
 }
