@@ -24,12 +24,12 @@ const routes: Routes = [
       },
       {
         path: 'edit-habit/:id/:idMaster',
-        loadChildren: () => import('../tab-add-new/tab-add-new.module').then(m => m.TabAddNewPageModule),
+        loadChildren: () => import('../tab-add-edit-habit/tab-add-edit-habit.module').then(m => m.TabAddNewPageModule),
         resolve: { setup: SetupResolver }
       },
       {
-        path: 'add-new',
-        loadChildren: () => import('../tab-add-new/tab-add-new.module').then(m => m.TabAddNewPageModule),
+        path: 'add-edit-habit',
+        loadChildren: () => import('../tab-add-edit-habit/tab-add-edit-habit.module').then(m => m.TabAddNewPageModule),
         resolve: { setup: SetupResolver }
       },
       {

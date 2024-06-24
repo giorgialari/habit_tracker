@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AddNewComponent } from './add-new.component';
+import { AddEditHabitComponent } from './add-edit-habit.component';
 import { BadgeModule } from 'primeng/badge';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DividerModule } from 'primeng/divider';
@@ -46,7 +46,7 @@ const primeNgModules = [
     NavigationHeaderComponentModule,
     ...primeNgModules,
   ],
-  declarations: [AddNewComponent, ConfirmDeleteModalComponent],
-  exports: [AddNewComponent],
+  declarations: [AddEditHabitComponent, ConfirmDeleteModalComponent],
+  exports: [AddEditHabitComponent],
 })
-export class AddNewComponentModule {}
+export class AddEditHabitComponentModule {}

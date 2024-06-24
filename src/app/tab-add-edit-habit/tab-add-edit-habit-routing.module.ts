@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TabAddNewPage } from './tab-add-new.page';
+import { TabAddNewPage } from './tab-add-edit-habit.page';
 
 const routes: Routes = [
   {

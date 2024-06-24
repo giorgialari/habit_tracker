@@ -21,11 +21,11 @@ import { theme } from 'src/theme/dark-theme/dark-config';
 import { NotificationService } from '../_shared/services/notification.service';
 
 @Component({
-  selector: 'app-add-new',
-  templateUrl: './add-new.component.html',
-  styleUrls: ['./add-new.component.scss'],
+  selector: 'app-add-edit-habit',
+  templateUrl: './add-edit-habit.component.html',
+  styleUrls: ['./add-edit-habit.component.scss'],
 })
-export class AddNewComponent
+export class AddEditHabitComponent
   implements OnInit, AfterViewInit, AfterViewChecked
 {
   // #region Properties

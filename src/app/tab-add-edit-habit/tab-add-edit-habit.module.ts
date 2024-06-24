@@ -4,9 +4,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 // import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
-import { TabAddNewPageRoutingModule } from './tab-add-new-routing.module';
-import { TabAddNewPage } from './tab-add-new.page';
-import { AddNewComponentModule } from '../add-new/add-new.module';
+import { TabAddNewPageRoutingModule } from './tab-add-edit-habit-routing.module';
+import { TabAddNewPage } from './tab-add-edit-habit.page';
+import { AddEditHabitComponentModule } from '../add-edit-habit/add-edit-habit.module';
 
 @NgModule({
   imports: [
@@ -14,7 +14,7 @@ import { AddNewComponentModule } from '../add-new/add-new.module';
     CommonModule,
     FormsModule,
     // ExploreContainerComponentModule,
-    AddNewComponentModule,
+    AddEditHabitComponentModule,
     TabAddNewPageRoutingModule
   ],
   declarations: [TabAddNewPage]
