@@ -12,22 +12,9 @@
   [dismissableMask]="true"
 >
   <ng-template pTemplate="content">
-    <!-- Edit button -->
-    <div class="flex justify-content-end">
-      <p-button
-        severity="secondary"
-        styleClass="my-1 py-0"
-        label="Edit"
-        (onClick)="editHabit()"
-      />
-    </div>
-
-    <!-- Daily goal -->
-    <div
-      class="daily-goal flex flex-column justify-content-center align-items-center py-2 gap-2"
-    >
+    <div class="flex justify-content-between my-2">
       <!-- Header con icona e informazioni dell'abitudine -->
-      <div class="flex align-items-center justify-content-center px-3">
+      <div class="flex align-items-center justify-content-center">
         <div
           class="icon-container border-round flex align-items-center justify-content-center mr-2"
           style="width: 2rem; height: 2rem"
@@ -42,18 +29,34 @@
           <div class="text-sm font-medium">
             {{ currentHabit.category.label }}
           </div>
-          <div class="text-xs">{{ currentHabit.title }}</div>
+          <div class="text-sm">{{ currentHabit.title }}</div>
         </div>
       </div>
+      <!-- Edit button -->
+      <div class="flex justify-content-end">
+        <p-button
+          severity="secondary"
+          styleClass="button-standard font-semibold text-xs"
+          [rounded]="true"
+          (onClick)="editHabit()"
+        >
+          <span class="material-icons text-base">edit</span>
+        </p-button>
+      </div>
+    </div>
 
+    <!-- Daily goal -->
+    <div
+      class="daily-goal flex flex-column justify-content-center align-items-center py-2 gap-2"
+    >
       <!-- Sezione Daily Goal con icona e numero in un cerchio -->
       <div class="flex align-items-center justify-content-center w-full px-3">
-        <span class="material-icons text-secondary mr-2">today</span>
+        <span class="material-icons text-secondary mr-2 text-base">today</span>
         <div class="font-medium text-sm">Daily Goal:</div>
         <div class="ml-2">
           {{ currentHabit.goal | formatNumber }}
         </div>
-        <div class="text-xs ml-2">
+        <div class="text-base ml-2">
           {{
             currentHabit.goalType === "custom"
               ? currentHabit.customGoalType
@@ -74,7 +77,7 @@
           [outlined]="true"
           (click)="decreaseKnobValue(1)"
         >
-          -
+          <span class="material-icons text-base">remove</span>
         </p-button>
         <p-button
           *ngIf="currentHabit.goal > 10 && currentHabit.goal < 2000"
@@ -130,7 +133,7 @@
           [outlined]="true"
           (click)="resetKnobValue()"
         >
-          <span class="material-icons">clear</span>
+          <span class="material-icons text-base">clear</span>
         </p-button>
       </div>
 
@@ -142,7 +145,7 @@
           [outlined]="true"
           (click)="increaseKnobValue(1)"
         >
-          +
+          <span class="material-icons text-base">add</span>
         </p-button>
         <p-button
           *ngIf="currentHabit.goal > 10 && currentHabit.goal < 2000"

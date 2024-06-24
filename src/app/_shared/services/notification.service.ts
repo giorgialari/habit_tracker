@@ -62,31 +62,31 @@
 //   }
 // }
 
-
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalNotifications } from '@capacitor/local-notifications';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NotificationService {
-
   constructor(private router: Router) {
     this.initializeNotificationListeners();
   }
 
   // Metodo per inizializzare gli ascoltatori di eventi delle notifiche
   private initializeNotificationListeners() {
-    LocalNotifications.addListener('localNotificationActionPerformed', (notification) => {
-      this.handleNotificationClick(notification);
-    });
+    LocalNotifications.addListener(
+      'localNotificationActionPerformed',
+      (notification) => {
+        this.handleNotificationClick(notification);
+      }
+    );
   }
 
   // Metodo per gestire il clic sulla notifica
   private handleNotificationClick(notification: any) {
-    // Qui puoi controllare l'id della notifica o altri dettagli per decidere dove navigare
-    // Ad esempio, controlla l'actionTypeId per decidere la rotta
+    // Qui si può controllare l'id della notifica o altri dettagli per decidere dove navigare
     if (notification.actionId === 'OPEN_DASHBOARD') {
       this.router.navigateByUrl('/tabs/dashboard');
     }
@@ -105,7 +105,12 @@ export class NotificationService {
   }
 
   // Metodo per pianificare una notifica
-  async scheduleNotification(time: Date, id: number, title: string, body: string) {
+  async scheduleNotification(
+    time: Date,
+    id: number,
+    title: string,
+    body: string
+  ) {
     const hasPermission = await this.checkPermissions();
     if (hasPermission) {
       await LocalNotifications.schedule({
@@ -117,18 +122,22 @@ export class NotificationService {
             schedule: { at: time },
             actionTypeId: 'OPEN_DASHBOARD',
             sound: '',
-            extra: null
-          }
-        ]
+            extra: null,
+          },
+        ],
       });
     } else {
       console.error('Notification permissions not granted.');
-      // Potrebbe essere un buon punto per chiedere nuovamente i permessi
     }
   }
 
   // Metodo per gestire un nuovo inserimento di notifica
-  async handleNewNotification(time: Date, id: number, title: string, body: string) {
+  async handleNewNotification(
+    time: Date,
+    id: number,
+    title: string,
+    body: string
+  ) {
     const hasPermission = await this.checkPermissions();
     if (!hasPermission) {
       const permissionGranted = await this.requestPermissions();
@@ -136,7 +145,7 @@ export class NotificationService {
         await this.scheduleNotification(time, id, title, body);
       } else {
         console.error('User denied notification permissions.');
-        // Qui potresti voler informare l'utente che le notifiche sono disabilitate
+        // Qui si può voler informare l'utente che le notifiche sono disabilitate
       }
     } else {
       await this.scheduleNotification(time, id, title, body);

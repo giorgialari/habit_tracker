@@ -116,9 +116,22 @@
 
                   <!-- Edit icon -->
                   <div class="edit-icon">
-                    <span class="material-icons" (click)="handleEvent(event)"
+                    <!-- <span class="material-icons" (click)="handleEvent(event)"
                       >edit</span
-                    >
+                    > -->
+
+                    <p-knob
+                      [(ngModel)]="event.actualGoal"
+                      [size]="40"
+                      [readonly]="true"
+                      (click)="showDialog(event)"
+                      [max]="
+                        event.actualGoal > event.goal
+                          ? event.actualGoal
+                          : event.goal
+                      "
+                      [valueColor]="event | calculateKnobColor"
+                    />
                   </div>
                 </div>
                 }
