@@ -19,6 +19,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDeleteModalComponent } from './confirm-delete-modal/confirm-delete-modal.component';
+import { TooltipModule } from 'primeng/tooltip';
 
 const primeNgModules = [
   CheckboxModule,
@@ -33,6 +34,7 @@ const primeNgModules = [
   InputSwitchModule,
   InputNumberModule,
   DialogModule,
+  TooltipModule
 ];
 
 @NgModule({

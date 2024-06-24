@@ -25,7 +25,8 @@ import { theme } from 'src/theme/dark-theme/dark-config';
   styleUrls: ['./add-new.component.scss'],
 })
 export class AddNewComponent
-  implements OnInit, AfterViewInit, AfterViewChecked {
+  implements OnInit, AfterViewInit, AfterViewChecked
+{
   // #region Properties
   newHabitForm: FormGroup;
   @Input() isHabitToEdit: boolean = false;
@@ -120,67 +121,21 @@ export class AddNewComponent
         this.newHabitForm.get('endDailyHour')?.updateValueAndValidity();
       }
     });
-
   }
-
 
   // #endregion
 
   // #region Lifecycle Hooks
   ngOnInit() {
-    // this.newHabitForm.get('startDate')?.valueChanges.subscribe((value) => {
-    //   const startDate = new Date(value);
-    //   // Assicurati che sia un oggetto Date valido
-    //   if (!(startDate instanceof Date && !isNaN(startDate.getTime()))) {
-    //     return;
-    //   }
-    //   // Se la data di inizio cambia, aggiorna la data di fine aggiungendo un'ora se != allDay, altrimenti setta la data di fine a mezzanotte
-    //   const endDate = new Date(value);
-    //   if (!this.allDay) {
-    //     endDate.setHours(endDate.getHours() + 1);
-    //   } else {
-    //     endDate.setHours(23, 59, 59, 0);
-    //   }
-
-    //   this.newHabitForm.get('endDate')?.setValue(endDate);
-
-    //   const dayOfWeek = this.getDayOfWeek(value);
-    //   const dayId = this.mapDayOfWeekToId(dayOfWeek);
-
-    //   this.selectedDays = [dayId];
-    //   this.newHabitForm.get('frequency')?.setValue(this.selectedDays);
-
-    //   //Setto di default il goal a 1 e il goalType con id 1 (volte)
-    //   this.newHabitForm.get('goal')?.setValue(1);
-    //   const firstGoalType = this.goalTypes.find((g) => g.id === 1);
-    //   this.newHabitForm.get('goalType')?.setValue(firstGoalType?.value);
-    // });
-
-
-//TODO: la data di fine non viene settata correttamente
     this.newHabitForm.get('startDate')?.valueChanges.subscribe((value) => {
-      if (!value) {
-        this.newHabitForm.get('endDate')?.disable();
-        this.newHabitForm.get('endDailyHour')?.disable();
-        this.newHabitForm.get('startDailyHour')?.disable();
-      } else {
-        this.newHabitForm.get('endDate')?.enable();
-        this.newHabitForm.get('endDailyHour')?.enable();
-        this.newHabitForm.get('startDailyHour')?.enable();
-      }
-
-      value.setHours(9, 0, 0, 0);
-
       const endDate = new Date(value);
-      if (!this.allDay) {
-        endDate.setHours(endDate.getHours() + 1);
-      } else {
+      if (this.allDay) {
         endDate.setHours(23, 59, 59, 0);
       }
-      this.newHabitForm.get('startDailyHour')?.setValue(value);
-      this.newHabitForm.get('endDailyHour')?.setValue(endDate);
-      this.newHabitForm.get('endDate')?.setValue(endDate);
 
+      if (endDate) {
+        this.newHabitForm.get('endDate')?.setValue(endDate);
+      }
 
       const dayOfWeek = this.getDayOfWeek(value);
       const dayId = this.mapDayOfWeekToId(dayOfWeek);
@@ -194,27 +149,16 @@ export class AddNewComponent
       this.newHabitForm.get('goalType')?.setValue(firstGoalType?.value);
     });
 
-    this.newHabitForm.get('endDate')?.valueChanges.subscribe((value) => {
-      //Controllo se endDailyHour è pieno, se lo è allora setto la data di fine con l'ora di endDailyHour
-      //Se è vuoto, setto la data di fine con l'ora di startDate + 1 ora
-      const endDailyHour = this.newHabitForm.value.endDailyHour;
-      if (endDailyHour) {
-        value.setHours(endDailyHour.getHours(), endDailyHour.getMinutes());
-      } else {
-        const startDate = this.newHabitForm.value.startDate;
-        value.setHours(startDate.getHours() + 1);
-      }
-
-
+    this.newHabitForm.get('startDailyHour')?.valueChanges.subscribe((value) => {
+      const endDate = new Date(value);
+      endDate.setHours(endDate.getHours() + 1);
+      this.newHabitForm.get('endDailyHour')?.setValue(endDate);
     });
 
-
-
-    this.newHabitForm.get('startDailyHour')?.valueChanges.subscribe((value) => {
-      const startDailyHour = new Date(value);
-      if (value >= this.newHabitForm.value.endDailyHour) {
-        startDailyHour.setHours(value.getHours() + 1);
-        this.newHabitForm.get('endDailyHour')?.setValue(startDailyHour);
+    this.newHabitForm.get('allDay')?.valueChanges.subscribe((value) => {
+      if (value) {
+        this.newHabitForm.value.startDailyHour?.setHours(0, 0, 0, 0);
+        this.newHabitForm.value.endDailyHour?.setHours(23, 59, 59, 0);
       }
     });
 
@@ -224,6 +168,18 @@ export class AddNewComponent
       this.mapInfoMessage();
     });
   }
+
+  setStartDateAndEndDateHours() {
+    //assegno a startDate l'ora di startDailyHour e a endDate l'ora di endDailyHour
+    const startDate = this.newHabitForm.value.startDate;
+    const startDailyHour = this.newHabitForm.value.startDailyHour;
+    const endDate = this.newHabitForm.value.endDate;
+    const endDailyHour = this.newHabitForm.value.endDailyHour;
+
+    startDate.setHours(startDailyHour.getHours(), startDailyHour.getMinutes());
+    endDate.setHours(endDailyHour.getHours(), endDailyHour.getMinutes());
+  }
+
   ngAfterViewInit(): void {
     this.route.params.subscribe((params) => {
       if (params['id']) {
@@ -254,18 +210,19 @@ export class AddNewComponent
           }
         });
 
-        this.habitService.getHabitsByIdMaster(params['idMaster']).then((habit) => {
-          if (habit.length > 0) {
-            //raccolgo l'ultimo habit per settare la data di inizio e fine
-            const lastHabit = habit[habit.length - 1];
-            lastHabit.endDate = parseISO(lastHabit.endDate) as any;
-            this.newHabitForm.get('endDate')?.setValue(lastHabit.endDate);
-          }
-        });
+        this.habitService
+          .getHabitsByIdMaster(params['idMaster'])
+          .then((habit) => {
+            if (habit.length > 0) {
+              //raccolgo l'ultimo habit per settare la data di inizio e fine
+              const lastHabit = habit[habit.length - 1];
+              lastHabit.endDate = parseISO(lastHabit.endDate) as any;
+              this.newHabitForm.get('endDate')?.setValue(lastHabit.endDate);
+            }
+          });
       }
     });
   }
-
 
   ngAfterViewChecked(): void {
     this.hideIfAllDay();
@@ -274,28 +231,26 @@ export class AddNewComponent
 
   // #region Form Methods
   private resetHourIfAllDay() {
-    // this.newHabitForm.get('allDay')?.valueChanges.subscribe((value) => {
-    //   this.allDay = value;
-    //   let startDate = this.newHabitForm.value.startDate
-    //     ? new Date(this.newHabitForm.value.startDate)
-    //     : new Date();
-    //   let endDate = this.newHabitForm.value.endDate
-    //     ? new Date(this.newHabitForm.value.endDate)
-    //     : new Date();
-
-    //   if (value) {
-    //     startDate.setHours(0, 0, 0, 0);
-    //     endDate.setHours(23, 59, 59, 0);
-
-    //     this.newHabitForm
-    //       .get('startDate')
-    //       ?.setValue(startDate ? startDate : '');
-    //     this.newHabitForm.get('endDate')?.setValue(endDate ? endDate : '');
-    //   } else {
-    //     this.newHabitForm.get('startDate')?.setValue('');
-    //     this.newHabitForm.get('endDate')?.setValue('');
-    //   }
-    // });
+    this.newHabitForm.get('allDay')?.valueChanges.subscribe((value) => {
+      this.allDay = value;
+      let startDate = this.newHabitForm.value.startDate
+        ? new Date(this.newHabitForm.value.startDate)
+        : new Date();
+      let endDate = this.newHabitForm.value.endDate
+        ? new Date(this.newHabitForm.value.endDate)
+        : new Date();
+      if (value) {
+        startDate.setHours(0, 0, 0, 0);
+        endDate.setHours(23, 59, 59, 0);
+        this.newHabitForm
+          .get('startDate')
+          ?.setValue(startDate ? startDate : '');
+        this.newHabitForm.get('endDate')?.setValue(endDate ? endDate : '');
+      } else {
+        this.newHabitForm.get('startDate')?.setValue('');
+        this.newHabitForm.get('endDate')?.setValue('');
+      }
+    });
   }
   // #endregion
 
@@ -339,37 +294,37 @@ export class AddNewComponent
 
     this.infoMessage.startDateNoHours = this.newHabitForm.value.startDate
       ? //undefined al posto del locale per evitare problemi di timezone
-      new Date(this.newHabitForm.value.startDate).toLocaleDateString(
-        undefined,
-        {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-        }
-      )
+        new Date(this.newHabitForm.value.startDate).toLocaleDateString(
+          undefined,
+          {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          }
+        )
       : '';
     this.infoMessage.endDateNoHours = this.newHabitForm.value.endDate
       ? new Date(this.newHabitForm.value.endDate).toLocaleDateString(
-        undefined,
-        {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-        }
-      )
+          undefined,
+          {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          }
+        )
       : '';
 
     this.infoMessage.startHour = this.newHabitForm.value.startDate
       ? new Date(this.newHabitForm.value.startDate).toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
-      })
+          hour: '2-digit',
+          minute: '2-digit',
+        })
       : '';
     this.infoMessage.endHour = this.newHabitForm.value.endDate
       ? new Date(this.newHabitForm.value.endDate).toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
-      })
+          hour: '2-digit',
+          minute: '2-digit',
+        })
       : '';
 
     this.infoMessage.goal = this.formatNumber(this.newHabitForm.value.goal);
@@ -500,21 +455,6 @@ export class AddNewComponent
     }
     this.newHabitForm.get('endDate')?.setValue(date);
   }
-
-  updateStartDateTime(time: Date) {
-    const date = new Date(this.newHabitForm.value.startDate);
-    const timeParts = new Date(time);  // Assicurati che `time` sia un Date object
-
-    date.setHours(timeParts.getHours(), timeParts.getMinutes());
-    const isDateValid = date instanceof Date && !isNaN(date.getTime());
-    console.log('date', time);
-    console.log('isDateValid', isDateValid);
-    if (!isDateValid) {
-      return;
-    }
-    this.newHabitForm.get('startDate')?.setValue(date);
-
-  }
   // #endregion
 
   // #region Actions SAVE and EDIT
@@ -528,6 +468,8 @@ export class AddNewComponent
       return;
     }
     const eventColor = this.getEventColor();
+
+    this.setStartDateAndEndDateHours();
 
     const habit: Habit = {
       idMaster: 0,

@@ -140,7 +140,6 @@
                 formControlName="startDailyHour"
                 [showTransitionOptions]="'200ms'"
                 [hideTransitionOptions]="'200ms'"
-
               >
               </p-calendar>
               <label>Start daily hour</label>
@@ -170,6 +169,7 @@
           }
         </div>
         }
+
         <!-- periodicity -->
         <div class="periodicity-container w-screen mx-auto px-3 mt-1 padding1">
           <h6>Set periodicity</h6>
@@ -251,7 +251,9 @@
           </p-floatLabel>
         </div>
       </div>
-      <div
+
+      <!-- TODO: RIMUOVERE A FINE PROGETTO -->
+      <!-- <div
         *ngIf="shouldDisplayMessage()"
         class="info-card mx-auto p-2 border-round-sm flex align-items-center justify-content-center my-3"
       >
@@ -271,7 +273,7 @@
           <strong>{{ infoMessage.goalType }}</strong
           >.
         </small>
-      </div>
+      </div> -->
 
       <!-- Buttons -->
       <div class="mt-5 flex justify-content-center">
