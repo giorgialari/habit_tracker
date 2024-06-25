@@ -134,7 +134,9 @@ export class CalendarMultipleViewComponent
   //#region Habit Handling
   private async loadHabits() {
     const habits: Habit[] = await this.habitService.getAllHabits();
-    this.events = habits.map((habit) => this.habitService.mapHabitToEvent(habit, this.actions));
+    this.events = habits.map((habit) =>
+      this.habitService.mapHabitToEvent(habit, this.actions)
+    );
     this.calculateKnobValue();
     this.cd.detectChanges();
   }
@@ -145,17 +147,45 @@ export class CalendarMultipleViewComponent
     if (findHabit) {
       findHabit.actualGoal = habit.actualGoal;
 
+      this.checkIfCompleted(findHabit);
+    }
+  }
+
+  checkIfCompleted(habit: Habit) {
+    const wasCompleted = habit.completed;
+    habit.completed = habit.actualGoal >= habit.goal;
+
+    // Passa l'informazione se l'habit è stato appena completato
+    this.toggleCompletion(
+      habit,
+      wasCompleted !== habit.completed && habit.completed
+    );
+  }
+
+  async toggleCompletion(habit: Habit, justCompleted: boolean) {
+    const habits: Habit[] = await this.habitService.getAllHabits();
+    const findHabit = habits.find((h) => h.id === habit.id);
+    if (findHabit) {
+      // Aggiorna `completedAt` solo se `justCompleted` è true
+      if (justCompleted) {
+        habit.completedAt = new Date().toLocaleTimeString();
+      }
       await this.habitService.setHabit(findHabit);
       this.refreshService.forceRefresh();
     }
   }
 
   updateHabits(event: Habit[]) {
-    this.events = event.map((habit) =>this.habitService.mapHabitToEvent(habit, this.actions));
+    this.events = event.map((habit) =>
+      this.habitService.mapHabitToEvent(habit, this.actions)
+    );
     this.cd.detectChanges();
   }
   private calculateKnobValue() {
-    this.currentKnobValue = this.knobService.calculateKnobValue( this.events, this.viewDate);
+    this.currentKnobValue = this.knobService.calculateKnobValue(
+      this.events,
+      this.viewDate
+    );
     this.cd.detectChanges();
   }
 

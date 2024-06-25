@@ -1,6 +1,8 @@
 <div class="mx-3" *ngIf="refresh | async">
   @for(habit of _myHabits; track habit){
-  <common-card-habit [habit]="habit"
+  <common-card-habit
+    [habit]="habit"
+    (click)="showDialog(habit)"
     [cardType]="CardType.Todo"
   ></common-card-habit>
   }

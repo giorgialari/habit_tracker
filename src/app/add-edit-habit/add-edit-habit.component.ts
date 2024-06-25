@@ -347,6 +347,8 @@ export class AddEditHabitComponent
       customGoalType: this.newHabitForm.value.customGoalType,
       frequency: this.newHabitForm.value.frequency,
       remind: this.newHabitForm.value.remind,
+      mood: 0,
+      notes: '',
       color: eventColor,
     };
 

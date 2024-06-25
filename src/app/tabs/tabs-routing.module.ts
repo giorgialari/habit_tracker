@@ -41,9 +41,9 @@ const routes: Routes = [
         resolve: { setup: SetupResolver },
       },
       {
-        path: 'tab3',
+        path: 'habit-charts',
         loadChildren: () =>
-          import('./tab3/tab3.module').then((m) => m.Tab3PageModule),
+          import('./tab-habit-charts/tab-habit-charts.module').then((m) => m.TabHabitChartPageModule),
         resolve: { setup: SetupResolver },
       },
       {

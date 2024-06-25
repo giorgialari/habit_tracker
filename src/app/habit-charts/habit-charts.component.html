@@ -1,0 +1,38 @@
+<div class="h-screen overflow-auto">
+  <div class="grid my-2 p-3">
+    <div *ngFor="let habit of [primo, secondo, terzo]" class="col">
+      <div *ngIf="habit; else noHabit" [style.background]="habit.color.primary" [style.color]="habit.color.secondary"
+           class="text-center p-3 border-round-sm font-bold">
+        <i class="material-icons">{{ habit.category.icon }}</i>
+        <div>{{ habit.title }}</div>
+      </div>
+    </div>
+    <ng-template #noHabit>
+      <div class="col">
+        <div class="text-center p-3 border-round-sm bg-primary font-bold">
+          No data
+        </div>
+      </div>
+    </ng-template>
+  </div>
+
+
+  <div class="chart-container my-2 p-3">
+    <div class="chart-padding">
+      <h5>How many habits have you done?</h5>
+      <p-chart
+        type="pie"
+        [data]="pieChartData"
+        [options]="chartOptions"
+      ></p-chart>
+    </div>
+    <div class="my-5">
+      <h5>How many habits have you this week?</h5>
+      <p-chart
+        type="bar"
+        [data]="barChartData"
+        [options]="chartOptions"
+      ></p-chart>
+    </div>
+  </div>
+</div>
