@@ -23,6 +23,16 @@ export class HabitDailyJournalComponent implements OnInit, AfterViewChecked {
   view: CustomCalendarView = CustomCalendarView.Day;
   CardType = CardType;
   currentKnobValue = 0;
+  moods = [
+    { icon: '😢', value: 1 },
+    { icon: '😟', value: 2 },
+    { icon: '😐', value: 3 },
+    { icon: '🙂', value: 4 },
+    { icon: '😄', value: 5 },
+  ];
+
+  selectedMood: number = 0;
+  note: string = '';
   get knobColor(): string {
     return this.knobService.calculateColor(this.currentKnobValue, 100);
   }
@@ -61,7 +71,9 @@ export class HabitDailyJournalComponent implements OnInit, AfterViewChecked {
   }
 
   private calculateKnobValue() {
-    const mappedHabits = this._myHabits.map((habit) =>this.habitService.mapHabitToEvent(habit, []));
+    const mappedHabits = this._myHabits.map((habit) =>
+      this.habitService.mapHabitToEvent(habit, [])
+    );
 
     this.currentKnobValue = this.knobService.calculateKnobValue(
       mappedHabits,
@@ -69,5 +81,19 @@ export class HabitDailyJournalComponent implements OnInit, AfterViewChecked {
     );
 
     this.cdr.detectChanges();
+  }
+
+  selectMood(value: number) {
+    this.selectedMood = value;
+  }
+
+  async saveMoodAndNotes() {
+    const updatedHabits = this._myHabits.map((habit) => {
+      return {...habit, mood: this.selectedMood, notes: this.note};
+    });
+
+    for (const habit of updatedHabits) {
+      await this.habitService.setHabit(habit);
+    }
   }
 }

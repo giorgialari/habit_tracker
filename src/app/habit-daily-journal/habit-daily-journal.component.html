@@ -30,8 +30,35 @@
 <div class="mood-tracker px-3">
   <h5>How do you feel based on your activities today?</h5>
   <div class="mood-icons">
-    😢 😟 😐 🙂 😄
+    <button
+      *ngFor="let mood of moods; let idx = index"
+      type="button"
+      class="mood-btn"
+      [class.selected]="selectedMood === mood.value"
+      (click)="selectMood(mood.value)"
+      [value]="mood.value"
+    >
+      {{ mood.icon }}
+    </button>
   </div>
 
-  <textarea pInputTextarea  placeholder="Add your notes here..."></textarea>
+  <textarea
+    pInputTextarea
+    placeholder="Add your notes here..."
+    [(ngModel)]="note"
+  ></textarea>
+</div>
+
+<!-- Buttons -->
+<div class="mt-5 flex justify-content-center">
+  <p-button
+    size="small"
+    severity="danger"
+    [outlined]="true"
+    class="mr-2"
+    (click)="saveMoodAndNotes()"
+  >
+    <span class="material-icons mr-2 text-base"> save </span>
+    <span>Add note</span>
+  </p-button>
 </div>

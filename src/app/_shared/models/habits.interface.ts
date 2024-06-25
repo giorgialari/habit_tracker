@@ -18,6 +18,8 @@ export interface Habit {
   remind: string;
   color: EventColor;
   isHabitToEdit?: boolean;
+  mood?: number;
+  notes?: string;
 }
 
 export interface CurrentMonth {

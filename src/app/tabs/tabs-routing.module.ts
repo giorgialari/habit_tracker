@@ -11,7 +11,7 @@ const routes: Routes = [
       {
         path: 'dashboard',
         loadChildren: () =>
-          import('../tab-dashboard/tab-dashboard.module').then(
+          import('./tab-dashboard/tab-dashboard.module').then(
             (m) => m.DashboardPageModule
           ),
         resolve: { setup: SetupResolver },
@@ -20,14 +20,14 @@ const routes: Routes = [
         path: 'daily-journal',
         loadChildren: () =>
           import(
-            '../tab-habit-daily-journal/tab-habit-daily-journal.module'
+            './tab-habit-daily-journal/tab-habit-daily-journal.module'
           ).then((m) => m.TabHabitDailyJournalPageModule),
         resolve: { setup: SetupResolver },
       },
       {
         path: 'edit-habit/:id/:idMaster',
         loadChildren: () =>
-          import('../tab-add-edit-habit/tab-add-edit-habit.module').then(
+          import('./tab-add-edit-habit/tab-add-edit-habit.module').then(
             (m) => m.TabAddNewPageModule
           ),
         resolve: { setup: SetupResolver },
@@ -35,7 +35,7 @@ const routes: Routes = [
       {
         path: 'add-edit-habit',
         loadChildren: () =>
-          import('../tab-add-edit-habit/tab-add-edit-habit.module').then(
+          import('./tab-add-edit-habit/tab-add-edit-habit.module').then(
             (m) => m.TabAddNewPageModule
           ),
         resolve: { setup: SetupResolver },
@@ -43,7 +43,7 @@ const routes: Routes = [
       {
         path: 'tab3',
         loadChildren: () =>
-          import('../tab3/tab3.module').then((m) => m.Tab3PageModule),
+          import('./tab3/tab3.module').then((m) => m.Tab3PageModule),
         resolve: { setup: SetupResolver },
       },
       {

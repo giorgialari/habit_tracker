@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 
 import { TabAddNewPageRoutingModule } from './tab-add-edit-habit-routing.module';
 import { TabAddNewPage } from './tab-add-edit-habit.page';
-import { AddEditHabitComponentModule } from '../add-edit-habit/add-edit-habit.module';
+import { AddEditHabitComponentModule } from '../../add-edit-habit/add-edit-habit.module';
 
 @NgModule({
   imports: [
