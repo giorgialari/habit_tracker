@@ -13,13 +13,13 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
-import { NavigationHeaderComponentModule } from '../_shared/components/navigation-header/navigation-header.module';
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDeleteModalComponent } from './confirm-delete-modal/confirm-delete-modal.component';
 import { TooltipModule } from 'primeng/tooltip';
+import { CommonNavigationHeaderComponentModule } from '../_shared/components/common-navigation-header/common-navigation-header.module';
 
 const primeNgModules = [
   CheckboxModule,
@@ -43,7 +43,7 @@ const primeNgModules = [
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    NavigationHeaderComponentModule,
+    CommonNavigationHeaderComponentModule,
     ...primeNgModules,
   ],
   declarations: [AddEditHabitComponent, ConfirmDeleteModalComponent],

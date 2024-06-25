@@ -18,7 +18,6 @@ import { Habit } from 'src/app/_shared/models/habits.interface';
 @Component({
   selector: 'app-todo-habits-view',
   templateUrl: './_todo-habits-view.component.html',
-  styleUrls: ['./_todo-habits-view.component.scss'],
 })
 export class _todoHabitsViewComponent implements OnInit, OnDestroy {
   private initSub: Subscription;

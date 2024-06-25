@@ -1,0 +1,12 @@
+<div
+  class="grid border-none border-bottom-1 border-600 border-solid px-3 header"
+>
+  <div class="col flex justify-content-between align-items-center p-0">
+    <ng-container>
+      <h4 class="p-text-center m-0">
+        {{ viewDate | calendarDate : view + "ViewTitle" : "en" }}
+      </h4>
+    </ng-container>
+    <ng-content></ng-content>
+  </div>
+</div>

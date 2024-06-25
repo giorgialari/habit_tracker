@@ -1,14 +1,5 @@
 <div id="calendar-header" class="flex flex-column">
-  <div
-    class="grid border-none border-bottom-1 border-600 border-solid px-3 header"
-  >
-    <div class="col">
-      <ng-container>
-        <h4 class="p-text-center m-0">
-          {{ viewDate | calendarDate : view + "ViewTitle" : "en" }}
-        </h4>
-      </ng-container>
-    </div>
+  <common-calendar-header [viewDate]="viewDate" [view]="view">
     @if (view === CalendarView.Month){
     <div class="col flex justify-content-end">
       <p-button [outlined]="true" severity="danger">
@@ -35,7 +26,7 @@
       />
     </div>
     }
-  </div>
+  </common-calendar-header>
 
   <div
     class="tab-group-container"

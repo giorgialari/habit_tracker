@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { CalendarMultipleViewComponent } from './calendar-multiple-view.component';
-import { NavigationHeaderComponentModule } from '../_shared/components/navigation-header/navigation-header.module';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { BadgeModule } from 'primeng/badge';
@@ -25,6 +24,10 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { CalculateKnobValuePipe } from '../_shared/pipes/calculate-knob-value.pipe';
 import { CalculateKnobColorPipe } from '../_shared/pipes/calculate-knob-color.pipe';
 import { FormatNumberPipe } from '../_shared/pipes/format-number.pipe';
+import { CommonNavigationHeaderComponentModule } from '../_shared/components/common-navigation-header/common-navigation-header.module';
+import { CommonCalendarHeaderComponentModule } from '../_shared/components/common-calendar-header/common-calendar-header.module';
+import { SharedModule } from '../_shared/modules/shared.module';
+import { CommonCardHabitModule } from '../_shared/components/common-card-habit/common-card-habit.module';
 
 const angularModules = [
   CommonModule,
@@ -50,20 +53,20 @@ const primeNgModules = [
   imports: [
     ...angularModules,
     IonicModule,
-    NavigationHeaderComponentModule,
+    CommonNavigationHeaderComponentModule,
+    CommonCalendarHeaderComponentModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
     ...primeNgModules,
+    SharedModule,
+    CommonCardHabitModule
   ],
   declarations: [
     CalendarMultipleViewComponent,
     _todoHabitsViewComponent,
-    ActualGoalModalComponent,
-    CalculateKnobValuePipe,
-    CalculateKnobColorPipe,
-    FormatNumberPipe
+    ActualGoalModalComponent
   ],
   exports: [
     CalendarMultipleViewComponent,

@@ -3,11 +3,11 @@ import { Location } from '@angular/common';
 import { RefreshService } from '../../services/refresh-trigger.service';
 
 @Component({
-  selector: 'app-navigation-header',
-  templateUrl: './navigation-header.component.html',
-  styleUrls: ['./navigation-header.component.scss'],
+  selector: 'common-navigation-header',
+  templateUrl: './common-navigation-header.component.html',
+  styleUrls: ['./common-navigation-header.component.scss'],
 })
-export class NavigationHeaderComponent implements OnInit {
+export class CommonNavigationHeaderComponent implements OnInit {
   @Input() title: string = '';
   @Output() back = new EventEmitter();
   constructor(

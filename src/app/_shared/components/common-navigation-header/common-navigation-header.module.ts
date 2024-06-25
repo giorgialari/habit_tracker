@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-import { NavigationHeaderComponent } from './navigation-header.component';
+import { CommonNavigationHeaderComponent } from './common-navigation-header.component';
 
 
 const primeNgModules = [
@@ -13,7 +13,7 @@ const primeNgModules = [
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule, ...primeNgModules],
-  declarations: [NavigationHeaderComponent],
-  exports: [NavigationHeaderComponent]
+  declarations: [CommonNavigationHeaderComponent],
+  exports: [CommonNavigationHeaderComponent]
 })
-export class NavigationHeaderComponentModule { }
+export class CommonNavigationHeaderComponentModule { }

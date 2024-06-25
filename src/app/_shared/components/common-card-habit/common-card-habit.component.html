@@ -1,0 +1,38 @@
+<p-card>
+  <div class="flex align-items-center justify-content-between habit-container">
+    <!-- Container per icona e titolo -->
+    <div class="flex align-items-center">
+      <div
+        class="icon-container border-round-sm mr-3"
+        [style.backgroundColor]="habit.color.primary"
+        [style.color]="habit.color.secondary"
+      >
+        <span class="material-icons">{{ habit.category.icon }}</span>
+      </div>
+      <div class="flex-grow-1">
+        <div class="category-label">{{ habit.category.label }}</div>
+        <div class="habit-title">{{ habit.title }}</div>
+
+        <!-- Goal -->
+        <div class="habit-goal">
+          <span class="habit-goal"
+            >Goal: {{ habit.goal | formatNumber }}
+            {{
+              habit.goalType === "custom"
+                ? habit.customGoalType
+                : habit.goalType
+            }}</span
+          >
+        </div>
+      </div>
+    </div>
+    <p-knob
+      [(ngModel)]="habit.actualGoal"
+      [size]="60"
+      [readonly]="true"
+      [valueColor]="habit | calculateKnobColor"
+      [max]="habit.actualGoal > habit.goal ? habit.actualGoal : habit.goal"
+      strokeWidth="4"
+    ></p-knob>
+  </div>
+</p-card>

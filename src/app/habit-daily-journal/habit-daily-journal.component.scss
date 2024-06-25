@@ -1,0 +1,10 @@
+@import '../../theme/variables.scss';
+
+
+#calendar-header {
+  position: sticky;
+  top: 0;
+  z-index: 1010;
+  padding: 1rem 0;
+  background-color: $background-color;
+}

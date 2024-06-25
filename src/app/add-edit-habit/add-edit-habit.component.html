@@ -1,7 +1,7 @@
-<app-navigation-header
+<common-navigation-header
   class="sticky top-0 z-5"
   [title]="isHabitToEdit ? 'Edit Habit' : 'Add New Habit'"
-></app-navigation-header>
+></common-navigation-header>
 <form [formGroup]="newHabitForm" (ngSubmit)="saveHabit()">
   <div class="mx-1">
     <div class="my-5">
