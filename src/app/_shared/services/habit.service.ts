@@ -197,4 +197,27 @@ export class HabitService {
   public notifyNewHabitAdded() {
     this.newHabitAdded.next();
   }
+
+  mapHabitToEvent(habit: Habit, actions: any[]) {
+    return {
+      id: habit.id,
+      idMaster: habit.idMaster,
+      category: habit.category,
+      start: new Date(habit.startDate),
+      end: habit.endDate ? new Date(habit.endDate) : undefined,
+      goal: habit.goal,
+      actualGoal: habit.actualGoal,
+      goalType: habit.goalType,
+      customGoalType: habit.customGoalType,
+      title: habit.title,
+      color: habit.color,
+      actions: actions,
+      allDay: habit.allDay,
+      draggable: false,
+      resizable: {
+        beforeStart: false,
+        afterEnd: false,
+      },
+    };
+  }
 }

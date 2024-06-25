@@ -1,14 +1,37 @@
 <div id="calendar-header" class="flex flex-column">
-  <common-calendar-header
-    [viewDate]="viewDate"
-    [view]="view"
-  ></common-calendar-header>
+  <common-calendar-header [viewDate]="viewDate" [view]="view">
+    <div class="col-2 flex justify-content-end">
+      <p-knob
+        [(ngModel)]="displayKnobValue"
+        [size]="70"
+        [readonly]="true"
+        [max]="100"
+        [valueColor]="knobColor"
+        strokeWidth="4"
+      />
+    </div>
+  </common-calendar-header>
 </div>
 
 <div>
-  <h5>Your Daily Habits</h5>
+  <h5 class="px-3">Your Daily Habits</h5>
+  <div class="habits-container flex flex-column">
+    @for(habit of _myHabits; track habit){
+    <common-card-habit
+      class="habit-card w-full"
+      [habit]="habit"
+      [cardType]="CardType.DayJournal"
+    >
+    </common-card-habit>
+    }
+  </div>
+</div>
 
-  @for(habit of _myHabits; track habit){
-  <common-card-habit [habit]="habit"> </common-card-habit>
-  }
+<div class="mood-tracker px-3">
+  <h5>How do you feel based on your activities today?</h5>
+  <div class="mood-icons">
+    😢 😟 😐 🙂 😄
+  </div>
+
+  <textarea pInputTextarea  placeholder="Add your notes here..."></textarea>
 </div>

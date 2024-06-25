@@ -1,29 +1,46 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+  AfterViewChecked,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { HabitService } from '../_shared/services/habit.service';
 import { Habit } from '../_shared/models/habits.interface';
 import * as moment from 'moment';
-import { CustomCalendarView } from '../_shared/models/enum';
-import { ColorService } from '../_shared/services/color.service';
+import { CardType, CustomCalendarView } from '../_shared/models/enum';
+import { KnobService } from '../_shared/services/knob.service';
 
 @Component({
   selector: 'app-habit-daily-journal',
   templateUrl: './habit-daily-journal.component.html',
   styleUrls: ['./habit-daily-journal.component.scss'],
 })
-export class HabitDailyJournalComponent implements OnInit {
+export class HabitDailyJournalComponent implements OnInit, AfterViewChecked {
   _myHabits: Habit[] = [];
   startDate: Date = new Date();
   viewDate: Date = new Date();
   view: CustomCalendarView = CustomCalendarView.Day;
-
+  CardType = CardType;
+  currentKnobValue = 0;
+  get knobColor(): string {
+    return this.knobService.calculateColor(this.currentKnobValue, 100);
+  }
+  get displayKnobValue(): number {
+    return Math.min(this.currentKnobValue, 100);
+  }
   constructor(
     private habitService: HabitService,
-    private colorService: ColorService,
+    private knobService: KnobService,
     private cdr: ChangeDetectorRef
   ) {}
 
   async ngOnInit() {
     await this.loadHabits();
+  }
+
+  ngAfterViewChecked() {
+    this.calculateKnobValue();
   }
 
   async loadHabits() {
@@ -40,7 +57,17 @@ export class HabitDailyJournalComponent implements OnInit {
   }
 
   calculateColor(actualGoal: number, goal: number) {
-    return this.colorService.calculateColor(actualGoal, goal);
+    return this.knobService.calculateColor(actualGoal, goal);
   }
 
+  private calculateKnobValue() {
+    const mappedHabits = this._myHabits.map((habit) =>this.habitService.mapHabitToEvent(habit, []));
+
+    this.currentKnobValue = this.knobService.calculateKnobValue(
+      mappedHabits,
+      this.viewDate
+    );
+
+    this.cdr.detectChanges();
+  }
 }

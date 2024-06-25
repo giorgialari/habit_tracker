@@ -14,8 +14,9 @@ import { KnobModule } from 'primeng/knob';
 import { CardModule } from 'primeng/card';
 import { SharedModule } from '../_shared/modules/shared.module';
 import { CommonCardHabitModule } from '../_shared/components/common-card-habit/common-card-habit.module';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
-const primeNgModules = [KnobModule, CardModule];
+const primeNgModules = [KnobModule, CardModule, InputTextareaModule];
 
 @NgModule({
   imports: [

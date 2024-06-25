@@ -2,58 +2,61 @@ p-card {
   width: 100%;
   box-sizing: border-box;
 
-}
+  .p-card-body {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 
-::ng-deep .p-card-content {
-  padding: 1rem;
-}
+  /* Rimuove il focus visibile specificamente dai p-checkbox */
+  .no-blur:focus {
+    outline: none;
+    box-shadow: none;
+  }
 
-/* Rimuove il focus visibile specificamente dai p-checkbox */
-.no-blur:focus {
-  outline: none;
-  box-shadow: none;
-}
+  .no-blur input:focus {
+    outline: none;
+    box-shadow: none;
+  }
 
-.no-blur input:focus {
-  outline: none;
-  box-shadow: none;
-}
+  .habit-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-.habit-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+  .icon-container {
+    width: auto;
+    /* Imposta una larghezza minima per l'icona */
+    min-width: 2.5rem;
+    height: 100%;
+    /* Occupa l'intera altezza del contenitore padre */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    /* Rendi circolare il container se preferisci */
+    background-color: var(--primary-color);
+    /* Usa una variabile CSS o un valore fisso */
+    padding: 10px;
+    /* Aggiungi spazio intorno all'icona */
+  }
 
-.icon-container {
-  width: auto;
-  /* Larghezza auto per mantenere il contenuto quadrato */
-  min-width: 3.5rem;
-  /* Imposta una larghezza minima per l'icona */
-  height: 100%;
-  /* Occupa l'intera altezza del contenitore padre */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  /* Rendi circolare il container se preferisci */
-  background-color: var(--primary-color);
-  /* Usa una variabile CSS o un valore fisso */
-  padding: 10px;
-  /* Aggiungi spazio intorno all'icona */
-}
+  .icon-container::before {
+    content: '';
+    float: left;
+    padding-top: 100%;
+  }
 
-.icon-container::before {
-  content: '';
-  float: left;
-  padding-top: 100%;
-}
+  .category-label,
+  .habit-title {
+    display: block;
+  }
 
-.category-label,
-.habit-title {
-  display: block;
-}
+  ::ng-deep .p-card-body {
+    padding: 0;
+  }
 
-::ng-deep .p-card-body {
-  padding: 0;
+
 }

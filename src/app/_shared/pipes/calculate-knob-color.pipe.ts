@@ -1,11 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ColorService } from '../services/color.service';
+import { KnobService } from '../services/knob.service';
 
 @Pipe({
   name: 'calculateKnobColor',
 })
 export class CalculateKnobColorPipe implements PipeTransform {
-  constructor(private colorService: ColorService) {}
+  constructor(private knobService: KnobService) {}
 
   transform(eventsOfDay: any): any {
     let weightedCompleted = 0;
@@ -22,7 +22,7 @@ export class CalculateKnobColorPipe implements PipeTransform {
         totalGoal > 0 ? (weightedCompleted / totalGoal) * 100 : 0;
       Math.round(finalPercentage);
 
-      return this.colorService.calculateColor(Math.round(finalPercentage), 100);
+      return this.knobService.calculateColor(Math.round(finalPercentage), 100);
     } else {
       const actualGoalNormalized = Math.min(
         eventsOfDay.actualGoal,
@@ -35,7 +35,7 @@ export class CalculateKnobColorPipe implements PipeTransform {
         totalGoal > 0 ? (weightedCompleted / totalGoal) * 100 : 0;
       Math.round(finalPercentage);
 
-      return this.colorService.calculateColor(Math.round(finalPercentage), 100);
+      return this.knobService.calculateColor(Math.round(finalPercentage), 100);
     }
   }
 }

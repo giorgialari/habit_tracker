@@ -27,10 +27,10 @@ import { TabUserOrderService } from '../_shared/services/tab-user-order.service'
 import { collapseAnimation } from 'angular-calendar';
 import { Router } from '@angular/router';
 import { RefreshService } from '../_shared/services/refresh-trigger.service';
-import { CustomCalendarView } from '../_shared/models/enum';
+import { CardType, CustomCalendarView } from '../_shared/models/enum';
 import { TABS } from '../_shared/data/data';
 import { CustomCalendarEvent } from '../_shared/models/common.interfaces';
-import { ColorService } from '../_shared/services/color.service';
+import { KnobService } from '../_shared/services/knob.service';
 import { CalendarService } from '../_shared/services/calendar.service';
 
 @Component({
@@ -65,6 +65,8 @@ export class CalendarMultipleViewComponent
 
   @Output() updatedHabits = new EventEmitter<Habit[]>();
 
+  CardType = CardType;
+
   actions: CalendarEventAction[] = [
     {
       label: '<span class="material-icons">edit</span>',
@@ -83,7 +85,7 @@ export class CalendarMultipleViewComponent
   events: CustomCalendarEvent[] = [];
   currentKnobValue = 0;
   get knobColor(): string {
-    return this.colorService.calculateColor(this.currentKnobValue, 100);
+    return this.knobService.calculateColor(this.currentKnobValue, 100);
   }
   get displayKnobValue(): number {
     return Math.min(this.currentKnobValue, 100);
@@ -102,7 +104,7 @@ export class CalendarMultipleViewComponent
     private refreshService: RefreshService,
     private router: Router,
     private cd: ChangeDetectorRef,
-    private colorService: ColorService
+    private knobService: KnobService
   ) {}
 
   async ngOnInit() {
@@ -132,7 +134,7 @@ export class CalendarMultipleViewComponent
   //#region Habit Handling
   private async loadHabits() {
     const habits: Habit[] = await this.habitService.getAllHabits();
-    this.events = habits.map((habit) => this.mapHabitToEvent(habit));
+    this.events = habits.map((habit) => this.habitService.mapHabitToEvent(habit, this.actions));
     this.calculateKnobValue();
     this.cd.detectChanges();
   }
@@ -149,61 +151,14 @@ export class CalendarMultipleViewComponent
   }
 
   updateHabits(event: Habit[]) {
-    this.events = event.map((habit) => this.mapHabitToEvent(habit));
+    this.events = event.map((habit) =>this.habitService.mapHabitToEvent(habit, this.actions));
     this.cd.detectChanges();
   }
   private calculateKnobValue() {
-    // Prendo tutti gli eventi della giornata selezionata
-    const eventsOfDay = this.events.filter((event) =>
-      isSameDay(event.start, this.viewDate)
-    );
-
-    // Se non ci sono eventi, imposta il valore a 0 e termina la funzione
-    if (eventsOfDay.length === 0) {
-      this.currentKnobValue = 0;
-      this.cd.detectChanges();
-      return;
-    }
-
-    let weightedCompleted = 0; // Somma ponderata dei completamenti
-    let totalGoal = 0; // Somma totale dei goal
-
-    eventsOfDay.forEach((event) => {
-      const actualGoalNormalized = Math.min(event.actualGoal, event.goal); // Normalizza actualGoal a non superare goal
-      weightedCompleted += actualGoalNormalized; // Usa il valore normalizzato
-      totalGoal += event.goal;
-    });
-
-    // Calcola la percentuale finale ponderata
-    let finalPercentage = (weightedCompleted / totalGoal) * 100;
-    let rounded = Math.round(finalPercentage);
-
-    // Imposta il valore del knob al valore arrotondato
-    this.currentKnobValue = rounded;
+    this.currentKnobValue = this.knobService.calculateKnobValue( this.events, this.viewDate);
     this.cd.detectChanges();
   }
-  private mapHabitToEvent = (habit: Habit) => {
-    return {
-      id: habit.id,
-      idMaster: habit.idMaster,
-      category: habit.category,
-      start: new Date(habit.startDate),
-      end: habit.endDate ? new Date(habit.endDate) : undefined,
-      goal: habit.goal,
-      actualGoal: habit.actualGoal,
-      goalType: habit.goalType,
-      customGoalType: habit.customGoalType,
-      title: habit.title,
-      color: habit.color,
-      actions: this.actions,
-      allDay: habit.allDay,
-      draggable: false,
-      resizable: {
-        beforeStart: false,
-        afterEnd: false,
-      },
-    };
-  };
+
   private async loadTabs() {
     await this.tabOrderUserService.ready();
     const savedTabs = await this.tabOrderUserService.getTabOrder();

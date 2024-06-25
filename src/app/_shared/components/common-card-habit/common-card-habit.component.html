@@ -1,7 +1,8 @@
+@switch(cardType){ @case(CardType.Todo){
 <p-card>
   <div class="flex align-items-center justify-content-between habit-container">
     <!-- Container per icona e titolo -->
-    <div class="flex align-items-center">
+    <div class="flex align-items-center line-height-2">
       <div
         class="icon-container border-round-sm mr-3"
         [style.backgroundColor]="habit.color.primary"
@@ -10,11 +11,11 @@
         <span class="material-icons">{{ habit.category.icon }}</span>
       </div>
       <div class="flex-grow-1">
-        <div class="category-label">{{ habit.category.label }}</div>
-        <div class="habit-title">{{ habit.title }}</div>
+        <div class="category-label text-base">{{ habit.category.label }}</div>
+        <div class="habit-title text-base">{{ habit.title }}</div>
 
         <!-- Goal -->
-        <div class="habit-goal">
+        <div class="habit-goal text-sm">
           <span class="habit-goal"
             >Goal: {{ habit.goal | formatNumber }}
             {{
@@ -36,3 +37,116 @@
     ></p-knob>
   </div>
 </p-card>
+} @case(CardType.Day){
+<div class="cal-event grid overflow-scroll bg-primary">
+  <div class="col" [class.py-1]="habit.allDay">
+    <div class="cal-event-header flex align-items-center">
+      <div
+        class="icon-container border-round flex align-items-center justify-content-center mr-2"
+        style="width: 2rem; height: 2rem"
+        [style.background-color]="habit.color.primary"
+        [style.color]="habit.color.secondary"
+      >
+        <span
+          class="material-icons category-icon"
+          [class.text-base]="!habit.allDay"
+          [class.text-xs]="habit.allDay"
+          [style.color]="habit.color.secondary"
+          >{{ habit.category.icon }}</span
+        >
+      </div>
+      <div
+        class="category-label line-height-1"
+        [class.text-sm]="!habit.allDay"
+        [class.text-xs]="habit.allDay"
+      >
+        {{ habit.category.label }}
+        <div
+          class="cal-event-title"
+          [class.text-sm]="!habit.allDay"
+          [class.text-xs]="habit.allDay"
+        >
+          {{ habit.title }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- knob -->
+  <div class="cal-event-knob p-0 col flex justify-content-end">
+    <div class="flex justify-content-center align-items-center line-height-1">
+      <div class="mr-1">
+        <div class="text-xs">
+          Goal: {{ habit.goal | formatNumber }}
+          <div class="text-xs">
+            {{
+              habit.goalType === "custom"
+                ? habit.customGoalType
+                : habit.goalType
+            }}
+          </div>
+        </div>
+      </div>
+
+      <p-knob
+        [(ngModel)]="habit.actualGoal"
+        [size]="habit.allDay ? 30 : 40"
+        [readonly]="true"
+        [max]="habit.actualGoal > habit.goal ? habit.actualGoal : habit.goal"
+        [valueColor]="habit | calculateKnobColor"
+        strokeWidth="4"
+      />
+    </div>
+  </div>
+</div>
+} @case(CardType.DayJournal){
+<div class="cal-event grid overflow-scroll">
+  <div class="col py-1">
+    <div class="cal-event-header flex align-items-center">
+      <div
+        class="icon-container border-round flex align-items-center justify-content-center mr-2"
+        style="width: 2rem; height: 2rem"
+        [style.background-color]="habit.color.primary"
+        [style.color]="habit.color.secondary"
+      >
+        <span
+          class="material-icons category-icon text-xs"
+          [style.color]="habit.color.secondary"
+          >{{ habit.category.icon }}</span
+        >
+      </div>
+      <div class="category-label line-height-1 text-xs">
+        {{ habit.category.label }}
+        <div class="cal-event-title text-xs">
+          {{ habit.title }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- knob -->
+  <div class="cal-event-knob p-0 col flex justify-content-end">
+    <div class="flex justify-content-center align-items-center line-height-1">
+      <div class="mr-1">
+        <div class="text-xs">
+          Goal: {{ habit.goal | formatNumber }}
+          <div class="text-xs">
+            {{
+              habit.goalType === "custom"
+                ? habit.customGoalType
+                : habit.goalType
+            }}
+          </div>
+        </div>
+      </div>
+
+      <p-knob
+        [(ngModel)]="habit.actualGoal"
+        [size]="40"
+        [readonly]="true"
+        [max]="habit.actualGoal > habit.goal ? habit.actualGoal : habit.goal"
+        [valueColor]="habit | calculateKnobColor"
+        strokeWidth="4"
+      />
+    </div>
+  </div>
+</div>
+} }

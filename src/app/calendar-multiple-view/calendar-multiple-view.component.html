@@ -186,67 +186,12 @@
 <ng-template #eventDayTemplate let-event="weekEvent.event">
   @if (event){
   <div
-    class="cal-event grid overflow-scroll bg-primary"
     (click)="showDialog(event)"
   >
-    <div class="col" [class.py-1]="event.allDay">
-      <div class="cal-event-header flex align-items-center">
-        <div
-          class="icon-container border-round flex align-items-center justify-content-center mr-2"
-          style="width: 2rem; height: 2rem"
-          [style.background-color]="event.color.primary"
-          [style.color]="event.color.secondary"
-        >
-          <span
-            class="material-icons category-icon"
-            [class.text-base]="!event.allDay"
-            [class.text-xs]="event.allDay"
-            [style.color]="event.color.secondary"
-            >{{ event.category.icon }}</span
-          >
-        </div>
-        <div
-          class="category-label line-height-1"
-          [class.text-sm]="!event.allDay"
-          [class.text-xs]="event.allDay"
-        >
-          {{ event.category.label }}
-          <div
-            class="cal-event-title"
-            [class.text-sm]="!event.allDay"
-            [class.text-xs]="event.allDay"
-          >
-            {{ event.title }}
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- knob -->
-    <div class="cal-event-knob p-0 col flex justify-content-end">
-      <div class="flex justify-content-center align-items-center line-height-1">
-        <div class="mr-1">
-          <div class="text-xs">
-            Goal: {{ event.goal | formatNumber }}
-            <div class="text-xs">
-              {{
-                event.goalType === "custom"
-                  ? event.customGoalType
-                  : event.goalType
-              }}
-            </div>
-          </div>
-        </div>
-
-        <p-knob
-          [(ngModel)]="event.actualGoal"
-          [size]="event.allDay ? 30 : 40"
-          [readonly]="true"
-          [max]="event.actualGoal > event.goal ? event.actualGoal : event.goal"
-          [valueColor]="event | calculateKnobColor"
-          strokeWidth="4"
-        />
-      </div>
-    </div>
+    <common-card-habit
+      [habit]="event"
+      [cardType]="CardType.Day"
+    ></common-card-habit>
   </div>
   }
 </ng-template>

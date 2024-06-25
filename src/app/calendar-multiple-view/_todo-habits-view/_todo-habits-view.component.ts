@@ -10,10 +10,11 @@ import { Router, NavigationEnd } from '@angular/router';
 import * as moment from 'moment';
 import { Subject, Subscription, filter, find } from 'rxjs';
 import { CalendarService } from 'src/app/_shared/services/calendar.service';
-import { ColorService } from 'src/app/_shared/services/color.service';
+import { KnobService } from 'src/app/_shared/services/knob.service';
 import { HabitService } from 'src/app/_shared/services/habit.service';
 import { RefreshService } from 'src/app/_shared/services/refresh-trigger.service';
 import { Habit } from 'src/app/_shared/models/habits.interface';
+import { CardType } from 'src/app/_shared/models/enum';
 
 @Component({
   selector: 'app-todo-habits-view',
@@ -25,7 +26,7 @@ export class _todoHabitsViewComponent implements OnInit, OnDestroy {
   private calendarServiceSubscription: Subscription = new Subscription();
   private refreshComponentTriggerSubscription = new Subscription();
   @Output() updatedHabits = new EventEmitter<Habit[]>();
-
+  CardType = CardType;
   _myHabits: Habit[] = [];
   startDate: Date = new Date();
   refresh: Subject<any> = new Subject();
@@ -42,7 +43,7 @@ export class _todoHabitsViewComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private calendarService: CalendarService,
     private refreshService: RefreshService,
-    private colorService: ColorService
+    private knobService: KnobService
   ) {
     this.initSub = this.habitService.getStorageReady().subscribe((ready) => {
       if (ready) {
@@ -138,7 +139,7 @@ export class _todoHabitsViewComponent implements OnInit, OnDestroy {
   }
 
   calculateColor(actualGoal: number, goal: number) {
-    return this.colorService.calculateColor(actualGoal, goal);
+    return this.knobService.calculateColor(actualGoal, goal);
   }
   ngOnDestroy() {
     if (this.initSub) {

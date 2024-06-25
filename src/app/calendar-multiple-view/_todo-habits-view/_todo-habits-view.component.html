@@ -1,6 +1,8 @@
 <div class="mx-3" *ngIf="refresh | async">
   @for(habit of _myHabits; track habit){
-  <common-card-habit [habit]="habit"> </common-card-habit>
+  <common-card-habit [habit]="habit"
+    [cardType]="CardType.Todo"
+  ></common-card-habit>
   }
   <!-- Se non ci sono elementi mostro un div con un messaggio "Nessun elemento presente" -->
   @if(!_myHabits.length){

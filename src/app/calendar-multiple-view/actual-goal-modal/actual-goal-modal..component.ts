@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { ColorService } from 'src/app/_shared/services/color.service';
+import { KnobService } from 'src/app/_shared/services/knob.service';
 import { Habit } from 'src/app/_shared/models/habits.interface';
 
 @Component({
@@ -22,17 +22,16 @@ export class ActualGoalModalComponent implements OnInit, OnChanges {
   @Output() editHabitEmitter = new EventEmitter();
   currentKnobValue = 0;
   get knobColor(): string {
-    return this.colorService.calculateColor(this.currentKnobValue, this.currentHabit.goal);
+    return this.knobService.calculateColor(this.currentKnobValue, this.currentHabit.goal);
   }
   @Input() currentHabit: Habit = {} as Habit;
 
-  constructor(private colorService: ColorService) {}
+  constructor(private knobService: KnobService) {}
 
   ngOnInit() {}
 
   ngOnChanges() {
     this.currentKnobValue = this.currentHabit?.actualGoal || 0;
-    console.log(this.currentHabit);
   }
 
   onKnobChange(event: any) {
