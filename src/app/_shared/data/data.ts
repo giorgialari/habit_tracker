@@ -44,3 +44,8 @@ export const TABS = [
     icon: 'calendar_month',
   },
 ];
+
+export const GOALTYPES = [
+  { id: 1, label: 'Volta/e', value: 'volte' },
+  { id: 2, label: 'Custom', value: 'custom' },
+];

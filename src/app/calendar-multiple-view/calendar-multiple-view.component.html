@@ -1,5 +1,7 @@
 <div id="calendar-header" class="flex flex-column">
-  <div class="grid border-none border-bottom-1 border-600 border-solid px-3 header">
+  <div
+    class="grid border-none border-bottom-1 border-600 border-solid px-3 header"
+  >
     <div class="col">
       <ng-container>
         <h4 class="p-text-center m-0">
@@ -29,6 +31,7 @@
         [readonly]="true"
         [max]="100"
         [valueColor]="knobColor"
+        strokeWidth="4"
       />
     </div>
     }
@@ -103,26 +106,24 @@
                     class="event-icon-container border-round-sm"
                     [style.backgroundColor]="event.color.primary"
                   >
-                    <span class="material-icons">{{
+                    <span class="material-icons text-base">{{
                       event.category.icon
                     }}</span>
                   </div>
 
                   <!-- Category and title -->
                   <div class="event-details">
-                    <div class="event-category">{{ event.category.label }}</div>
-                    <div class="event-title">{{ event.title }}</div>
+                    <div class="event-category text-base">
+                      {{ event.category.label }}
+                    </div>
+                    <div class="event-title text-base">{{ event.title }}</div>
                   </div>
 
                   <!-- Edit icon -->
                   <div class="edit-icon">
-                    <!-- <span class="material-icons" (click)="handleEvent(event)"
-                      >edit</span
-                    > -->
-
                     <p-knob
                       [(ngModel)]="event.actualGoal"
-                      [size]="40"
+                      [size]="50"
                       [readonly]="true"
                       (click)="showDialog(event)"
                       [max]="
@@ -131,6 +132,7 @@
                           : event.goal
                       "
                       [valueColor]="event | calculateKnobColor"
+                      strokeWidth="4"
                     />
                   </div>
                 </div>
@@ -161,6 +163,7 @@
                   [readonly]="true"
                   [max]="100"
                   [valueColor]="day.events | calculateKnobColor"
+                  strokeWidth="4"
                 />
               </div>
             </div>
@@ -219,7 +222,7 @@
           {{ event.category.label }}
           <div
             class="cal-event-title"
-            [class.text-base]="!event.allDay"
+            [class.text-sm]="!event.allDay"
             [class.text-xs]="event.allDay"
           >
             {{ event.title }}
@@ -249,6 +252,7 @@
           [readonly]="true"
           [max]="event.actualGoal > event.goal ? event.actualGoal : event.goal"
           [valueColor]="event | calculateKnobColor"
+          strokeWidth="4"
         />
       </div>
     </div>

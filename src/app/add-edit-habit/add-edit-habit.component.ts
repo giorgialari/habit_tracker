@@ -14,7 +14,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HabitService } from '../_shared/services/habit.service';
 import { Habit } from '../_shared/models/habits.interface';
 import { EventColor } from 'calendar-utils';
-import { CATEGORIES, COLORS_CATEGORIES, DAYS } from '../_shared/data/data';
+import { CATEGORIES, COLORS_CATEGORIES, DAYS, GOALTYPES } from '../_shared/data/data';
 import { parseISO } from 'date-fns';
 import { RefreshService } from '../_shared/services/refresh-trigger.service';
 import { theme } from 'src/theme/dark-theme/dark-config';
@@ -46,21 +46,7 @@ export class AddEditHabitComponent
   defaultIconTextColor = theme.textColor;
 
   selectedTime: string = '';
-  goalTypes = [
-    { id: 1, label: 'Volta/e', value: 'volte' },
-    { id: 2, label: 'Custom', value: 'custom' },
-  ];
-
-  infoMessage = {
-    days: [''],
-    startDateNoHours: '',
-    endDateNoHours: '',
-    startHour: '',
-    endHour: '',
-    goal: '',
-    goalType: '',
-  };
-
+  goalTypes = GOALTYPES;
   // #endregion
 
   // #region Constructor

@@ -74,10 +74,8 @@
   }
 
   .event-icon-container {
-    width: 3.125rem;
-    /* 50px */
-    height: 3.125rem;
-    /* 50px */
+    width: 2rem;
+    height: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -89,9 +87,6 @@
     /* 0 15px */
   }
 
-  .event-category {
-    font-weight: bold;
-  }
 
   .edit-icon {
     cursor: pointer;

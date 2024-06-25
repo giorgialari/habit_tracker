@@ -37,6 +37,7 @@
         [valueColor]="calculateColor(habit.actualGoal, habit.goal)"
         [max]="habit.actualGoal > habit.goal ? habit.actualGoal : habit.goal"
         (click)="showDialog(habit)"
+        strokeWidth="4"
       ></p-knob>
     </div>
   </p-card>
