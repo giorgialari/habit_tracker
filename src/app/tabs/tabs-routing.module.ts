@@ -43,8 +43,17 @@ const routes: Routes = [
       {
         path: 'habit-charts',
         loadChildren: () =>
-          import('./tab-habit-charts/tab-habit-charts.module').then((m) => m.TabHabitChartPageModule),
+          import('./tab-habit-charts/tab-habit-charts.module').then(
+            (m) => m.TabHabitChartPageModule
+          ),
         resolve: { setup: SetupResolver },
+      },
+      {
+        path: 'settings',
+        loadChildren: () =>
+          import('./settings/settings.module').then(
+            (m) => m.SettingsPageModule
+          ),
       },
       {
         path: '',

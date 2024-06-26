@@ -1,23 +1,19 @@
 <div class="h-screen overflow-auto">
-  <div class="grid my-2 p-3">
-    <div *ngFor="let habit of [primo, secondo, terzo]" class="col">
-      <div *ngIf="habit; else noHabit" [style.background]="habit.color.primary" [style.color]="habit.color.secondary"
-           class="text-center p-3 border-round-sm font-bold">
-        <i class="material-icons">{{ habit.category.icon }}</i>
-        <div>{{ habit.title }}</div>
-      </div>
-    </div>
-    <ng-template #noHabit>
-      <div class="col">
-        <div class="text-center p-3 border-round-sm bg-primary font-bold">
-          No data
-        </div>
-      </div>
-    </ng-template>
+  <!-- Titolo e breve descrizione -->
+  <h4 class="px-3">Habit charts</h4>
+  <p class="px-4">
+    The habit charts show you the habits that make you happy and how many habits
+    you have done.
+  </p>
+  <div class="px-3">
+    <h5>The habit that make you happy</h5>
+    <app-podium
+      [primo]="primo"
+      [secondo]="secondo"
+      [terzo]="terzo"
+    ></app-podium>
   </div>
-
-
-  <div class="chart-container my-2 p-3">
+  <div class="chart-container my-2 px-3">
     <div class="chart-padding">
       <h5>How many habits have you done?</h5>
       <p-chart
@@ -31,6 +27,14 @@
       <p-chart
         type="bar"
         [data]="barChartData"
+        [options]="chartOptions"
+      ></p-chart>
+    </div>
+    <div>
+      <h5>Habits progress by category</h5>
+      <p-chart
+        type="doughnut"
+        [data]="categoryChartData"
         [options]="chartOptions"
       ></p-chart>
     </div>

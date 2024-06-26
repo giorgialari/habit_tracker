@@ -8,8 +8,10 @@ import { IonicModule } from '@ionic/angular';
 import { HabitChartsComponent } from './habit-charts.component';
 import { PanelModule } from 'primeng/panel';
 import { ChartModule } from 'primeng/chart';
+import { CardModule } from 'primeng/card';
+import { PodiumComponent } from './podium/podium.component';
 
-const primeNgModule = [PanelModule, ChartModule];
+const primeNgModule = [PanelModule, ChartModule, CardModule];
 
 @NgModule({
   imports: [
@@ -19,7 +21,7 @@ const primeNgModule = [PanelModule, ChartModule];
     ButtonModule,
     ...primeNgModule,
   ],
-  declarations: [HabitChartsComponent],
+  declarations: [HabitChartsComponent, PodiumComponent],
   exports: [HabitChartsComponent],
 })
 export class HabitChartsComponentModule {}

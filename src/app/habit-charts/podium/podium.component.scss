@@ -1,0 +1,72 @@
+@import '../../../theme/variables.scss';
+
+.podium-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 22vh;
+  padding: 20px;
+}
+
+.podium-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30%;
+  max-width: 150px;
+}
+
+.podium-number {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.podium-block {
+  width: 100%;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.first .podium-block {
+  background-color: $secondary-color;
+  height: 13vh;
+}
+
+.second .podium-block {
+  background-color: $secondary-color;
+  height: 10vh;
+}
+
+.third .podium-block {
+  background-color: $secondary-color;
+  height: 8vh;
+}
+
+.podium-name {
+  font-weight: bold;
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.podium-score {
+  text-align: center;
+  font-size: 12px;
+}
+
+@media (max-width: 600px) {
+  .podium-number {
+    font-size: 20px;
+  }
+  .podium-name {
+    font-size: 12px;
+  }
+  .podium-score {
+    font-size: 10px;
+  }
+}

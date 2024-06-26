@@ -23,6 +23,10 @@
       [cardType]="CardType.DayJournal"
     >
     </common-card-habit>
+    } @empty{
+    <div class="empty-habits text-center font-semibold text-yellow-400">
+      <p>No habits found for today. Please insert one to use this section.</p>
+    </div>
     }
   </div>
 </div>
@@ -46,6 +50,7 @@
     pInputTextarea
     placeholder="Add your notes here..."
     [(ngModel)]="note"
+    [disabled]="_myHabits.length === 0"
   ></textarea>
 </div>
 
@@ -56,6 +61,7 @@
     severity="danger"
     [outlined]="true"
     class="mr-2"
+    [disabled]="_myHabits.length === 0"
     (click)="saveMoodAndNotes()"
   >
     <span class="material-icons mr-2 text-base"> save </span>

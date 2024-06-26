@@ -18,7 +18,7 @@ import { registerLocaleData } from '@angular/common';
 // Registrazione della localizzazione italiana
 registerLocaleData(localeIt);
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [	AppComponent   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot({
