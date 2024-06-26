@@ -39,7 +39,7 @@ export class HabitChartsComponent {
     const completed = habits.filter((h) => h.completed).length;
     const notCompleted = habits.length - completed;
     this.pieChartData = {
-      labels: ['Completate', 'Non Completate'],
+      labels: ['Completed', 'Not completed'],
       datasets: [
         {
           data: [completed, notCompleted],
@@ -66,7 +66,7 @@ export class HabitChartsComponent {
       labels: daysOfWeek,
       datasets: [
         {
-          label: 'Numero di Habits per Giorno',
+          label: 'Number of habits per day',
           data: dayCounts,
           backgroundColor: 'rgba(54, 162, 235, 0.2)',
           borderColor: 'rgba(54, 162, 235, 1)',

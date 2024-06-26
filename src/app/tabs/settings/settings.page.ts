@@ -16,7 +16,7 @@ export class SettingsPage implements OnInit {
 
   async presentBetaToast() {
     const toast = await this.toastController.create({
-      message: 'Questa app è in versione beta. La sezione è ancora in costruzione.',
+      message: 'Sorry, this feature is not available in the beta version. Stay tuned for updates!',
       duration: 2000,
       position: 'top'
     });
