@@ -27,7 +27,7 @@ workflows:
     scripts:
       - name: Install npm dependencies for Ionic project
         script: |
-          npm install
+          npm install --force
       - name: Cocoapods installation
         script: |
           cd ios/App && pod install
@@ -102,7 +102,7 @@ workflows:
     scripts:
       - name: Install npm dependencies for Ionic project
         script: |
-          npm install
+          npm install --force
       - name: Set Android SDK location
         script: |
           echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/android/local.properties"
