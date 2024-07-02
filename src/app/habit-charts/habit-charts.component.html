@@ -1,7 +1,7 @@
 <div class="h-screen overflow-auto">
   <!-- Titolo e breve descrizione -->
-  <h4 class="px-3">Habit charts</h4>
-  <p class="px-4">
+  <h4 class="px-3 text-base">Habit charts</h4>
+  <p class="px-4 text-sm">
     The habit charts show you the habits that make you happy and how many habits
     you have done.
   </p>
@@ -15,7 +15,7 @@
   </div>
   <div class="chart-container my-2 px-3">
     <div class="chart-padding">
-      <h5>How many habits have you done?</h5>
+      <h5 class="text-base">How many habits have you done?</h5>
       <p-chart
         type="pie"
         [data]="pieChartData"
@@ -23,7 +23,7 @@
       ></p-chart>
     </div>
     <div class="my-5">
-      <h5>How many habits have you this week?</h5>
+      <h5 class="text-base">How many habits have you this week?</h5>
       <p-chart
         type="bar"
         [data]="barChartData"
@@ -31,7 +31,7 @@
       ></p-chart>
     </div>
     <div>
-      <h5>Habits progress by category</h5>
+      <h5 class="text-base">Habits progress by category</h5>
       <p-chart
         type="doughnut"
         [data]="categoryChartData"

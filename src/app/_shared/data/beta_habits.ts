@@ -11800,19 +11800,17 @@ export const BETA_HABITS = [
   },
 ];
 
-export const BETA_USER_SETUP_DATA = [
-  {
+export const BETA_USER_SETUP_DATA = {
+  '0': {
     username: 'test',
     age: null,
     location: null,
   },
-  {
-    step_2_selectedHabits: [7],
+  '1': {
+    step_2_selectedHabits: [5],
   },
-  {
+  '2': {
     remind: null,
   },
-  {
-    setupCompleted: true,
-  },
-];
+  setupCompleted: true,
+};
