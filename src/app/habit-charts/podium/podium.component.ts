@@ -16,6 +16,5 @@ export class PodiumComponent implements OnInit, OnChanges {
   ngOnInit() {}
 
   ngOnChanges() {
-    console.log(this.primo, this.secondo, this.terzo);
   }
 }

@@ -91,7 +91,7 @@
             <div class="cal-open-day-events">
               <ng-container>
                 @for (event of events; track event){
-                <div class="event-container">
+                <div class="event-container" (click)="showDialog(event)">
                   <!-- Icon and background color -->
                   <div
                     class="event-icon-container border-round-sm"
@@ -138,7 +138,9 @@
             <div
               class="cal-cell-top flex flex-column align-items-center justify-content-between"
             >
-              <div class="cal-day-number text-center flex align-items-center">
+              <div
+                class="cal-day-number text-center flex flex-column align-items-center"
+              >
                 <span
                   class="cal-day-badge mt-0 mr-1"
                   *ngIf="day.badgeTotal > 0"
@@ -150,7 +152,7 @@
               <div>
                 <p-knob
                   [ngModel]="day.events | calculateKnobValue"
-                  [size]="40"
+                  [size]="35"
                   [readonly]="true"
                   [max]="100"
                   [valueColor]="day.events | calculateKnobColor"
@@ -185,9 +187,7 @@
 
 <ng-template #eventDayTemplate let-event="weekEvent.event">
   @if (event){
-  <div
-    (click)="showDialog(event)"
-  >
+  <div (click)="showDialog(event)">
     <common-card-habit
       [habit]="event"
       [cardType]="CardType.Day"

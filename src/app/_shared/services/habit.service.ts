@@ -38,7 +38,6 @@ export class HabitService {
     await this.waitForStorageReady();
     const habits: Habit[] = await this.getAllHabits();
     const index = habits.findIndex((h) => h.id === habit.id);
-    console.log(habit);
     if (index > -1) {
       habits[index] = habit; // Update existing habit
     } else {

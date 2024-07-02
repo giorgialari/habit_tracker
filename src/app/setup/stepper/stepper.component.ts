@@ -206,6 +206,7 @@ export class StepperComponent implements OnInit, OnChanges {
     // Aggiungi il boolean setupCompleted
     const updatedValues = { ...storedValues, setupCompleted: true };
     await this.storage.set('user_setup_data', updatedValues);
+    console.log('Stored values:', storedValues);
 
     this.router.navigate(['/tabs/dashboard']);
   }

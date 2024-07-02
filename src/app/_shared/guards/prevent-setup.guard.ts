@@ -19,7 +19,6 @@ export class PreventSetupGuard implements CanActivate {
   async canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Promise<boolean> {
-    // Assicurati che lo storage sia pronto
     if (!this._storage) {
       await this.init();
     }

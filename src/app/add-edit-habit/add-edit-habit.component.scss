@@ -5,9 +5,9 @@
 }
 
 .days button {
-  width: 2.2rem;
-  height: 2.2rem;
-  line-height: 2.2rem;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
   border-radius: 50%;
   margin: 0.5rem;
   font-size: 1.1rem;
@@ -24,7 +24,7 @@
   border: 2px solid transparent;
   border-radius: 20px; // Bottoni con bordi arrotondati
   padding: 0.6rem 1.2rem;
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin: 0 0.5rem; // Distanza tra i bottoni
   cursor: pointer;
   flex: 0 0 auto; // Evita stretching o shrinking
@@ -112,7 +112,7 @@ h6 {
 
 @media (max-width: 320px) {
   .header h3 {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
 
@@ -132,7 +132,7 @@ h6 {
 
   .reminder-time button {
     padding: 0.6rem 1.2rem;
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 }
 
@@ -150,4 +150,15 @@ h6 {
 
 ::ng-deep .input-switch-all-day.p-inputswitch .p-inputswitch-slider:before {
   background-image: url('./././../../assets/icon/schedule_icon.svg');
+}
+
+
+
+
+
+//Beta styles
+::ng-deep.p-dropdown-panel,
+.periodicity-container,
+.goal-container {
+  max-width: 320px !important;
 }

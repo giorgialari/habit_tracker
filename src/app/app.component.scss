@@ -59,3 +59,10 @@
     /* Colore della thumb al passaggio del mouse più scuro */
   }
 }
+
+
+::ng-deep.p-dropdown-panel,
+.periodicity-container,
+.goal-container {
+  max-width: 320px !important;
+}

@@ -137,6 +137,9 @@ export class CalendarMultipleViewComponent
     this.events = habits.map((habit) =>
       this.habitService.mapHabitToEvent(habit, this.actions)
     );
+
+    console.log(this.events);
+    console.log(habits);
     this.calculateKnobValue();
     this.cd.detectChanges();
   }

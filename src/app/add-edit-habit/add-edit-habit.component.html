@@ -33,6 +33,7 @@
             [showClear]="true"
             placeholder="Select a Category"
             class="w-full-category w-full"
+            appendTo="body"
             (onChange)="onCategoryChange($event.value)"
           />
         </div>
@@ -48,6 +49,7 @@
             [showClear]="true"
             placeholder="Select a Color"
             class="w-full-category w-full"
+            appendTo="body"
             (onChange)="onColorChange($event.value)"
           >
             <ng-template
@@ -188,7 +190,7 @@
         </div>
 
         <!-- Goal -->
-        <div class="w-screen px-3 mx-auto padding1">
+        <div class="w-screen px-3 mx-auto padding1 goal-container">
           <h6>Set goal</h6>
           <div class="grid">
             <div class="col-3">
