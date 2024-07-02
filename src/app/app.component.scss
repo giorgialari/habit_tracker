@@ -1,0 +1,61 @@
+@import '../theme/variables.scss';
+
+.device-container {
+  position: relative;
+  width: 375px;
+  /* Adatta alla larghezza dell'immagine del tuo dispositivo */
+  height: 812px;
+  /* Adatta all'altezza */
+  overflow: hidden;
+  /* Nasconde ogni contenuto che fuoriesce */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  /* Ombra intorno al mockup per un effetto rialzato */
+  border: 3px solid black;
+  border-radius: 25px;
+  /* Bordi arrotondati per un aspetto più moderno */
+}
+
+.beta-container {
+  width: 375px;
+}
+
+.beta-logo {
+  width: 80px;
+  height: 80px;
+}
+
+.app-content {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  overflow: auto;
+  z-index: 1;
+  border-radius: 15px;
+  /* Bordi arrotondati per l'interno dello schermo */
+  /* Stili per la scrollbar per Firefox */
+  scrollbar-width: thin;
+  /* Mantiene la scrollbar sottile */
+  scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+  /* Colore della barra e dello sfondo più trasparente */
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    /* Sfondo del track della scrollbar */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    /* Colore della thumb della scrollbar più chiaro */
+    border-radius: 10px;
+    /* Bordi arrotondati della thumb */
+    border: 0px solid transparent;
+    /* Nessun bordo esterno per la thumb */
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Colore della thumb al passaggio del mouse più scuro */
+  }
+}

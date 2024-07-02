@@ -1,6 +1,19 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <div
+    class="flex flex-column justify-content-center align-items-center container"
+  >
+    <div class="beta-container grid flex align-items-center">
+      <img src="../assets/beta.png" alt="beta" class="beta-logo col-2" />
+      <p class="col mb-0 text-sm	">
+        This is a beta version of the app. Please, if you find any bugs or
+        issues, let me know.
+      </p>
+    </div>
+
+    <div class="device-container">
+      <div class="app-content">
+        <ion-router-outlet></ion-router-outlet>
+      </div>
+    </div>
+  </div>
 </ion-app>
-
-
-
